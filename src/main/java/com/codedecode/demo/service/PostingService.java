@@ -19,4 +19,8 @@ public class PostingService {
 	public Iterable<Posting> getUrgentJob() {
 		return postingRepository.findAll();
 	}
+	
+	public Posting addPosting(Posting posting) {
+		return postingRepository.save(posting);
+	}
 }
