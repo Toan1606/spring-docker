@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,5 +30,15 @@ public class HomePageController {
 
 		PostingHomePage postingHomePage = PostingHomePage.builder().attractiveJob(attractiveJob).urgentRecruitment(urgentJob).build();
 		return new ResponseEntity<PostingHomePage>(postingHomePage, HttpStatus.OK);	
+	}
+	
+	@PutMapping("/add")
+	public ResponseEntity<Posting> addNewPosting() {
+		Posting posting = Posting.builder().position("Leader").degreeRequired("college degree").quantity(10).description("- Hoàn thành những mục tiêu đặt ra của dự án\r\n"
+				+ "- Đảm bảo hoàn thành công việc theo sự phân công của cấp trên\r\n"
+				+ "- Chi tiết công việc trao đổi khi phỏng vấn").benefits("Được làm việc trong môi trường trẻ trung, hiện đại, chuyên nghiệp\r\n"
+						+ "- Được đào tạo thường xuyên, không ngừng phát triển bản thân\r\n").build();
+		postingService.addPosting(posting);
+		return new ResponseEntity<Posting>(posting, HttpStatus.CREATED);	
 	}
 }
