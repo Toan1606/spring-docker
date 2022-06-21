@@ -17,9 +17,12 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -27,6 +30,9 @@ import lombok.ToString;
 @Setter
 @ToString
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Entity
 @Table(name = "DesiredJob")
 public class DesiredJob implements Serializable {
@@ -58,6 +64,9 @@ public class DesiredJob implements Serializable {
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "salary_id", referencedColumnName = "id")
 	private Salary salary;
+	
+	@OneToOne(mappedBy = "role")
+	private User user;
 	
 	@OneToMany(mappedBy = "desiredJob", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@EqualsAndHashCode.Exclude

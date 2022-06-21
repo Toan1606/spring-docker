@@ -8,17 +8,18 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -27,6 +28,9 @@ import lombok.ToString;
 @Setter
 @ToString
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Entity
 @Table(name = "CurriculumVitaes")
 public class CurriculumVitae implements Serializable {
@@ -37,9 +41,14 @@ public class CurriculumVitae implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
+	@Column(name = "family_member_id")
+	private Long familyMemberId;
+	
+	@Column(name = "event_id")
+	private Long eventId;
+
 	@Column(name = "identity_card_number")
 	private String identityCardNumber;
 	
@@ -103,15 +112,15 @@ public class CurriculumVitae implements Serializable {
 	@Column(name = "reason")
 	private String reason;
 	
-	@OneToMany(mappedBy = "curriculumVitae", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@EqualsAndHashCode.Exclude
-	@ToString.Exclude
-	@JsonIgnore
-	private Collection<Event> event;
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Collection<Event> events;
 	
-	@OneToMany(mappedBy = "curriculumVitae", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Collection<FamilyMember> familyMembers;
+	
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "user_id")
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
-	@JsonIgnore
-	private Collection<FamilyMember> familyMemberList;
+	private User user;
 }
