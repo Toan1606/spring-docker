@@ -9,6 +9,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -78,4 +80,11 @@ public class CV implements Serializable {
 	@ToString.Exclude
 	@JsonIgnore
 	private Collection<InvolvedProject> involvedProject;
+	
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "user_id")
+	@EqualsAndHashCode.Exclude
+	@ToString.Exclude
+	private User user;
+
 }

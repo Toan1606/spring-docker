@@ -62,4 +62,7 @@ public class Address implements Serializable {
 	
 	@OneToOne(mappedBy = "address")
 	private Posting posting;
+	
+	@OneToOne(mappedBy = "address")
+	private User user;
 }
