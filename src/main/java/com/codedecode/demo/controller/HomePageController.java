@@ -36,7 +36,7 @@ public class HomePageController {
 		return new ResponseEntity<PostingHomePage>(postingHomePage, HttpStatus.OK);	
 	}	
 	
-	@PutMapping("/add")
+	@PutMapping("/add/posting")
 	public ResponseEntity<Posting> addNewPosting() {
 		Posting posting = Posting.builder().position("Leader").degreeRequired("college degree").quantity(10).description("- Hoàn thành những mục tiêu đặt ra của dự án\r\n"
 				+ "- Đảm bảo hoàn thành công việc theo sự phân công của cấp trên\r\n"

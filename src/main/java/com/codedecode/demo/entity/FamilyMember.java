@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -57,7 +58,10 @@ public class FamilyMember implements Serializable {
 	@Column(name = "activities_from_1955")
 	private String activitiesFrom1955;
 
-	@ManyToOne
-	@JoinColumn(name = "family_member_id", referencedColumnName = "family_member_id")
-	private CurriculumVitae curriculumVitae;
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(
+        name = "family_member_id", 
+        referencedColumnName="family_member_id"
+    )
+    private CurriculumVitae curriculumVitae;
 }

@@ -114,9 +114,6 @@ public class User implements Serializable {
 	@Column(name = "gender")
 	private String gender;
 
-	@Column(name = "view")
-	private Long view;
-
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
@@ -158,7 +155,13 @@ public class User implements Serializable {
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
 	@JsonIgnore
-	private Collection<Posting> postings;
+	private Collection<SavedJob> savedJob;
+	
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@EqualsAndHashCode.Exclude
+	@ToString.Exclude
+	@JsonIgnore
+	private Collection<AppliedJob> appliedJob;
 
 	@ManyToOne(cascade={CascadeType.ALL})
 	@JoinColumn(name="manager_id")

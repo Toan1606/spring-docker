@@ -1,11 +1,9 @@
 package com.codedecode.demo.entity;
 
-import java.io.Serializable;
+import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -13,12 +11,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -32,29 +27,26 @@ import lombok.ToString;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "Languages")
-public class Language implements Serializable {/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
+@Table(name = "AppliedJobs")
+public class AppliedJob {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	@Column(name = "name")
-	private String name;
+	@ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
 	
-	@Column(name = "certificate_name")
-	private String certificateName;
+	@ManyToOne
+    @JoinColumn(name = "posting_id", referencedColumnName = "id")
+    private Posting posting;
 	
-	@Column(name = "grade")
-	private float grade;
+	@Column(name = "deadline_for_submission")
+	private Date deadlineForSubmission;
 	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "user_id")
-	@EqualsAndHashCode.Exclude
-	@ToString.Exclude
-	@JsonIgnore
-	private User user;
+	@Column(name = "date_submission")
+	private Date dateSubmission;
+	
+	@Column(name = "comment_from_employer")
+	private String commentFromEmployer;
 }
