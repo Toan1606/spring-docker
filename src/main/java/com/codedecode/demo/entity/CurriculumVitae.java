@@ -47,9 +47,9 @@ public class CurriculumVitae implements Serializable {
 	@Column(name = "family_member_id")
 	private Long family;
 	
-//	@NaturalId
-////	@Column(name = "event_id")
-//	private Long event;
+	@NaturalId
+	@Column(name = "event_id")
+	private Long event;
 
 	@Column(name = "identity_card_number")
 	private String identityCardNumber;
@@ -113,12 +113,6 @@ public class CurriculumVitae implements Serializable {
 	
 	@Column(name = "reason")
 	private String reason;
-	
-//	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//	private Collection<Event> events;
-	
-//	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//	private Collection<FamilyMember> familyMembers;
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_id")

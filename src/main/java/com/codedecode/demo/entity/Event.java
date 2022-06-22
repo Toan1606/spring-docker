@@ -50,11 +50,11 @@ public class Event implements Serializable {
 	@Column(name = "date")
 	private Date date;
 	
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(
-//        name = "event_id", 
-//        referencedColumnName="event"
-//    )
-//    private CurriculumVitae curriculumVitae;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(
+        name = "event_id", 
+        referencedColumnName="event_id"
+    )
+    private CurriculumVitae curriculumVitae;
 
 }
