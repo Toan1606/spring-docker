@@ -5,6 +5,7 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -48,8 +49,12 @@ public class Event implements Serializable {
 
 	@Column(name = "date")
 	private Date date;
+	
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(
+        name = "event_id", 
+        referencedColumnName="event_id"
+    )
+    private CurriculumVitae curriculumVitae;
 
-	@ManyToOne
-	@JoinColumn(name = "event_id", referencedColumnName = "event_id")
-	private CurriculumVitae curriculumVitae;
 }

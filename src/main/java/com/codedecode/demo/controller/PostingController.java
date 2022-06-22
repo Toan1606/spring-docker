@@ -23,10 +23,11 @@ public class PostingController {
 	 * */
 	@PutMapping("/add")
 	public ResponseEntity<Posting> addNewPosting() {
-		Posting posting = Posting.builder().jobName("NHÂN VIÊN IT (KCN SUỐI DẦU, CAM LÂM)").build();
+		
+		Posting posting = Posting.builder().jobName("NHÂN VIÊN IT (KCN SUỐI DẦU, CAM LÂM)")
+//				.rank("")
+				.build();
 		postingService.addPosting(posting);
 		return new ResponseEntity<Posting>(posting, HttpStatus.CREATED);	
-	}
-	
-	
+	}	
 }
