@@ -14,6 +14,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -127,4 +130,19 @@ public class Posting implements Serializable {
 	@ToString.Exclude
 	@JsonIgnore
 	private Collection<AppliedJob> appliedJob;
+	
+	@NotBlank
+	@Column(name = "recruiter_name")
+	private String recruiterName;
+	
+	
+	@Column(name = "phone_number")
+	@Min(10)
+	@Max(10)
+	private String phoneNumber;
+	
+	@NotBlank
+	@Column(name = "email_contact")
+	private String emailContact;
+	
 }
