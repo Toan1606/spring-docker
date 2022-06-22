@@ -114,9 +114,6 @@ public class User implements Serializable {
 	@Column(name = "gender")
 	private String gender;
 
-	@Column(name = "view")
-	private Long view;
-
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
