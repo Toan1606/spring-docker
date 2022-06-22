@@ -46,8 +46,6 @@ public class Posting implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
@@ -144,5 +142,8 @@ public class Posting implements Serializable {
 	@NotBlank
 	@Column(name = "email_contact")
 	private String emailContact;
+	
+	@Column(name = "view")
+	private Long view;
 	
 }

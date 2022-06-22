@@ -1,7 +1,6 @@
 package com.codedecode.demo.entity;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -11,8 +10,9 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.NaturalId;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -43,11 +43,13 @@ public class CurriculumVitae implements Serializable {
 	@Id
 	private Long id;
 	
+	@NaturalId
 	@Column(name = "family_member_id")
-	private Long familyMemberId;
+	private Long family;
 	
-	@Column(name = "event_id")
-	private Long eventId;
+//	@NaturalId
+////	@Column(name = "event_id")
+//	private Long event;
 
 	@Column(name = "identity_card_number")
 	private String identityCardNumber;
@@ -112,11 +114,11 @@ public class CurriculumVitae implements Serializable {
 	@Column(name = "reason")
 	private String reason;
 	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Collection<Event> events;
+//	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//	private Collection<Event> events;
 	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Collection<FamilyMember> familyMembers;
+//	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//	private Collection<FamilyMember> familyMembers;
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_id")
