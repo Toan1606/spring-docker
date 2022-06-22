@@ -1,6 +1,7 @@
 package com.codedecode.demo.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -50,6 +51,12 @@ public class WorkExperiences implements Serializable {
 	
 	@Column(name = "description")
 	private String description;
+	
+	@Column(name = "start_date")
+	private Date startDate;
+	
+	@Column(name = "end_date")
+	private Date endDate;
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "cv_id")

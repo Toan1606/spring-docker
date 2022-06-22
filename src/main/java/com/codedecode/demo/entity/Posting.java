@@ -1,6 +1,7 @@
 package com.codedecode.demo.entity;
 
 import java.io.Serializable;
+import java.util.Collection;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -10,7 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -32,6 +33,7 @@ import lombok.ToString;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode
 @Builder
 @Table(name = "Posting")
 public class Posting implements Serializable {
@@ -46,6 +48,9 @@ public class Posting implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
+	
+	@Column(name = "job_name")
+	private String jobName;
 	
 	@Column(name = "position")
 	private String position;
@@ -111,10 +116,15 @@ public class Posting implements Serializable {
 	@JsonIgnore
 	private Address address;
 	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "user_id")
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
 	@JsonIgnore
-	private User user;
+	private Collection<SavedJob> savedJob;
+	
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@EqualsAndHashCode.Exclude
+	@ToString.Exclude
+	@JsonIgnore
+	private Collection<AppliedJob> appliedJob;
 }
