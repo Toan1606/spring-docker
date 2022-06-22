@@ -16,5 +16,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 public class LanguageDTO {
-	private List<Language> lists;
+	private String certificate_name;
+	private String name;
+	private String mark;
+	private int userId;
 }

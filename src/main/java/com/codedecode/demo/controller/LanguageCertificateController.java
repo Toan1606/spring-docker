@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,7 +17,7 @@ import com.codedecode.demo.exception.CustomIllegalArgumentException;
 import com.codedecode.demo.repository.LanguageCertificateRepository;
 
 @RestController
-@RequestMapping("/savedjob")
+@RequestMapping("/language")
 public class LanguageCertificateController {
 	
 	@Autowired
@@ -31,4 +32,9 @@ public class LanguageCertificateController {
 //		LanguageDTO lanDTO = LanguageDTO.builder().lists(list).build();
 		return new ResponseEntity<List<Language>>(list, HttpStatus.OK);
 	}
+//	@PutMapping("/add")
+//	public ResponseEntity<Language> addLanguageCertificate(){
+//		LanguageDTO languageDTO = new LanguageDTO("Tiếng Anh", "Toeic", "200", 1);
+//		
+//	}
 }
