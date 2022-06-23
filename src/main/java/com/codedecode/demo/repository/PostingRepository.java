@@ -7,7 +7,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 import com.codedecode.demo.entity.Posting;
 
-public interface HomePostingRepository extends PagingAndSortingRepository<Posting, Long>{
+public interface PostingRepository extends PagingAndSortingRepository<Posting, Long>{
 
 	
 	@Query(value = "select * from posting join address on posting.address_id = address.id join salary on posting.salary_id = salary.id \r\n"

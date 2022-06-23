@@ -12,7 +12,7 @@ import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.codedecode.demo.entity.Posting;
-import com.codedecode.demo.repository.HomePostingRepository;
+import com.codedecode.demo.repository.PostingRepository;
 import com.codedecode.demo.service.PostingService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -26,7 +26,7 @@ public class PostingControllerTest {
 	private PostingService postingService;
 	
 	@MockBean
-	private HomePostingRepository homePostingRepository;
+	private PostingRepository postingRepository;
 	
 	@Test
 	public void addNewPostingTest() throws Exception {

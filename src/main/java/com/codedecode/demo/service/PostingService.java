@@ -8,23 +8,23 @@ import org.springframework.stereotype.Service;
 import com.codedecode.demo.entity.Address;
 import com.codedecode.demo.entity.Posting;
 import com.codedecode.demo.repository.HomeAddressRepository;
-import com.codedecode.demo.repository.HomePostingRepository;
+import com.codedecode.demo.repository.PostingRepository;
 
 @Service
 public class PostingService {
 
 	@Autowired
-	private HomePostingRepository homePostingRepository;
+	private PostingRepository postingRepository;
 	
 	@Autowired
 	private HomeAddressRepository addressRepository;
 
 	public Iterable<Posting> getAttractiveJob() {
-		return homePostingRepository.getAllJob();
+		return postingRepository.getAllJob();
 	}
 
 	public Iterable<Posting> getUrgentJob() {
-		return homePostingRepository.findAll();
+		return postingRepository.findAll();
 	}
 	
 	public List<Address> getJobByProvice(){
@@ -32,7 +32,7 @@ public class PostingService {
 	}
 	
 	public Posting addPosting(Posting posting) {
-		Posting returnPosting = homePostingRepository.save(posting);
+		Posting returnPosting = postingRepository.save(posting);
 		return returnPosting;
 	}
 }
