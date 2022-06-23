@@ -32,6 +32,7 @@ public class PostingService {
 	}
 	
 	public Posting addPosting(Posting posting) {
-		return homePostingRepository.save(posting);
+		Posting returnPosting = homePostingRepository.save(posting);
+		return returnPosting;
 	}
 }

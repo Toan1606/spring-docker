@@ -13,21 +13,20 @@ import com.codedecode.demo.service.PostingService;
 @RestController
 @RequestMapping("/posting")
 public class PostingController {
-	
+
 	@Autowired
 	private PostingService postingService;
 
-	
 	/*
 	 * @author: Nguyễn Thế Toàn
-	 * */
+	 */
 	@PutMapping("/add")
 	public ResponseEntity<Posting> addNewPosting() {
-		
-		Posting posting = Posting.builder().jobName("NHÂN VIÊN IT (KCN SUỐI DẦU, CAM LÂM)")
-//				.rank("")
-				.build();
-		postingService.addPosting(posting);
-		return new ResponseEntity<Posting>(posting, HttpStatus.CREATED);	
-	}	
+
+		Posting posting = Posting.builder().recruiterName("FPT Software").phoneNumber("0123456789")
+				.emailContact("ericnguyen1606@gmail.com").build();
+		Posting returnPosting = postingService.addPosting(posting);
+		System.err.println(returnPosting);
+		return new ResponseEntity<Posting>(returnPosting, HttpStatus.CREATED);
+	}
 }

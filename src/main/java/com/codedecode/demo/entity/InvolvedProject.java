@@ -29,10 +29,11 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@EqualsAndHashCode
 @Entity
 @Table(name = "InvolvedProjects")
 public class InvolvedProject implements Serializable {
-	
+
 	/**
 	 * 
 	 */
@@ -41,16 +42,16 @@ public class InvolvedProject implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
+
 	@Column(name = "project_name")
 	private String projectName;
-	
+
 	@Column(name = "project_description")
 	private String projectDescription;
-	
+
 	@Column(name = "description")
 	private String description;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "cv_id")
 	@EqualsAndHashCode.Exclude

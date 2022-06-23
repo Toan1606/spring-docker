@@ -32,6 +32,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@EqualsAndHashCode
 @Entity
 @Table(name = "CVs")
 public class CV implements Serializable {
@@ -86,7 +87,7 @@ public class CV implements Serializable {
 	@ToString.Exclude
 	@JsonIgnore
 	private Collection<InvolvedProject> involvedProject;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_id")
 	@EqualsAndHashCode.Exclude

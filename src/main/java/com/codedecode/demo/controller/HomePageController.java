@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codedecode.demo.dto.PostingHomePage;
-import com.codedecode.demo.entity.Address;
 import com.codedecode.demo.entity.Posting;
 import com.codedecode.demo.service.PostingService;
 
@@ -25,24 +24,37 @@ public class HomePageController {
 
 	@Autowired
 	private PostingService postingService;
-	
+
 	@GetMapping("/")
 	public ResponseEntity<PostingHomePage> homePage() {
-		List<Posting> attractiveJob = StreamSupport.stream(postingService.getAttractiveJob().spliterator(), false).collect(Collectors.toList());
-		List<Posting> urgentJob = StreamSupport.stream(postingService.getUrgentJob().spliterator(), false).collect(Collectors.toList());
+		List<Posting> attractiveJob = StreamSupport.stream(postingService.getAttractiveJob().spliterator(), false)
+				.collect(Collectors.toList());
+		List<Posting> urgentJob = StreamSupport.stream(postingService.getUrgentJob().spliterator(), false)
+				.collect(Collectors.toList());
 //		List<Address> jobByProvince = postingService.getJobByProvice();
-		
-		PostingHomePage postingHomePage = PostingHomePage.builder().attractiveJob(attractiveJob).urgentRecruitment(urgentJob).build();
-		return new ResponseEntity<PostingHomePage>(postingHomePage, HttpStatus.OK);	
-	}	
-	
+
+		PostingHomePage postingHomePage = PostingHomePage.builder().attractiveJob(attractiveJob)
+				.urgentRecruitment(urgentJob).build();
+		return new ResponseEntity<PostingHomePage>(postingHomePage, HttpStatus.OK);
+	}
+
 	@PutMapping("/add/posting")
 	public ResponseEntity<Posting> addNewPosting() {
-		Posting posting = Posting.builder().position("Leader").degreeRequired("college degree").quantity(10).description("- Hoàn thành những mục tiêu đặt ra của dự án\r\n"
-				+ "- Đảm bảo hoàn thành công việc theo sự phân công của cấp trên\r\n"
-				+ "- Chi tiết công việc trao đổi khi phỏng vấn").benefits("Được làm việc trong môi trường trẻ trung, hiện đại, chuyên nghiệp\r\n"
-						+ "- Được đào tạo thường xuyên, không ngừng phát triển bản thân\r\n").build();
+		Posting posting = Posting.builder().recruiterName("FPT Software").phoneNumber("0123456789")
+				.emailContact("ericnguyen1606@gmail.com").position("Leader").degreeRequired("college degree")
+				.quantity(10)
+				.description("- Hoàn thành những mục tiêu đặt ra của dự án\r\n"
+						+ "- Đảm bảo hoàn thành công việc theo sự phân công của cấp trên\r\n"
+						+ "- Chi tiết công việc trao đổi khi phỏng vấn")
+				.benefits("Được làm việc trong môi trường trẻ trung, hiện đại, chuyên nghiệp\r\n"
+						+ "- Được đào tạo thường xuyên, không ngừng phát triển bản thân\r\n")
+				.build();
 		postingService.addPosting(posting);
-		return new ResponseEntity<Posting>(posting, HttpStatus.CREATED);	
+		return new ResponseEntity<Posting>(posting, HttpStatus.CREATED);
+	}
+
+	@PutMapping("/add/posting/test")
+	public ResponseEntity<String> addNewPostingTest() {
+		return new ResponseEntity<String>("", HttpStatus.OK);
 	}
 }
