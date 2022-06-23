@@ -9,22 +9,23 @@ import com.codedecode.demo.entity.Address;
 import com.codedecode.demo.entity.Posting;
 import com.codedecode.demo.repository.HomeAddressRepository;
 import com.codedecode.demo.repository.HomePostingRepository;
+import com.codedecode.demo.repository.PostingRepository;
 
 @Service
 public class PostingService {
 
 	@Autowired
-	private HomePostingRepository homePostingRepository;
+	private HomePostingRepository postingRepository;
 	
 	@Autowired
 	private HomeAddressRepository addressRepository;
 
 	public Iterable<Posting> getAttractiveJob() {
-		return homePostingRepository.findAll();
+		return postingRepository.findAll();
 	}
 
 	public Iterable<Posting> getUrgentJob() {
-		return homePostingRepository.findAll();
+		return postingRepository.findAll();
 	}
 	
 	public List<Address> getJobByProvice(){
@@ -32,6 +33,7 @@ public class PostingService {
 	}
 	
 	public Posting addPosting(Posting posting) {
-		return homePostingRepository.save(posting);
+		Posting returnPosting = postingRepository.save(posting);
+		return returnPosting;
 	}
 }
