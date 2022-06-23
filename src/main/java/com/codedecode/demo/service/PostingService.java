@@ -8,19 +8,20 @@ import org.springframework.stereotype.Service;
 import com.codedecode.demo.entity.Address;
 import com.codedecode.demo.entity.Posting;
 import com.codedecode.demo.repository.HomeAddressRepository;
+import com.codedecode.demo.repository.HomePostingRepository;
 import com.codedecode.demo.repository.PostingRepository;
 
 @Service
 public class PostingService {
 
 	@Autowired
-	private PostingRepository postingRepository;
+	private HomePostingRepository postingRepository;
 	
 	@Autowired
 	private HomeAddressRepository addressRepository;
 
 	public Iterable<Posting> getAttractiveJob() {
-		return postingRepository.getAllJob();
+		return postingRepository.findAll();
 	}
 
 	public Iterable<Posting> getUrgentJob() {
