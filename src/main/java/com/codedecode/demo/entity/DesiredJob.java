@@ -33,6 +33,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@EqualsAndHashCode
 @Entity
 @Table(name = "DesiredJob")
 public class DesiredJob implements Serializable {
@@ -45,33 +46,33 @@ public class DesiredJob implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
+
 	@Column(name = "name")
 	private String name;
-	
+
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "working_form_id", referencedColumnName = "id")
 	private WorkingForm workingForm;
-	
+
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "year_of_experience_id", referencedColumnName = "id")
 	private YearOfExperience yearOfExperience;
-	
+
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "rank_id", referencedColumnName = "id")
 	private Rank rank;
-	
+
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "salary_id", referencedColumnName = "id")
 	private Salary salary;
-	
+
 	@OneToOne(mappedBy = "role")
 	private User user;
-	
+
 	@OneToMany(mappedBy = "desiredJob", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
 	@JsonIgnore
 	private Collection<City> cities;
-	
+
 }

@@ -31,6 +31,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@EqualsAndHashCode
 @Entity
 @Table(name = "Notification")
 public class Notification implements Serializable {
@@ -53,11 +54,11 @@ public class Notification implements Serializable {
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "type_id", referencedColumnName = "id")
 	private TypeNotification typeNotification;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_id")
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
 	private User user;
-	
+
 }

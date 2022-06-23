@@ -7,9 +7,6 @@ public enum RankUtils {
 	, TRUONG_PHONG("Trưởng phòng"), PHO_GIAM_DOC("Pho giám đốc"), GIAM_DOC("Giam đốc"), PHO_TONG_GIAM_DOC("Phó tổng giám đốc")
 	, TONG_GIAM_DOC("Tổng giám đốc"), QUAN_LY_CAP_TRUNG("Quản lý cấp trung"), QUAN_LY_CAP_CAO("Quản lý cấp cao");
 	
-	private final String value;
-	
 	RankUtils(String value) {
-		this.value = value;
 	}
 }

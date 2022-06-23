@@ -31,6 +31,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@EqualsAndHashCode
 @Entity
 @Table(name = "CandidateProfileSaved")
 public class CandidateProfileSaved implements Serializable {
