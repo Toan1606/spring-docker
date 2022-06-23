@@ -14,9 +14,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -135,8 +134,8 @@ public class Posting implements Serializable {
 	
 	
 	@Column(name = "phone_number")
-	@Min(10)
-	@Max(10)
+	@Size(min = 10, max = 10)
+	@NotBlank(message = "mobileNumber is required")
 	private String phoneNumber;
 	
 	@NotBlank

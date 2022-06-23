@@ -15,6 +15,7 @@ import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -27,6 +28,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@EqualsAndHashCode
 @Entity
 @Table(name = "FamilyMembers")
 public class FamilyMember implements Serializable {
@@ -38,7 +40,7 @@ public class FamilyMember implements Serializable {
 
 //	@EmbeddedId
 //	private FamilyMemberPrimaryKey familyMemberPrimaryKey;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
@@ -59,9 +61,6 @@ public class FamilyMember implements Serializable {
 	private String activitiesFrom1955;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(
-        name = "family_member_id", 
-        referencedColumnName="family_member_id"
-    )
-    private CurriculumVitae curriculumVitae;
+	@JoinColumn(name = "family_member_id", referencedColumnName = "family_member_id")
+	private CurriculumVitae curriculumVitae;
 }

@@ -16,6 +16,7 @@ import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -28,6 +29,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@EqualsAndHashCode
 @Entity
 @Table(name = "Events")
 public class Event implements Serializable {
@@ -49,12 +51,9 @@ public class Event implements Serializable {
 
 	@Column(name = "date")
 	private Date date;
-	
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(
-        name = "event_id", 
-        referencedColumnName="event_id"
-    )
-    private CurriculumVitae curriculumVitae;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "event_id", referencedColumnName = "event_id")
+	private CurriculumVitae curriculumVitae;
 
 }

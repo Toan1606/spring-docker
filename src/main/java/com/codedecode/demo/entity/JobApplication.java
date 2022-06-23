@@ -29,10 +29,11 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@EqualsAndHashCode
 @Entity
 @Table(name = "JobApplication")
 public class JobApplication implements Serializable {
-	
+
 	/**
 	 * 
 	 */
@@ -41,13 +42,13 @@ public class JobApplication implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
+
 	@Column(name = "company_name")
 	private String companyName;
-	
+
 	@Column(name = "description")
 	private String description;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_id")
 	@EqualsAndHashCode.Exclude
