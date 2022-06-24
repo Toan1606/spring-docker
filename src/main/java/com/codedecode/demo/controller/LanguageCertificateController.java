@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,6 +23,7 @@ import com.codedecode.demo.repository.LanguageCertificateRepository;
 import com.codedecode.demo.service.LanguageService;
 import com.codedecode.demo.service.UserService;
 
+@CrossOrigin(origins = "http://localhost:8081")
 @RestController
 @RequestMapping("/language")
 public class LanguageCertificateController {
@@ -39,7 +41,7 @@ public class LanguageCertificateController {
 	 */
 	@GetMapping("/")
 	public ResponseEntity<List<Language>> showLanguageCertitficates() {
-		List<Language> list = languageService.findAllByUserID(1);
+		List<Language> list = languageService.findAllByUserID(10);
 		if(list == null || list.size() == 0) {
 //			return new ResponseEntity<IllegalArgumentException>(HttpStatus.BAD_REQUEST);
 		}
@@ -53,7 +55,7 @@ public class LanguageCertificateController {
 	 */
 	@PutMapping("/add")
 	public ResponseEntity<Language> addLanguageCertificate(){
-		User user = userService.findUserById(1);
+		User user = userService.findUserById(10);
 		Language l = new Language(2L, "Tieng Anh", "Toeic", 700, user);
 		languageService.addLanguage(l);
 		return new ResponseEntity<>(HttpStatus.OK);
@@ -68,5 +70,23 @@ public class LanguageCertificateController {
 //		Language language = languageService.findLanguageByLanguageId(languageId);
 		languageService.deleteLanguage(languageId);
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+	}
+	/*
+	 * 
+	 *	@author: Nguyễn Văn Tuấn 
+	 * 
+	 */
+	@GetMapping("/edit/{languageId}")
+	public ResponseEntity<Language> showEditLanguage(@PathVariable("languageId") int languageId){
+		Language language = languageService.findLanguageByLanguageId(languageId);
+		return new ResponseEntity<Language>(language, HttpStatus.OK);
+	}
+	
+	@PostMapping("/editlanguage/{languageId}")
+	public ResponseEntity<?> editLanguage(@PathVariable("languageId") int languageId){
+		Language language = languageService.findLanguageByLanguageId(languageId);
+		language.setGrade(600);
+		languageService.updateLanguage(language);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }
