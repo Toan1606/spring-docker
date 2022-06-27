@@ -26,7 +26,7 @@ public class LanguageService{
 	 *	@author: Nguyễn Văn Tuấn 
 	 * 
 	 */
-	public void deleteLanguage(int languageId) {
+	public void deleteLanguage(Long languageId) {
 		languageCertificateRepository.deleteLanguageById(languageId);
 	}
 	/*

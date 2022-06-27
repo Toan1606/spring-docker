@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codedecode.demo.entity.Language;
-import com.codedecode.demo.entity.User;
 import com.codedecode.demo.service.LanguageService;
 import com.codedecode.demo.service.UserService;
 
@@ -68,7 +67,7 @@ public class LanguageCertificateController {
 	 */
 	@DeleteMapping("/delete/{languageId}")
 	@Transactional
-	public ResponseEntity<?> deleteLanguage(@PathVariable("languageId") int languageId) {
+	public ResponseEntity<HttpStatus> deleteLanguage(@PathVariable("languageId") Long languageId) {
 //		Language language = languageService.findLanguageByLanguageId(languageId);
 		languageService.deleteLanguage(languageId);
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
@@ -95,7 +94,6 @@ public class LanguageCertificateController {
 
 	@PutMapping("/update/{id}")
 	public ResponseEntity<?> updateTutorial(@PathVariable("id") long id, @RequestBody Language language) {
-		
 		return new ResponseEntity<Language>(language, HttpStatus.OK);
 	}
 }
