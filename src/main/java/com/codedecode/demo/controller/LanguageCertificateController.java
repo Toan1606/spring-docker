@@ -67,9 +67,10 @@ public class LanguageCertificateController {
 	 */
 	@DeleteMapping("/delete/{languageId}")
 	@Transactional
-	public ResponseEntity<HttpStatus> deleteLanguage(@PathVariable("languageId") Long languageId) {
+	public ResponseEntity<?> deleteLanguage(@PathVariable("languageId") Long languageId) {
 //		Language language = languageService.findLanguageByLanguageId(languageId);
-		languageService.deleteLanguage(languageId);
+//		languageService.deleteLanguage(languageId);
+		System.out.println(languageId);
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 	}
 
