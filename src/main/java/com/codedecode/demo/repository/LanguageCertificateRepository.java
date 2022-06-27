@@ -3,6 +3,7 @@ package com.codedecode.demo.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import com.codedecode.demo.entity.Language;
@@ -31,6 +32,7 @@ public interface LanguageCertificateRepository extends JpaRepository<Language, L
 	 *	@author: Nguyễn Văn Tuấn 
 	 * 
 	 */
-	@Query(value="delete from language where id = ?1", nativeQuery=true)
+	@Modifying
+	@Query(value="delete from languages where id = ?1", nativeQuery=true)
 	void deleteLanguageById(int languageId);
 }

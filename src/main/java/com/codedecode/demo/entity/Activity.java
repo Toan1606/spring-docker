@@ -33,6 +33,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@EqualsAndHashCode
 @Entity
 @Table(name = "Activities")
 public class Activity implements Serializable {

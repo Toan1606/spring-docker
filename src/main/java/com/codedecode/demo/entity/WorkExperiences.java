@@ -30,10 +30,11 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@EqualsAndHashCode
 @Entity
 @Table(name = "WorkExperiences")
 public class WorkExperiences implements Serializable {
-	
+
 	/**
 	 * 
 	 */
@@ -42,22 +43,22 @@ public class WorkExperiences implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
+
 	@Column(name = "company_name")
 	private String companyName;
-	
+
 	@Column(name = "position")
 	private String position;
-	
+
 	@Column(name = "description")
 	private String description;
-	
+
 	@Column(name = "start_date")
 	private Date startDate;
-	
+
 	@Column(name = "end_date")
 	private Date endDate;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "cv_id")
 	@EqualsAndHashCode.Exclude
