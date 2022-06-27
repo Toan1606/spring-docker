@@ -1,9 +1,5 @@
 package com.codedecode.demo.dto;
 
-import java.util.List;
-
-import com.codedecode.demo.entity.Language;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
