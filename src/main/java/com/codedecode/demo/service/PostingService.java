@@ -21,7 +21,7 @@ public class PostingService {
 	private HomeAddressRepository addressRepository;
 
 	public Iterable<Posting> getAttractiveJob() {
-		return postingRepository.findAll();
+		return postingRepository.findJob();
 	}
 
 	public Iterable<Posting> getUrgentJob() {
