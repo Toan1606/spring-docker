@@ -69,7 +69,7 @@ public class LanguageCertificateController {
 	@Transactional
 	public ResponseEntity<?> deleteLanguage(@PathVariable("languageId") Long languageId) {
 //		Language language = languageService.findLanguageByLanguageId(languageId);
-//		languageService.deleteLanguage(languageId);
+		languageService.deleteLanguage(languageId);
 		System.out.println(languageId);
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 	}
@@ -85,16 +85,17 @@ public class LanguageCertificateController {
 		return new ResponseEntity<Language>(language, HttpStatus.OK);
 	}
 
-	@PostMapping("/editlanguage/{languageId}")
-	public ResponseEntity<?> editLanguage(@PathVariable("languageId") int languageId) {
-		Language language = languageService.findLanguageByLanguageId(languageId);
-		language.setGrade(600);
-		languageService.updateLanguage(language);
-		return new ResponseEntity<>(HttpStatus.OK);
-	}
+//	@PostMapping("/editlanguage/{languageId}")
+//	public ResponseEntity<?> editLanguage(@PathVariable("languageId") int languageId, @RequestBody Language language) {
+//		Language language = languageService.findLanguageByLanguageId(languageId);
+//		language.setGrade(600);
+//		languageService.updateLanguage(language);
+//		return new ResponseEntity<>(HttpStatus.OK);
+//	}
 
 	@PutMapping("/update/{id}")
 	public ResponseEntity<?> updateTutorial(@PathVariable("id") long id, @RequestBody Language language) {
+		languageService.updateLanguage(language);
 		return new ResponseEntity<Language>(language, HttpStatus.OK);
 	}
 }

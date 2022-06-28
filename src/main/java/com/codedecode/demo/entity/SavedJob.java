@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -38,6 +40,7 @@ public class SavedJob {
 
 	@ManyToOne
 	@JoinColumn(name = "student_id", referencedColumnName = "id")
+	@JsonIgnore
 	private User user;
 
 	@ManyToOne
