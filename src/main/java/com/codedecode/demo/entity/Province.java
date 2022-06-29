@@ -33,6 +33,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@EqualsAndHashCode
 @Entity
 @Table(name = "Province")
 public class Province implements Serializable {
@@ -41,20 +42,20 @@ public class Province implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
+
 	@Column(name = "name")
 	private String name;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "address_id")
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
 	private Address address;
-	
+
 	@OneToMany(mappedBy = "province", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude

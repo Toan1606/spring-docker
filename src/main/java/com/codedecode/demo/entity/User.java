@@ -15,7 +15,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -36,6 +35,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@EqualsAndHashCode
 @Entity
 @Table(name = "Users")
 public class User implements Serializable {
@@ -157,17 +157,17 @@ public class User implements Serializable {
 	@ToString.Exclude
 	@JsonIgnore
 	private Collection<SavedJob> savedJob;
-	
+
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
 	@JsonIgnore
 	private Collection<AppliedJob> appliedJob;
 
-	@ManyToOne(cascade={CascadeType.ALL})
-	@JoinColumn(name="manager_id")
+	@ManyToOne(cascade = { CascadeType.ALL })
+	@JoinColumn(name = "manager_id")
 	private User manager;
 
-	@OneToMany(mappedBy="manager")
+	@OneToMany(mappedBy = "manager")
 	private Collection<User> candidate;
 }
