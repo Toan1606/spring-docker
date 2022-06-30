@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codedecode.demo.dto.PostingHomePage;
+import com.codedecode.demo.entity.Address;
 import com.codedecode.demo.entity.Posting;
 import com.codedecode.demo.service.PostingService;
 
@@ -33,10 +34,12 @@ public class HomePageController {
 				.collect(Collectors.toList());
 		List<Posting> urgentJob = StreamSupport.stream(postingService.getUrgentJob().spliterator(), false)
 				.collect(Collectors.toList());
-//		List<Address> jobByProvince = postingService.getJobByProvice();
+		List<Address> jobByProvince = postingService.getJobByProvice();
 
 		PostingHomePage postingHomePage = PostingHomePage.builder().attractiveJob(attractiveJob)
-				.urgentRecruitment(urgentJob).build();
+				.urgentRecruitment(urgentJob).jobByProvince(jobByProvince).build();
+		
+		System.err.println("hello " +jobByProvince);
 		return new ResponseEntity<PostingHomePage>(postingHomePage, HttpStatus.OK);
 	}
 

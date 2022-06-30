@@ -21,7 +21,7 @@ public class PostingService {
 	private HomeAddressRepository addressRepository;
 
 	public Iterable<Posting> getAttractiveJob() {
-		return postingRepository.findJob();
+		return postingRepository.findAll();
 	}
 
 	public Iterable<Posting> getUrgentJob() {
@@ -29,7 +29,7 @@ public class PostingService {
 	}
 	
 	public List<Address> getJobByProvice(){
-		return addressRepository.getAllJobByProvince();
+		return addressRepository.findAddress();
 	}
 	
 	public Posting addPosting(Posting posting) {
