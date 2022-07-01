@@ -29,7 +29,7 @@ public class PostingService {
 	}
 	
 	public List<Address> getJobByProvice(){
-		return addressRepository.getAllJobByProvince();
+		return addressRepository.findAddress();
 	}
 	
 	public Posting addPosting(Posting posting) {
@@ -44,5 +44,9 @@ public class PostingService {
 		if (posting == null) return null;
 		
 		return posting;	
+	}
+	
+	public void deletePostingById(Long id) {
+		postingRepository.deleteById(id);
 	}
 }
