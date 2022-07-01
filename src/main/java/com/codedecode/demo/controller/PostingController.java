@@ -14,6 +14,7 @@ import com.codedecode.demo.entity.Posting;
 import com.codedecode.demo.service.PostingService;
 import com.codedecode.demo.utils.Message;
 
+
 @RestController
 @RequestMapping("/posting")
 public class PostingController {

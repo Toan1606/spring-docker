@@ -29,7 +29,7 @@ public class PostingService {
 	}
 	
 	public List<Address> getJobByProvice(){
-		return addressRepository.getAllJobByProvince();
+		return addressRepository.findAddress();
 	}
 	
 	public Posting addPosting(Posting posting) {
