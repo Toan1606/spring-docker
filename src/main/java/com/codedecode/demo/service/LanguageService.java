@@ -18,8 +18,8 @@ public class LanguageService{
 	 *	@author: Nguyễn Văn Tuấn 
 	 * 
 	 */
-	public List<Language> findAllByUserID(int userID){
-		return languageCertificateRepository.findAllByUserID(userID);
+	public List<Language> findAllByUserID(Long userId){
+		return languageCertificateRepository.findAllByUserID(userId);
 	}
 	/*
 	 * 

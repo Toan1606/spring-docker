@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,8 +20,10 @@ import com.codedecode.demo.entity.User;
 import com.codedecode.demo.service.LanguageService;
 import com.codedecode.demo.service.UserService;
 
+@CrossOrigin(origins = "http://localhost:8081")
 @RestController
 @RequestMapping("/language")
+@Transactional
 public class LanguageCertificateController {
 	
 	@Autowired
@@ -33,9 +37,9 @@ public class LanguageCertificateController {
 	 *	@author: Nguyễn Văn Tuấn 
 	 * 
 	 */
-	@GetMapping("/")
-	public ResponseEntity<List<Language>> showLanguageCertitficates() {
-		List<Language> list = languageService.findAllByUserID(1);
+	@GetMapping("/{userId}")
+	public ResponseEntity<List<Language>> showLanguageCertitficates(@PathVariable Long userId) {
+		List<Language> list = languageService.findAllByUserID(userId);
 		if(list == null || list.size() == 0) {
 //			return new ResponseEntity<IllegalArgumentException>(HttpStatus.BAD_REQUEST);
 		}
