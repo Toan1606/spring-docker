@@ -25,14 +25,14 @@ public interface LanguageCertificateRepository extends JpaRepository<Language, L
 	 * 
 	 */
 	@Query(value="select * from languages where id = ?1", nativeQuery = true)
-	Language findLanguageByLanguageId(int languageId);
+	Language findLanguageByLanguageId(Long languageId);
 
 	/*
 	 * 
 	 *	@author: Nguyễn Văn Tuấn 
 	 * 
 	 */
-	@Query(value="delete from language where id = ?1", nativeQuery=true)
+	@Query(value="delete from languages where id = ?1", nativeQuery=true)
 	@Modifying
 	void deleteLanguageById(int languageId);
 }
