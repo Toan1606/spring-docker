@@ -17,6 +17,9 @@ public class AppliedJobService {
 	public List<AppliedJob> getAllAppliedJobs(Long userId) {
 		return appliedJobRepository.getAllAppliedJobs(userId);
 	}
+	public AppliedJob getAppliedJobById(Long id) {
+		return appliedJobRepository.getAppliedJobById(id);
+	}
 	public void deleteAppliedJob(Long id) {
 		appliedJobRepository.deleteAppliedJob(id);
 	}
