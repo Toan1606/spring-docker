@@ -92,6 +92,15 @@ public class User implements Serializable {
 
 	@Column(name = "name")
 	private String name;
+	
+	@Column(name = "description")
+	private String description;
+	
+	@Column(name = "career_goals")
+	private String careerGoals;
+	
+	@Column(name = "phone")
+	private String phone;
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@EqualsAndHashCode.Exclude
