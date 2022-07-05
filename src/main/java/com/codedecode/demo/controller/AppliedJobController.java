@@ -24,19 +24,25 @@ public class AppliedJobController {
 
 	@Autowired
 	private AppliedJobService appliedJobService;
-	
+
 	@GetMapping("/{userId}")
-	public ResponseEntity<?> showAppliedJobsPage(@PathVariable Long userId){
+	public ResponseEntity<?> showAppliedJobsPage(@PathVariable Long userId) {
 		List<AppliedJob> listAppliedJob = appliedJobService.getAllAppliedJobs(userId);
-		if(listAppliedJob.size() == 0) {
+		if (listAppliedJob.size() == 0) {
 			return new ResponseEntity<HttpStatus>(HttpStatus.BAD_REQUEST);
 		}
 		return new ResponseEntity<List<AppliedJob>>(listAppliedJob, HttpStatus.OK);
 	}
-	
+
 	@DeleteMapping("/delete/{id}")
-	public ResponseEntity<?> deleteAppliedJob(@PathVariable Long id){
-		appliedJobService.deleteAppliedJob(id);
-		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+	public ResponseEntity<?> deleteAppliedJob(@PathVariable Long id) {
+		AppliedJob a = appliedJobService.getAppliedJobById(id);
+		if (a == null) {
+			return new ResponseEntity<HttpStatus>(HttpStatus.NOT_FOUND);
+		} else {
+			appliedJobService.deleteAppliedJob(id);
+			return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+		}
+
 	}
 }
