@@ -29,6 +29,11 @@ public class LanguageService{
 	public void deleteLanguage(int languageId) {
 		languageCertificateRepository.deleteLanguageById(languageId);
 	}
+	/*
+	 * 
+	 *	@author: Nguyễn Văn Tuấn 
+	 * 
+	 */
 	public void updateLanguage(Language language) {
 		languageCertificateRepository.flush();
 	}
@@ -37,7 +42,7 @@ public class LanguageService{
 	 *	@author: Nguyễn Văn Tuấn 
 	 * 
 	 */
-	public Language findLanguageByLanguageId(int languageId) {
+	public Language findLanguageByLanguageId(Long languageId) {
 		return languageCertificateRepository.findLanguageByLanguageId(languageId);
 	}
 	/*
