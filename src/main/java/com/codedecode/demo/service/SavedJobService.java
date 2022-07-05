@@ -11,12 +11,12 @@ import com.codedecode.demo.repository.SavedJobRepository;
 @Service
 public class SavedJobService {
 	@Autowired
-	private SavedJobRepository saveJobRepository;
+	private SavedJobRepository savedJobRepository;
 	
-	public List<SavedJob> getAllSavedJobs(Long studentId){
-		return saveJobRepository.findAllSavedJobsByStudentId(studentId);
+	public List<SavedJob> getAllSavedJobs(Long userId){
+		return savedJobRepository.getAllSavedJobs(userId);
 	}
-	public void deleteSavedJobById(Long id) {
-		saveJobRepository.deleteSavedJob(id);
+	public void deleteSavedJob(Long id) {
+		savedJobRepository.deleteSavedJob(id);
 	}
 }

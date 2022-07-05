@@ -9,11 +9,11 @@ import org.springframework.data.jpa.repository.Query;
 import com.codedecode.demo.entity.SavedJob;
 
 public interface SavedJobRepository extends JpaRepository<SavedJob, Long>{
-
-	@Query(value="select * from saved_jobs where student_id = ?1", nativeQuery=true)
-	List<SavedJob>findAllSavedJobsByStudentId(Long studentId);
 	
-	@Modifying
+	@Query(value="select * from saved_jobs where student_id = ?1", nativeQuery=true)
+	List<SavedJob> getAllSavedJobs(Long userId);
+	
 	@Query(value="delete from saved_jobs where id = ?1", nativeQuery=true)
-	void deleteSavedJob(Long id);
+	@Modifying
+	void deleteSavedJob(Long savedJobId);
 }

@@ -2,10 +2,11 @@ package com.codedecode.demo.controller;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,20 +20,23 @@ import com.codedecode.demo.service.SavedJobService;
 @CrossOrigin(origins = "http://localhost:8081")
 @RestController
 @RequestMapping("/savedjob")
+@Transactional
 public class SavedJobController {
-
+	
 	@Autowired
 	private SavedJobService savedJobService;
-	
+
 	@GetMapping("/{userId}")
-	public ResponseEntity<?> showSavedJobs(@PathVariable("userId") Long userId){
-		List<SavedJob> list = savedJobService.getAllSavedJobs(userId);
-		return new ResponseEntity<List<SavedJob>>(list, HttpStatus.OK);
+	public ResponseEntity<?> showSavedJobsPage(@PathVariable Long userId){
+		List<SavedJob> listSavedJob = savedJobService.getAllSavedJobs(userId);
+		if(listSavedJob.size() == 0) {
+			return new ResponseEntity<HttpStatus>(HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity<List<SavedJob>>(listSavedJob,HttpStatus.OK);
 	}
 	@DeleteMapping("/delete/{id}")
-	@Transactional
-	public ResponseEntity<?> deleteSavedJob(@PathVariable("id") Long savedJobId){
-		savedJobService.deleteSavedJobById(savedJobId);
+	public ResponseEntity<?> deleteSavedJob(@PathVariable Long id){
+		savedJobService.deleteSavedJob(id);
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 	}
 }

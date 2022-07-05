@@ -60,7 +60,7 @@ public class Posting implements Serializable {
 	@Column(name = "quantity_needed")
 	private String quantityNeeded;
 
-	@Column(name = "descriptions", length = 1000)
+	@Column(name = "descriptions", length = 3000)
 
 	private String description;
 
@@ -85,7 +85,7 @@ public class Posting implements Serializable {
 	@Column(name = "gender_requirement")
 	private String genderRequirement;
 
-	@Column(name = "job_requirement", length = 1000)
+	@Column(name = "job_requirement", length = 4000)
 	private String jobRequirement;
 
 	@Column(name = "deadline_for_submission")
@@ -144,6 +144,6 @@ public class Posting implements Serializable {
 	@Column(name = "views")
 	private Long view;
 
-	@Column(name = "files")
+	@Column(name = "files", length = 500)
 	private String file;
 }

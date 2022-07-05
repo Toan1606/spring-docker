@@ -10,15 +10,17 @@ import com.codedecode.demo.repository.AppliedJobRepository;
 
 @Service
 public class AppliedJobService {
-
+	
 	@Autowired
 	private AppliedJobRepository appliedJobRepository;
 	
-	public List<AppliedJob> getAllAppliedByUserId(Long userId){
-		return appliedJobRepository.findAllAppliedJobsByUserId(userId);
+	public List<AppliedJob> getAllAppliedJobs(Long userId) {
+		return appliedJobRepository.getAllAppliedJobs(userId);
+	}
+	public AppliedJob getAppliedJobById(Long id) {
+		return appliedJobRepository.getAppliedJobById(id);
 	}
 	public void deleteAppliedJob(Long id) {
 		appliedJobRepository.deleteAppliedJob(id);
 	}
-	
 }

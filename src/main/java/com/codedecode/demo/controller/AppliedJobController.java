@@ -19,20 +19,29 @@ import com.codedecode.demo.service.AppliedJobService;
 @CrossOrigin(origins = "http://localhost:8081")
 @RestController
 @RequestMapping("/appliedjob")
+@Transactional
 public class AppliedJobController {
-	
+
 	@Autowired
 	private AppliedJobService appliedJobService;
-	
+
 	@GetMapping("/{userId}")
-	public ResponseEntity<?> showAppliedJobs(@PathVariable("userId") Long userId){
-		List<AppliedJob> list = appliedJobService.getAllAppliedByUserId(userId);
-		return new ResponseEntity<List<AppliedJob>>(list, HttpStatus.OK);
+	public ResponseEntity<?> showAppliedJobsPage(@PathVariable Long userId) {
+		List<AppliedJob> listAppliedJob = appliedJobService.getAllAppliedJobs(userId);
+		if (listAppliedJob.size() == 0) {
+			return new ResponseEntity<HttpStatus>(HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity<List<AppliedJob>>(listAppliedJob, HttpStatus.OK);
 	}
+
 	@DeleteMapping("/delete/{id}")
-	@Transactional
-	public ResponseEntity<?> deleteSavedJob(@PathVariable("id") Long appliedJobId){
-		appliedJobService.deleteAppliedJob(appliedJobId);
-		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+	public ResponseEntity<?> deleteAppliedJob(@PathVariable Long id) {
+		AppliedJob a = appliedJobService.getAppliedJobById(id);
+		if (a == null) {
+			return new ResponseEntity<HttpStatus>(HttpStatus.NOT_FOUND);
+		} else {
+			appliedJobService.deleteAppliedJob(id);
+			return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+		}
 	}
 }

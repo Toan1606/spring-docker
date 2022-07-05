@@ -3,6 +3,7 @@ package com.codedecode.demo.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.codedecode.demo.entity.Posting;
 import com.codedecode.demo.service.PostingService;
 import com.codedecode.demo.utils.Message;
+
 
 @RestController
 @RequestMapping("/posting")
@@ -41,5 +43,11 @@ public class PostingController {
 			return new ResponseEntity<String>(Message.POSTING_NOT_EXIST, HttpStatus.OK);
 
 		return new ResponseEntity<Posting>(posting, HttpStatus.CREATED);
+	}
+	
+	@DeleteMapping("/delete/{id}")
+	public ResponseEntity<Long> deletePostingById(@PathVariable Long id) {
+		postingService.deletePostingById(id);
+		return ResponseEntity.ok(id);
 	}
 }

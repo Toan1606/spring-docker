@@ -76,7 +76,7 @@ public class User implements Serializable {
 	@JsonIgnore
 	private Collection<CoverLetter> coverLetter;
 
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "role_id", referencedColumnName = "id")
 	private Role role;
 
