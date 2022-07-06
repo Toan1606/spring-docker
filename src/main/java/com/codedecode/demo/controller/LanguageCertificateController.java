@@ -89,13 +89,12 @@ public class LanguageCertificateController {
 	public ResponseEntity<?> deleteLanguage(@PathVariable("languageId") Long languageId){
 //		Language language = languageService.findLanguageByLanguageId(languageId);
 		languageService.deleteLanguage(languageId);
-		System.out.println(languageId);
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 	}
 
 	@PostMapping("/update/{id}")
 	public ResponseEntity<?> updateLanguageById(@PathVariable("id") Long id,  @RequestBody Language language){
-		System.out.println(language.toString());
+//		System.out.println(language.toString());
 		Language l = languageService.findLanguageByLanguageId(id);
 		if(l != null) {
 			l.setCertificateName(language.getCertificateName());
