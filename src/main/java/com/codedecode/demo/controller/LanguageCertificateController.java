@@ -40,7 +40,7 @@ public class LanguageCertificateController {
 	 * 
 	 */
 
-	@GetMapping("/user/{userId}")
+	@GetMapping("/{userId}")
 	public ResponseEntity<?> showAllLanguageCertitficates(@PathVariable Long userId) {
 		List<Language> list = languageService.findAllByUserID(userId);
 		if(list == null || list.size() == 0) {
