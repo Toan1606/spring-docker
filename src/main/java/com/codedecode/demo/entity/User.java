@@ -12,12 +12,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -39,7 +37,7 @@ import lombok.ToString;
 @Builder
 @EqualsAndHashCode
 @Entity
-@Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = { "email" }))
+@Table(name = "users")
 public class User implements Serializable {
 
 	/**
@@ -51,7 +49,7 @@ public class User implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@Column(name = "email")
+	@Column(name = "email", unique = true, length = 100)
 	private String email;
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -122,10 +120,6 @@ public class User implements Serializable {
 	@Column(name = "maria_status")
 	private String mariaStatus;
 
-	// TODO
-//	@Column(name = "year_of_experiences")
-//	private YearOfExperience yearOfExperiences;
-
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
@@ -193,7 +187,5 @@ public class User implements Serializable {
 
 	@OneToMany(mappedBy = "manager")
 	private Collection<User> candidate;
-	
-	
-	// 
+
 }
