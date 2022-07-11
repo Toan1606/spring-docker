@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codedecode.demo.dto.PostingHomePage;
+import com.codedecode.demo.entity.Address;
 import com.codedecode.demo.entity.Posting;
 import com.codedecode.demo.service.PostingService;
 
@@ -35,6 +38,8 @@ public class HomePageController {
 
 		PostingHomePage postingHomePage = PostingHomePage.builder().attractiveJob(attractiveJob)
 				.urgentRecruitment(urgentJob).build();
+		
+//		System.err.println("hello " +jobByProvince);
 		return new ResponseEntity<PostingHomePage>(postingHomePage, HttpStatus.OK);
 	}
 

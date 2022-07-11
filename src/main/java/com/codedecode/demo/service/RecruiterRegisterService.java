@@ -1,0 +1,25 @@
+package com.codedecode.demo.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.codedecode.demo.entity.User;
+import com.codedecode.demo.repository.UserRepository;
+
+@Service
+public class RecruiterRegisterService {
+	
+	@Autowired
+	UserRepository repository;
+	
+	public User addRecruiter(User user) {
+		return repository.save(user);
+	}
+	
+//	public User updateRecruiter(Long id, User user, MultipartFile file) {
+//		
+//		return repository.updateRecruiterById(id);
+//	}
+
+}
