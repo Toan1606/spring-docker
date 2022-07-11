@@ -16,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -37,7 +38,7 @@ import lombok.ToString;
 @Builder
 @EqualsAndHashCode
 @Entity
-@Table(name = "Users")
+@Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = { "email" }))
 public class User implements Serializable {
 
 	/**
@@ -170,4 +171,7 @@ public class User implements Serializable {
 
 	@OneToMany(mappedBy = "manager")
 	private Collection<User> candidate;
+	
+	
+	// 
 }
