@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -84,6 +85,9 @@ public class User implements Serializable {
 	@JoinColumn(name = "address_id", referencedColumnName = "id")
 	private Address address;
 
+	@Column(name = "address")
+	private String addressName;
+	
 	@Column(name = "password")
 	private String password;
 
@@ -98,6 +102,12 @@ public class User implements Serializable {
 	
 	@Column(name = "career_goals")
 	private String careerGoals;
+	
+	@Column(name = "university")
+	private String university;
+	
+	@Column(name = "rating")
+	private String rating;
 	
 	@Column(name = "phone")
 	private String phone;
@@ -138,8 +148,8 @@ public class User implements Serializable {
 
 	@Column(name = "taxt_number")
 	private Long taxtNumber;
-
-	@Column(name = "images")
+	
+	@Column(name = "images", columnDefinition = "LONGTEXT")
 	private String images;
 
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
