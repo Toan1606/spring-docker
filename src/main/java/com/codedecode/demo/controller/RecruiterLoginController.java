@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.codedecode.demo.dto.LoginRequest;
-import com.codedecode.demo.dto.LoginResponse;
+import com.codedecode.demo.dto.LoginRequestDTO;
+import com.codedecode.demo.dto.LoginResponseDTO;
 import com.codedecode.demo.dto.RegisterRequestDTO;
 import com.codedecode.demo.entity.User;
 import com.codedecode.demo.service.AuthService;
@@ -42,8 +42,8 @@ public class RecruiterLoginController {
 	 * 
 	 */
 	@PostMapping(value = "/login")
-	public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest, HttpServletResponse response) {
-		LoginResponse loginResponse = authService.checkLogin(loginRequest);
+	public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO loginRequest, HttpServletResponse response) {
+		LoginResponseDTO loginResponse = authService.checkLogin(loginRequest);
 		Cookie cookie = new Cookie("refresh_token", loginResponse.getAccessToken().getToken());
 		cookie.setMaxAge(3600);
 		cookie.setHttpOnly(true);

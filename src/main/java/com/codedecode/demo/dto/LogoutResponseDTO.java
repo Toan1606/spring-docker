@@ -7,7 +7,7 @@ import lombok.Getter;
 @Builder
 @Getter
 @AllArgsConstructor
-public class LogoutResponse {
+public class LogoutResponseDTO {
 
 	private String message;
 }

@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.codedecode.demo.dto.LoginRequest;
-import com.codedecode.demo.dto.LoginResponse;
-import com.codedecode.demo.dto.LogoutResponse;
+import com.codedecode.demo.dto.LoginRequestDTO;
+import com.codedecode.demo.dto.LoginResponseDTO;
+import com.codedecode.demo.dto.LogoutResponseDTO;
 import com.codedecode.demo.dto.RegisterRequestDTO;
 import com.codedecode.demo.dto.Token;
 import com.codedecode.demo.entity.User;
@@ -53,8 +53,8 @@ public class CandidateLoginController {
 	 * 
 	 */
 	@PostMapping(value = "/login")
-	public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginResponse, HttpServletResponse response) {
-		LoginResponse login = authService.checkLogin(loginResponse);
+	public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO loginResponse, HttpServletResponse response) {
+		LoginResponseDTO login = authService.checkLogin(loginResponse);
 		Cookie cookie = new Cookie("refresh_token", login.getAccessToken().getToken());
 		cookie.setMaxAge(3600);
 		cookie.setHttpOnly(true);
@@ -62,7 +62,7 @@ public class CandidateLoginController {
 		response.addCookie(cookie);
 		
 		response.setHeader("Authorization", login.getAccessToken().getToken());
-		return ResponseEntity.status(HttpStatus.OK).body(LoginResponse.builder().build());
+		return ResponseEntity.status(HttpStatus.OK).body(LoginResponseDTO.builder().build());
 	}
 	
 	/*
@@ -83,7 +83,7 @@ public class CandidateLoginController {
 	 * 
 	 */
 	@PostMapping(value = "/logout")
-	public ResponseEntity<LogoutResponse> logout(@CookieValue("refresh_token") String refreshToken, HttpServletResponse response) {
+	public ResponseEntity<LogoutResponseDTO> logout(@CookieValue("refresh_token") String refreshToken, HttpServletResponse response) {
 		authService.logout(refreshToken);
 		
 		Cookie cookie = new Cookie("refresh_token", null);
@@ -92,6 +92,6 @@ public class CandidateLoginController {
 		
 		response.addCookie(cookie);
 		
-		return ResponseEntity.status(HttpStatus.OK).body(LogoutResponse.builder().message(ResponseMessage.LOGOUT_SUCCESS.getMessage()).build());
+		return ResponseEntity.status(HttpStatus.OK).body(LogoutResponseDTO.builder().message(ResponseMessage.LOGOUT_SUCCESS.getMessage()).build());
 	}
 }

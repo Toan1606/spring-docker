@@ -7,7 +7,7 @@ import lombok.ToString;
 @Getter
 @ToString
 @Builder
-public class LoginResponse {
+public class LoginResponseDTO {
 
 	private final Token accessToken;
 
@@ -17,17 +17,17 @@ public class LoginResponse {
 
 	public static final Long REFRESH_TOKEN_VADILITY = 1L;
 
-	private LoginResponse(Token accessToken, Token refreshToken) {
+	private LoginResponseDTO(Token accessToken, Token refreshToken) {
 		this.accessToken = accessToken;
 		this.refreshToken = refreshToken;
 	}
 
-	public static LoginResponse of(Long userId, String accessSecret, String refreshSecret) {
-		return new LoginResponse(Token.of(userId, ACCESS_TOKEN_VADILITY, accessSecret),
+	public static LoginResponseDTO of(Long userId, String accessSecret, String refreshSecret) {
+		return new LoginResponseDTO(Token.of(userId, ACCESS_TOKEN_VADILITY, accessSecret),
 				Token.of(userId, REFRESH_TOKEN_VADILITY, refreshSecret));
 	}
 
-	public static LoginResponse of(Long userId, String accessSecret, Token refreshToken) {
-		return new LoginResponse(Token.of(userId, ACCESS_TOKEN_VADILITY, accessSecret), refreshToken);
+	public static LoginResponseDTO of(Long userId, String accessSecret, Token refreshToken) {
+		return new LoginResponseDTO(Token.of(userId, ACCESS_TOKEN_VADILITY, accessSecret), refreshToken);
 	}
 }

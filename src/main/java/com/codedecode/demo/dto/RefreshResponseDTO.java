@@ -1,5 +1,5 @@
 package com.codedecode.demo.dto;
 
-public class RefreshResponse {
+public class RefreshResponseDTO {
 
 }

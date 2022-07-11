@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.codedecode.demo.dto.LoginRequest;
-import com.codedecode.demo.dto.LoginResponse;
+import com.codedecode.demo.dto.LoginRequestDTO;
+import com.codedecode.demo.dto.LoginResponseDTO;
 import com.codedecode.demo.dto.RegisterRequestDTO;
 import com.codedecode.demo.dto.Token;
 import com.codedecode.demo.entity.User;
@@ -54,7 +54,7 @@ public class AuthService {
 				.build());
 	}
 	
-	public Token login(LoginRequest loginResponse) {
+	public Token login(LoginRequestDTO loginResponse) {
 		String email = loginResponse.getEmail();
 		String password = loginResponse.getPassword(); 
 		// find user by email
@@ -79,7 +79,7 @@ public class AuthService {
 		return user;
 	}
 	
-	public LoginResponse checkLogin(LoginRequest loginResponse) {
+	public LoginResponseDTO checkLogin(LoginRequestDTO loginResponse) {
 		String email = loginResponse.getEmail();
 		String password = loginResponse.getPassword(); 
 		// find user by email
@@ -89,12 +89,12 @@ public class AuthService {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "invalid credentials");
 		}
 		
-		return LoginResponse.of(user.getId(), accessTokenSecret, refreshTokenSecret);
+		return LoginResponseDTO.of(user.getId(), accessTokenSecret, refreshTokenSecret);
 	}
 	
-	public LoginResponse refreshAccess(String refreshToken) {
+	public LoginResponseDTO refreshAccess(String refreshToken) {
 		Long userId = Token.getUserId(refreshToken, refreshTokenSecret);
-		LoginResponse loginResponse = LoginResponse.of(userId, accessTokenSecret, Token.of(refreshToken));
+		LoginResponseDTO loginResponse = LoginResponseDTO.of(userId, accessTokenSecret, Token.of(refreshToken));
 		return loginResponse;
 	}
 
