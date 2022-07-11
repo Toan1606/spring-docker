@@ -4,10 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.codedecode.demo.entity.User;
 import com.codedecode.demo.service.CandidateRegisterService;
@@ -22,9 +25,15 @@ public class RecruiterRegisterController {
 	RecruiterRegisterService recruiterRegisterService;
 	
 	@PostMapping("/")
-	public ResponseEntity<User> addCandidate(@RequestBody User user){
+	public ResponseEntity<User> addRecruiter(@RequestBody User user){
 		User rs = recruiterRegisterService.addRecruiter(user);
 		return new ResponseEntity<User>(rs, HttpStatus.CREATED);
 	}
+	
+//	@PutMapping("/recruiterOnlineCVForm/{id}")
+//	public ResponseEntity<User> updateRecruiter(@PathVariable("id") Long id, @RequestBody User user, MultipartFile file){
+//		User rs = recruiterRegisterService.updateRecruiter(id, user,file);
+//		return new ResponseEntity<User>(rs, HttpStatus.OK);
+//	}
 	
 }
