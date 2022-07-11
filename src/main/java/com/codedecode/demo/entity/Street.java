@@ -46,12 +46,6 @@ public class Street implements Serializable {
 	private String name;
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "address_id")
-	@EqualsAndHashCode.Exclude
-	@ToString.Exclude
-	private Address address;
-
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "city_id")
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude

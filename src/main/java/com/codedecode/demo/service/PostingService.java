@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.codedecode.demo.entity.Address;
 import com.codedecode.demo.entity.Posting;
@@ -12,6 +13,7 @@ import com.codedecode.demo.repository.HomeAddressRepository;
 import com.codedecode.demo.repository.HomePostingRepository;
 
 @Service
+@Transactional
 public class PostingService {
 
 	@Autowired
