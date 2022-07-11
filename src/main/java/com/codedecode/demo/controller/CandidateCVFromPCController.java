@@ -41,6 +41,7 @@ public class CandidateCVFromPCController {
 			rs.setBirthDate(user.getBirthDate());
 			rs.setUniversity(user.getUniversity());
 			rs.setRating(user.getRating());
+			rs.setCandidateCV(user.getCandidateCV());
 			service.updateCandidateOnlineCVForm();
 			return new ResponseEntity<>(HttpStatus.OK);
 		}
