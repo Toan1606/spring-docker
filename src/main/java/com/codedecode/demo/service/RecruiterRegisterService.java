@@ -2,7 +2,6 @@ package com.codedecode.demo.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.codedecode.demo.entity.User;
 import com.codedecode.demo.repository.UserRepository;

@@ -6,6 +6,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,23 +20,29 @@ import com.codedecode.demo.dto.LoginRequestDTO;
 import com.codedecode.demo.dto.LoginResponseDTO;
 import com.codedecode.demo.dto.LogoutResponseDTO;
 import com.codedecode.demo.dto.RegisterRequestDTO;
-import com.codedecode.demo.dto.Token;
 import com.codedecode.demo.entity.User;
 import com.codedecode.demo.service.AuthService;
+import com.codedecode.demo.service.JwtUtil;
+import com.codedecode.demo.utils.CookieUtils;
 import com.codedecode.demo.utils.ResponseMessage;
+import com.codedecode.demo.utils.SecretKey;
+import com.codedecode.demo.utils.TokenUtils;
 
 @RestController
 @RequestMapping("/candidate")
 @CrossOrigin(value = "http://localhost:8080", allowCredentials = "true")
 public class CandidateLoginController {
 	
-	
 	@Autowired
 	private AuthService authService;
 	
+	@Autowired
+    private AuthenticationManager authenticationManager;
+	
+	
 	@GetMapping
-	public ResponseEntity<String> hello() {
-		return ResponseEntity.status(HttpStatus.OK).body("Hello World");
+	public String hello() {
+		return "Hello World!";
 	}
 	
 	/*
@@ -53,16 +61,28 @@ public class CandidateLoginController {
 	 * 
 	 */
 	@PostMapping(value = "/login")
-	public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO loginResponse, HttpServletResponse response) {
-		LoginResponseDTO login = authService.checkLogin(loginResponse);
-		Cookie cookie = new Cookie("refresh_token", login.getAccessToken().getToken());
+	public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO loginRequestDTO, HttpServletResponse response) {
+		String email = loginRequestDTO.getEmail();
+		String password = loginRequestDTO.getPassword();
+		
+		
+		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(email, password);
+		authenticationManager.authenticate(token);
+		String jwtAccessToken = JwtUtil.of(email, SecretKey.ACCESS_SECRET_KEY.getSecretKey()).getToken();
+		String jwtRefreshToken = JwtUtil.of(email, SecretKey.REFRESH_SECRET_KEY.getSecretKey()).getToken();
+		
+		Cookie cookie = new Cookie(CookieUtils.COOKIE_REFRESH.getCookieName(), jwtRefreshToken);
 		cookie.setMaxAge(3600);
 		cookie.setHttpOnly(true);
 //		cookie.setPath("/api");
 		response.addCookie(cookie);
 		
-		response.setHeader("Authorization", login.getAccessToken().getToken());
-		return ResponseEntity.status(HttpStatus.OK).body(LoginResponseDTO.builder().build());
+		response.setHeader("Authorization", TokenUtils.SECRET_TOKEN_WORD.getSecretToken().concat(jwtRefreshToken));
+		return ResponseEntity.status(HttpStatus.OK).body(LoginResponseDTO.builder()
+				.accessToken(JwtUtil.of(jwtAccessToken))
+				.refreshToken(JwtUtil.of(jwtRefreshToken))
+				.build()
+				);
 	}
 	
 	/*
@@ -71,9 +91,9 @@ public class CandidateLoginController {
 	 * 
 	 */
 	@PostMapping(value = "/refresh")
-	public ResponseEntity<Token> refresh(@CookieValue("refresh_token") String refreshToken) {
+	public ResponseEntity<JwtUtil> refresh(@CookieValue("refresh_token") String refreshToken) {
 		String newRefreshToken = authService.refreshAccess(refreshToken).getAccessToken().getToken();
-		Token token = Token.builder().token(newRefreshToken).build();
+		JwtUtil token = JwtUtil.builder().token(newRefreshToken).build();
 		return ResponseEntity.status(HttpStatus.OK).body(token);
 	}
 	
@@ -84,9 +104,8 @@ public class CandidateLoginController {
 	 */
 	@PostMapping(value = "/logout")
 	public ResponseEntity<LogoutResponseDTO> logout(@CookieValue("refresh_token") String refreshToken, HttpServletResponse response) {
-		authService.logout(refreshToken);
 		
-		Cookie cookie = new Cookie("refresh_token", null);
+		Cookie cookie = new Cookie(TokenUtils.SECRET_TOKEN_WORD.getSecretToken(), null);
 		cookie.setMaxAge(0);
 		cookie.setHttpOnly(true);
 		
