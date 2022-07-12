@@ -1,4 +1,4 @@
-package com.codedecode.demo.dto;
+package com.codedecode.demo.service;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -6,7 +6,6 @@ import java.util.Date;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -20,27 +19,34 @@ import lombok.ToString;
 
 @ToString
 @Builder
-public class Token {
-	private static final Logger LOGGER = LoggerFactory.getLogger(Token.class);
+@Getter
+public class JwtUtil {
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(JwtUtil.class);
 
-	@Getter
-	private final String token;
-
-	private Token(String token) {
+	private static final int EXPIRE_IN_MINUTE = 60 * 1000 * 1000;
+	
+	private String token;
+	
+	private JwtUtil(String token) {
 		this.token = token;
 	}
-
-	public static Token of(Long userId, Long validityMinutes, String secretKey) {
+	
+	public static JwtUtil of(String email, String secretKey) {
 
 		Instant issueDate = Instant.now();
-		String token = Jwts.builder().setSubject(userId.toString()).setIssuer("CodeJava").setIssuedAt(new Date())
-				.setExpiration(Date.from(issueDate.plus(validityMinutes, ChronoUnit.MINUTES)))
-				.signWith(SignatureAlgorithm.HS512, secretKey).compact();
-		return new Token(token);
+		String token = Jwts.builder()
+				.setSubject(email)
+				.setIssuer("JobEz")
+				.setIssuedAt(new Date())
+				.setExpiration(Date.from(issueDate.plus(EXPIRE_IN_MINUTE, ChronoUnit.MINUTES)))
+				.signWith(SignatureAlgorithm.HS512, secretKey)
+				.compact();
+		return new JwtUtil(token);
 	}
-
-	public static Token of(String token) {
-		return new Token(token);
+	
+	public static JwtUtil of(String token) {
+		return new JwtUtil(token);
 	}
 
 	public static boolean validateAccessToken(String token, String secretKey) {
@@ -64,7 +70,7 @@ public class Token {
 		return true;
 	}
 
-	public static Long getUserId(String token, String secretKey) {
+	public Long getUserId(String token, String secretKey) {
 		return Long.parseLong(getSubject(token, secretKey).trim());
 	}
 
@@ -76,15 +82,7 @@ public class Token {
 		return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
 	}
 
-//	@SuppressWarnings("deprecation")
-//	public static Long from(String token, String secretKey) {
-//		System.out.println("secretKey: " + secretKey);
-//		System.out.println(Base64.getEncoder().encodeToString(secretKey.getBytes(StandardCharsets.UTF_8)));
-//		Claims body = (Claims) Jwts.parserBuilder()
-//				.setSigningKey(Base64.getEncoder().encodeToString(secretKey.getBytes(StandardCharsets.UTF_8)))
-//				.build()
-//				.parse(token);
-//				
-//		 return body.get("user_id", Long.class);
-//	}
+	public String getEmail(String token) {
+		return null;
+	}
 }

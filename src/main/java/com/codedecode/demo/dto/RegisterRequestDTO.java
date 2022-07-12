@@ -10,11 +10,8 @@ import lombok.Setter;
 public class RegisterRequestDTO {
 	private Long id;
 
-	@JsonProperty("fist_name")
-	private String firstName;
-
-	@JsonProperty("last_name")
-	private String lastName;
+	@JsonProperty("full_name")
+	private String fullName;
 
 	@JsonProperty("email")
 	private String email;
@@ -24,4 +21,13 @@ public class RegisterRequestDTO {
 
 	@JsonProperty("confirm_password")
 	private String confirmPassword;
+	
+	@JsonProperty("phone_number")
+	private String phoneNumber;
+	
+	@JsonProperty("province")
+	private String province;
+	
+	@JsonProperty("city")
+	private String city;
 }
