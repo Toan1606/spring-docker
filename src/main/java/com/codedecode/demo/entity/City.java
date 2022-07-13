@@ -56,12 +56,6 @@ public class City implements Serializable {
 	private DesiredJob desiredJob;
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "address_id")
-	@EqualsAndHashCode.Exclude
-	@ToString.Exclude
-	private Address address;
-
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "province_id")
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude

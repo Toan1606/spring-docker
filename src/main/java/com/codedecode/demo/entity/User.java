@@ -37,7 +37,7 @@ import lombok.ToString;
 @Builder
 @EqualsAndHashCode
 @Entity
-@Table(name = "Users")
+@Table(name = "users")
 public class User implements Serializable {
 
 	/**
@@ -49,7 +49,7 @@ public class User implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@Column(name = "email")
+	@Column(name = "email", unique = true, length = 100)
 	private String email;
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -84,6 +84,9 @@ public class User implements Serializable {
 	@JoinColumn(name = "address_id", referencedColumnName = "id")
 	private Address address;
 
+	@Column(name = "address")
+	private String addressName;
+	
 	@Column(name = "password")
 	private String password;
 
@@ -92,6 +95,21 @@ public class User implements Serializable {
 
 	@Column(name = "name")
 	private String name;
+	
+	@Column(name = "description")
+	private String description;
+	
+	@Column(name = "career_goals")
+	private String careerGoals;
+	
+	@Column(name = "university")
+	private String university;
+	
+	@Column(name = "rating")
+	private String rating;
+	
+	@Column(name = "phone")
+	private String phone;
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@EqualsAndHashCode.Exclude
@@ -101,10 +119,6 @@ public class User implements Serializable {
 
 	@Column(name = "maria_status")
 	private String mariaStatus;
-
-	// TODO
-//	@Column(name = "year_of_experiences")
-//	private YearOfExperience yearOfExperiences;
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@EqualsAndHashCode.Exclude
@@ -129,9 +143,12 @@ public class User implements Serializable {
 
 	@Column(name = "taxt_number")
 	private Long taxtNumber;
-
-	@Column(name = "images")
+	
+	@Column(name = "images", columnDefinition = "LONGTEXT")
 	private String images;
+	
+	@Column(name = "candidate_cv", columnDefinition = "LONGTEXT")
+	private String candidateCV;
 
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "desired_job_id", referencedColumnName = "id")
@@ -170,4 +187,5 @@ public class User implements Serializable {
 
 	@OneToMany(mappedBy = "manager")
 	private Collection<User> candidate;
+
 }

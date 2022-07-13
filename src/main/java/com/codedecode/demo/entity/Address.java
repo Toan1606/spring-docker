@@ -55,18 +55,6 @@ public class Address implements Serializable {
 	@JsonIgnore
 	private Collection<Province> provinces;
 	
-	@OneToMany(mappedBy = "address", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@EqualsAndHashCode.Exclude
-	@ToString.Exclude
-	@JsonIgnore
-	private Collection<City> cities;
-	
-	@OneToMany(mappedBy = "address", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@EqualsAndHashCode.Exclude
-	@ToString.Exclude
-	@JsonIgnore
-	private Collection<Street> streets;
-	
 	@OneToOne(mappedBy = "address")
 	private Posting posting;
 	
