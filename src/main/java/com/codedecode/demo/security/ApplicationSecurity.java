@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.codedecode.demo.security.filter.JwtTokenFilter;
 import com.codedecode.demo.security.provider.JwtAuthenticationProvider;
@@ -33,19 +34,18 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter{
 		http.authorizeRequests()
 		.antMatchers("/candidate/**").permitAll()
 		.antMatchers("/home/**").permitAll()
-		.antMatchers("/cvFromPCForm/**").permitAll()
-		.antMatchers("/candidateOnlineCVForm/**").permitAll()
-		.antMatchers("/candidateRegister/**").permitAll()
-		.antMatchers("/language/**").permitAll()
-		.antMatchers("/posting/**").permitAll()
-		.antMatchers("/recruiter/**").permitAll()
-		.antMatchers("/recruiterOnlineCVForm/**").permitAll()
-		.antMatchers("/recruiterRegister/**").permitAll()
-		.antMatchers("/user/**").permitAll()
+		.antMatchers("/email/**").permitAll()
 		.anyRequest().authenticated()
         // setting stateless session, because we choose to implement Rest API
         .and().sessionManagement()
-        .sessionCreationPolicy(SessionCreationPolicy.STATELESS);;
+        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        .and()
+        .logout()
+        	.logoutUrl("/logout")
+        	.logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
+        	.clearAuthentication(true)
+        	.invalidateHttpSession(true)
+        	.deleteCookies("JSESSIONID", "refresh_token");
         
      // adding the custom filter before UsernamePasswordAuthenticationFilter in the filter chain
         http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
