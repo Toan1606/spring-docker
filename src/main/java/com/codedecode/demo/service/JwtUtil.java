@@ -2,10 +2,14 @@ package com.codedecode.demo.service;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.Arrays;
 import java.util.Date;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.codedecode.demo.entity.User;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -30,6 +34,20 @@ public class JwtUtil {
 	
 	private JwtUtil(String token) {
 		this.token = token;
+	}
+	
+	public static JwtUtil of(User user, String secretKey) {
+
+		Instant issueDate = Instant.now();
+		String token = Jwts.builder()
+				.setSubject(user.getEmail())
+				.setIssuer("JobEz")
+				.claim("roles", user.getRoles().toString())
+				.setIssuedAt(new Date())
+				.setExpiration(Date.from(issueDate.plus(EXPIRE_IN_MINUTE, ChronoUnit.MINUTES)))
+				.signWith(SignatureAlgorithm.HS512, secretKey)
+				.compact();
+		return new JwtUtil(token);
 	}
 	
 	public static JwtUtil of(String email, String secretKey) {
@@ -76,6 +94,13 @@ public class JwtUtil {
 
 	public static String getSubject(String token, String secretKey) {
 		return parseClaims(token, secretKey).getSubject();
+	}
+	
+	public static String[] getRoles(String token, String secretKey) {
+		Claims claims = parseClaims(token, secretKey);
+		String rawRole = String.valueOf(claims.get("roles"));
+		String []roles = rawRole.replace("[", "").replace("]", "").split(",");
+		return Arrays.stream(roles).map(role -> role.trim()).toArray(String[]::new);
 	}
 
 	private static Claims parseClaims(String token, String secretKey) {

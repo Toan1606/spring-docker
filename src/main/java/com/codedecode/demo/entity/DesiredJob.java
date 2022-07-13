@@ -66,7 +66,7 @@ public class DesiredJob implements Serializable {
 	@JoinColumn(name = "salary_id", referencedColumnName = "id")
 	private Salary salary;
 
-	@OneToOne(mappedBy = "role")
+	@OneToOne(mappedBy = "desiredJob")
 	private User user;
 
 	@OneToMany(mappedBy = "desiredJob", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
