@@ -10,7 +10,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,13 +37,7 @@ public class CandidateLoginController {
 	
 	@Autowired
     private AuthenticationManager authenticationManager;
-	
-	
-	@GetMapping
-	public String hello() {
-		return "Hello World!";
-	}
-	
+
 	/*
 	 * 
 	 *	@author: Nguyen The Toan
@@ -65,9 +58,9 @@ public class CandidateLoginController {
 		String email = loginRequestDTO.getEmail();
 		String password = loginRequestDTO.getPassword();
 		
-		
 		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(email, password);
 		authenticationManager.authenticate(token);
+		
 		String jwtAccessToken = JwtUtil.of(email, SecretKey.ACCESS_SECRET_KEY.getSecretKey()).getToken();
 		String jwtRefreshToken = JwtUtil.of(email, SecretKey.REFRESH_SECRET_KEY.getSecretKey()).getToken();
 		

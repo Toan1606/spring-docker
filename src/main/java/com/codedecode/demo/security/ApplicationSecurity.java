@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.codedecode.demo.security.filter.JwtTokenFilter;
 import com.codedecode.demo.security.provider.JwtAuthenticationProvider;
@@ -29,13 +30,19 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter{
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable();
-		
 		http.authorizeRequests()	
 		.antMatchers("/**").permitAll()
 		.anyRequest().authenticated()
         // setting stateless session, because we choose to implement Rest API
         .and().sessionManagement()
-        .sessionCreationPolicy(SessionCreationPolicy.STATELESS);;
+        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        .and()
+        .logout()
+        	.logoutUrl("/logout")
+        	.logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
+        	.clearAuthentication(true)
+        	.invalidateHttpSession(true)
+        	.deleteCookies("JSESSIONID", "refresh_token");
         
      // adding the custom filter before UsernamePasswordAuthenticationFilter in the filter chain
         http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
