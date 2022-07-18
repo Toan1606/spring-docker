@@ -35,6 +35,7 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter{
 		.antMatchers("/candidate/**").permitAll()
 		.antMatchers("/home/**").permitAll()
 		.antMatchers("/email/**").permitAll()
+		.antMatchers("/posting/**").permitAll()
 		.anyRequest().authenticated()
         // setting stateless session, because we choose to implement Rest API
         .and().sessionManagement()

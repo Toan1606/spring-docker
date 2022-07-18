@@ -21,6 +21,6 @@ public class EmailController {
 	public ResponseEntity<String> forgotPassword(@RequestBody EmailRequest email) {
 		System.out.println(email);
 		emailServiceImpl.sendSimpleEmail(email.getEmail());
-		return ResponseEntity.ok().body("Email send success");
+		return ResponseEntity.ok().body("Reset Password");
 	}
 }

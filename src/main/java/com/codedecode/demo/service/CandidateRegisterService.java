@@ -2,6 +2,8 @@ package com.codedecode.demo.service;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,7 @@ import com.codedecode.demo.repository.WorkingFormRepository;
 import com.codedecode.demo.repository.YearOfExperienceRepository;
 
 @Service
+@Transactional
 public class CandidateRegisterService {
 	
 	@Autowired

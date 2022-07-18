@@ -16,6 +16,9 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
+import org.springframework.stereotype.Indexed;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
@@ -31,11 +34,12 @@ import lombok.ToString;
 @Setter
 @ToString
 @Data
-@Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
 @Builder
+@Indexed
+@Entity
 @Table(name = "Posting")
 public class Posting implements Serializable {
 
@@ -48,11 +52,16 @@ public class Posting implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
+
 	@Column(name = "job_name")
+	@FullTextField()
 	private String jobName;
 
+
 	@Column(name = "position")
+	@FullTextField()
 	private String position;
+
 
 	@Column(name = "degree_required")
 	private String degreeRequired;
@@ -60,11 +69,12 @@ public class Posting implements Serializable {
 	@Column(name = "quantity_needed")
 	private String quantityNeeded;
 
-	@Column(name = "descriptions", length = 3000)
 
+	@Column(name = "descriptions", length = 3000)
+	@FullTextField()
 	private String description;
 
-	@Column(name = "benefits", columnDefinition = "", length = 3000)
+
 	private String benefits;
 
 	@Column(name = "profile_included", length = 1000)
@@ -86,6 +96,7 @@ public class Posting implements Serializable {
 	private String genderRequirement;
 
 	@Column(name = "job_requirement", length = 4000)
+	@FullTextField()
 	private String jobRequirement;
 
 	@Column(name = "deadline_for_submission")
