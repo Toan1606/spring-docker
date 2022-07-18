@@ -16,11 +16,11 @@ public class CodeDecodeCrudApplication {
 		SpringApplication.run(CodeDecodeCrudApplication.class, args);
 	}
 	
-//	@Bean
-//	public ApplicationRunner buildIndex(Indexer indexer) {
-//		return (ApplicationArguments args) -> {
-//			indexer.indexPersistedData("com.codedecode.demo.entity.Posting");
-//		};
-//	}
+	@Bean
+	public ApplicationRunner buildIndex(Indexer indexer) {
+		return (ApplicationArguments args) -> {
+			indexer.indexPersistedData("com.codedecode.demo.entity.Posting");
+		};
+	}
 
 }
