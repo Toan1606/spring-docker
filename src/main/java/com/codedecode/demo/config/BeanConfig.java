@@ -5,14 +5,18 @@ import java.util.Properties;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.codedecode.demo.repository.impl.SearchRepositoryImpl;
+
 
 @Configuration
+@EnableJpaRepositories(basePackages = {"com.codedecode.demo.repository"}, repositoryBaseClass = SearchRepositoryImpl.class)
 public class BeanConfig {
 	
 	@Value("${spring.mail.host}")

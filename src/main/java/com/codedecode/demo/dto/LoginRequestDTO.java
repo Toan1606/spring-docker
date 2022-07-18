@@ -9,11 +9,11 @@ import lombok.Setter;
 @Setter
 public class LoginRequestDTO {
 
-private Long id;
-	
+	private Long id;
+
 	@JsonProperty("email")
 	private String email;
-	
+
 	@JsonProperty("password")
 	private String password;
 }
