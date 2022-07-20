@@ -24,11 +24,12 @@ public class PostingService {
 	private HomeAddressRepository addressRepository;
 
 	public Iterable<Posting> getAttractiveJob() {
-		return postingRepository.findAll();
+		System.out.println("findPosting function");
+		return postingRepository.findPosting();
 	}
 
 	public Iterable<Posting> getUrgentJob() {
-		return postingRepository.findAll();
+		return postingRepository.findPosting();
 	}
 
 	public List<Address> getJobByProvice() {

@@ -32,12 +32,10 @@ public class HomePageController {
 				.collect(Collectors.toList());
 		List<Posting> urgentJob = StreamSupport.stream(postingService.getUrgentJob().spliterator(), false)
 				.collect(Collectors.toList());
-//		List<Address> jobByProvince = postingService.getJobByProvice();
 
 		PostingHomePage postingHomePage = PostingHomePage.builder().attractiveJob(attractiveJob)
 				.urgentRecruitment(urgentJob).build();
 		
-//		System.err.println("hello " +jobByProvince);
 		return new ResponseEntity<PostingHomePage>(postingHomePage, HttpStatus.OK);
 	}
 

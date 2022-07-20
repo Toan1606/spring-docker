@@ -37,16 +37,14 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter{
 		.antMatchers("/email/**").permitAll()
 		.antMatchers("/posting/**").permitAll()
 		.anyRequest().authenticated()
-        // setting stateless session, because we choose to implement Rest API
         .and().sessionManagement()
         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         .and()
         .logout()
-        	.logoutUrl("/logout")
-        	.logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
         	.clearAuthentication(true)
         	.invalidateHttpSession(true)
-        	.deleteCookies("JSESSIONID", "refresh_token");
+        	.deleteCookies("JSESSIONID", "refresh_token")
+        	.permitAll();
         
      // adding the custom filter before UsernamePasswordAuthenticationFilter in the filter chain
         http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);

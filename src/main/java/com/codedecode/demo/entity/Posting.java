@@ -74,7 +74,7 @@ public class Posting implements Serializable {
 	@FullTextField()
 	private String description;
 
-
+	@Column(name = "benefits", length = 3000)
 	private String benefits;
 
 	@Column(name = "profile_included", length = 1000)
