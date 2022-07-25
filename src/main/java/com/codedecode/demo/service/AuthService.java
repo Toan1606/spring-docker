@@ -61,7 +61,7 @@ public class AuthService {
 		
 		String encodePassword = passwordEncoder.encode(password);
 		return userRepository.save(User.builder()
-				.name(fullName)
+				.name(fullName) 
 				.email(email)
 				.password(encodePassword)
 				.phone(phoneNumber)
