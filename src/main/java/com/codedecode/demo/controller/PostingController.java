@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.codedecode.demo.dto.PageDTO;
+import com.codedecode.demo.dto.PageableSearchRequestDTO;
 import com.codedecode.demo.entity.Posting;
 import com.codedecode.demo.service.PostingService;
 import com.codedecode.demo.utils.Message;
@@ -52,4 +54,10 @@ public class PostingController {
 		postingService.deletePostingById(id);
 		return ResponseEntity.ok(id);
 	}
+	
+	@GetMapping("/search/page")
+    public PageDTO<Posting> searchPlantPage(PageableSearchRequestDTO pageableSearchRequestDTO) {
+
+        return postingService.searchPostingPage(pageableSearchRequestDTO.getText(), pageableSearchRequestDTO.getFields(), pageableSearchRequestDTO.getLimit(), pageableSearchRequestDTO.getPageOffset());
+    }
 }

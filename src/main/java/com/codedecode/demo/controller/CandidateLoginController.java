@@ -10,16 +10,20 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.codedecode.demo.dto.AddressRequestDTO;
 import com.codedecode.demo.dto.LoginRequestDTO;
 import com.codedecode.demo.dto.LoginResponseDTO;
 import com.codedecode.demo.dto.LogoutResponseDTO;
 import com.codedecode.demo.dto.RegisterRequestDTO;
+import com.codedecode.demo.entity.Address;
 import com.codedecode.demo.entity.User;
+import com.codedecode.demo.service.AddressService;
 import com.codedecode.demo.service.AuthService;
 import com.codedecode.demo.service.JwtUtil;
 import com.codedecode.demo.utils.CookieUtils;
@@ -37,7 +41,19 @@ public class CandidateLoginController {
 	
 	@Autowired
     private AuthenticationManager authenticationManager;
+	
+	@Autowired
+	private AddressService addressService;
 
+	@GetMapping
+	public ResponseEntity<Address> getAddressByProvinceAndCity(@RequestBody AddressRequestDTO addressRequestDTO) {
+		String provinceName = addressRequestDTO.getProvinceName();
+		String cityName = addressRequestDTO.getCityName();
+		
+		Address address = addressService.findAddressByProvinceAndCity(provinceName, cityName);
+		return ResponseEntity.ok().body(address);
+	}
+	
 	/*
 	 * 
 	 *	@author: Nguyen The Toan
@@ -106,4 +122,6 @@ public class CandidateLoginController {
 		
 		return ResponseEntity.status(HttpStatus.OK).body(LogoutResponseDTO.builder().message(ResponseMessage.LOGOUT_SUCCESS.getMessage()).build());
 	}
+	
+	
 }
