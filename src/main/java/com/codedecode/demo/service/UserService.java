@@ -24,4 +24,7 @@ public class UserService {
 	public void updateCandidateOnlineCVForm() {
 		userRepository.flush();
 	}
+	public void updateCandidatePassword(User user) {
+		userRepository.flush();
+	}
 }

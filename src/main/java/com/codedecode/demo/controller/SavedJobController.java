@@ -36,7 +36,12 @@ public class SavedJobController {
 	}
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<?> deleteSavedJob(@PathVariable Long id){
-		savedJobService.deleteSavedJob(id);
-		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+		SavedJob savejob = savedJobService.getSavedJobById(id);
+		if(savejob == null) {
+			return new ResponseEntity<HttpStatus>(HttpStatus.BAD_REQUEST);
+		}else {
+			savedJobService.deleteSavedJob(id);
+			return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+		}
 	}
 }

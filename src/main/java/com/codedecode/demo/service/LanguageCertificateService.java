@@ -12,7 +12,7 @@ import com.codedecode.demo.repository.LanguageCertificateRepository;
 
 @Service
 @Transactional
-public class LanguageService{
+public class LanguageCertificateService{
 	@Autowired
 	private LanguageCertificateRepository languageCertificateRepository;
 	/*
@@ -20,23 +20,23 @@ public class LanguageService{
 	 *	@author: Nguyễn Văn Tuấn 
 	 * 
 	 */
-	public List<Language> findAllByUserID(Long userId){
-		return languageCertificateRepository.findAllByUserID(userId);
+	public List<Language> findAllLanguageCertificatesByUserId(Long userId){
+		return languageCertificateRepository.findAllLanguageCertificatesByUserId(userId);
 	}
 	/*
 	 * 
 	 *	@author: Nguyễn Văn Tuấn 
 	 * 
 	 */
-	public void deleteLanguage(Long languageId) {
-		languageCertificateRepository.deleteLanguageById(languageId);
+	public void deleteLanguageCertificate(Long languageId) {
+		languageCertificateRepository.deleteLanguageCertificateById(languageId);
 	}
 	/*
 	 * 
 	 *	@author: Nguyễn Văn Tuấn 
 	 * 
 	 */
-	public void updateLanguage(Language language) {
+	public void updateLanguageCertificate(Language language) {
 		languageCertificateRepository.flush();
 	}
 	/*
@@ -44,8 +44,8 @@ public class LanguageService{
 	 *	@author: Nguyễn Văn Tuấn 
 	 * 
 	 */
-	public Language findLanguageByLanguageId(Long languageId) {
-		return languageCertificateRepository.findLanguageByLanguageId(languageId);
+	public Language findLanguageCertificateById(Long languageId) {
+		return languageCertificateRepository.findLanguageCertificateById(languageId);
 	}
 	/*
 	 * 

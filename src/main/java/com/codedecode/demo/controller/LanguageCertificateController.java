@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codedecode.demo.entity.Language;
 import com.codedecode.demo.entity.User;
-import com.codedecode.demo.service.LanguageService;
+import com.codedecode.demo.service.LanguageCertificateService;
 import com.codedecode.demo.service.UserService;
 
 @CrossOrigin(origins = "http://localhost:8081")
@@ -27,7 +27,7 @@ import com.codedecode.demo.service.UserService;
 public class LanguageCertificateController {
 
 	@Autowired
-	private LanguageService languageService;
+	private LanguageCertificateService languageService;
 
 	@Autowired
 	private UserService userService;
@@ -40,7 +40,7 @@ public class LanguageCertificateController {
 
 	@GetMapping("/{userId}")
 	public ResponseEntity<?> showAllLanguageCertitficates(@PathVariable Long userId) {
-		List<Language> list = languageService.findAllByUserID(userId);
+		List<Language> list = languageService.findAllLanguageCertificatesByUserId(userId);
 		if(list == null || list.size() == 0) {
 			return new ResponseEntity<HttpStatus>(HttpStatus.NO_CONTENT);
 
@@ -50,8 +50,8 @@ public class LanguageCertificateController {
 	}
 
 	@GetMapping("/editlanguage/{id}")
-	public ResponseEntity<?> getLanguageById(@PathVariable Long id){
-		Language language = languageService.findLanguageByLanguageId(id);
+	public ResponseEntity<?> getLanguageCertificateById(@PathVariable Long id){
+		Language language = languageService.findLanguageCertificateById(id);
 		if(language != null) {
 			return new ResponseEntity<Language>(language, HttpStatus.OK);
 		}else {
@@ -68,7 +68,7 @@ public class LanguageCertificateController {
 	public ResponseEntity<?> addLanguageCertificate(@RequestBody Language language){
 		User user = userService.findUserById(1);
 //		Language l = new Language(2L, "Tieng Anh", "Toeic", 700, user);
-		Language l = languageService.findLanguageByLanguageId(language.getId());
+		Language l = languageService.findLanguageCertificateById(language.getId());
 		if(l == null) {
 			language.setUser(user);
 			languageService.addLanguage(language);
@@ -84,10 +84,14 @@ public class LanguageCertificateController {
 	 * 
 	 */
 	@DeleteMapping("/delete/{languageId}")
-	public ResponseEntity<?> deleteLanguage(@PathVariable("languageId") Long languageId){
-//		Language language = languageService.findLanguageByLanguageId(languageId);
-		languageService.deleteLanguage(languageId);
-		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+	public ResponseEntity<?> deleteLanguageCertificate(@PathVariable("languageId") Long languageId){
+		Language language = languageService.findLanguageCertificateById(languageId);
+		if(language == null) {
+			return new ResponseEntity<HttpStatus>(HttpStatus.NOT_FOUND);
+		}else {
+			languageService.deleteLanguageCertificate(languageId);
+			return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+		}
 	}
 	/*
 	 * 
@@ -95,14 +99,14 @@ public class LanguageCertificateController {
 	 * 
 	 */
 	@PostMapping("/update/{id}")
-	public ResponseEntity<?> updateLanguageById(@PathVariable("id") Long id,  @RequestBody Language language){
+	public ResponseEntity<?> updateLanguageCertificateById(@PathVariable("id") Long id,  @RequestBody Language language){
 //		System.out.println(language.toString());
-		Language l = languageService.findLanguageByLanguageId(id);
+		Language l = languageService.findLanguageCertificateById(id);
 		if(l != null) {
 			l.setCertificateName(language.getCertificateName());
 			l.setGrade(language.getGrade());
 			l.setName(language.getName());
-			languageService.updateLanguage(l);
+			languageService.updateLanguageCertificate(l);
 			return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 		}else {
 			return new ResponseEntity<HttpStatus>(HttpStatus.NOT_FOUND);

@@ -1,7 +1,5 @@
 package com.codedecode.demo.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,34 +11,31 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.codedecode.demo.entity.AppliedJob;
-import com.codedecode.demo.service.AppliedJobService;
+import com.codedecode.demo.entity.User;
+import com.codedecode.demo.service.ReferencePersonService;
+import com.codedecode.demo.service.UserService;
 
 @CrossOrigin(origins = "http://localhost:8081")
 @RestController
-@RequestMapping("/appliedjob")
+@RequestMapping("/refperson")
 @Transactional
-public class AppliedJobController {
 
+public class ReferencePersonController {
 	@Autowired
-	private AppliedJobService appliedJobService;
-
-	@GetMapping("/{userId}")
-	public ResponseEntity<?> showAppliedJobsPage(@PathVariable Long userId) {
-		List<AppliedJob> listAppliedJob = appliedJobService.getAllAppliedJobs(userId);
-		if (listAppliedJob.size() == 0) {
-			return new ResponseEntity<HttpStatus>(HttpStatus.NOT_FOUND);
-		}
-		return new ResponseEntity<List<AppliedJob>>(listAppliedJob, HttpStatus.OK);
+	private ReferencePersonService referencePersonService;
+	
+	@GetMapping("/{userid}")
+	public ResponseEntity<?> showReferencePerson(@PathVariable Long id){
+		User user = referencePersonService.findReferencePersonById(id);
+		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
-
 	@DeleteMapping("/delete/{id}")
-	public ResponseEntity<?> deleteAppliedJob(@PathVariable Long id) {
-		AppliedJob a = appliedJobService.getAppliedJobById(id);
-		if (a == null) {
+	public ResponseEntity<?> deleteReferencePerson(@PathVariable Long id){
+		User user = referencePersonService.findReferencePersonById(id);
+		if(user == null) {
 			return new ResponseEntity<HttpStatus>(HttpStatus.NOT_FOUND);
-		} else {
-			appliedJobService.deleteAppliedJob(id);
+		}else {
+			referencePersonService.deleteReferencePersonById(id);
 			return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 		}
 	}

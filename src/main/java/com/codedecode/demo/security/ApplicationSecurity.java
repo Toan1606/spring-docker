@@ -31,17 +31,7 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter{
 		http.csrf().disable();
 		
 		http.authorizeRequests()
-		.antMatchers("/candidate/**").permitAll()
-		.antMatchers("/home/**").permitAll()
-		.antMatchers("/cvFromPCForm/**").permitAll()
-		.antMatchers("/candidateOnlineCVForm/**").permitAll()
-		.antMatchers("/candidateRegister/**").permitAll()
-		.antMatchers("/language/**").permitAll()
-		.antMatchers("/posting/**").permitAll()
-		.antMatchers("/recruiter/**").permitAll()
-		.antMatchers("/recruiterOnlineCVForm/**").permitAll()
-		.antMatchers("/recruiterRegister/**").permitAll()
-		.antMatchers("/user/**").permitAll()
+		.antMatchers("/**").permitAll()
 		.anyRequest().authenticated()
         // setting stateless session, because we choose to implement Rest API
         .and().sessionManagement()
