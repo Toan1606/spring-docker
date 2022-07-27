@@ -1,14 +1,13 @@
 package com.codedecode.demo.exception;
 
-
-public class ProvinceNotFound extends RuntimeException {
+public class StreetNotFound extends RuntimeException {
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	public ProvinceNotFound(String errorMessage) {
+	public StreetNotFound(String errorMessage) {
 		super(errorMessage);
 	}
 }

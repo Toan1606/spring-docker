@@ -1,7 +1,6 @@
 package com.codedecode.demo.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,8 +9,11 @@ import org.springframework.transaction.annotation.Transactional;
 import com.codedecode.demo.dto.PageDTO;
 import com.codedecode.demo.entity.Address;
 import com.codedecode.demo.entity.Posting;
+import com.codedecode.demo.exception.PostingNotFound;
 import com.codedecode.demo.repository.HomeAddressRepository;
+import com.codedecode.demo.repository.PostingDefaultRepository;
 import com.codedecode.demo.repository.PostingRepository;
+import com.codedecode.demo.utils.ExceptionMessage;
 
 @Service
 @Transactional
@@ -24,11 +26,12 @@ public class PostingService {
 	private HomeAddressRepository addressRepository;
 
 	public Iterable<Posting> getAttractiveJob() {
-		return postingRepository.findAll();
+		System.out.println("findPosting function");
+		return postingRepository.findPosting();
 	}
 
 	public Iterable<Posting> getUrgentJob() {
-		return postingRepository.findAll();
+		return postingRepository.findPosting();
 	}
 
 	public List<Address> getJobByProvice() {
@@ -41,12 +44,7 @@ public class PostingService {
 	}
 
 	public Posting findPostingById(Long id) {
-		Optional<Posting> optionalPosting = postingRepository.findById(id);
-		Posting posting = optionalPosting.isPresent() ? optionalPosting.get() : null;
-
-		if (posting == null)
-			return null;
-
+		Posting posting = postingRepository.findById(id).orElseThrow(() -> new PostingNotFound(ExceptionMessage.POSTING_NOT_FOUND.getErrorMessage()));
 		return posting;
 	}
 

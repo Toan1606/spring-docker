@@ -7,7 +7,7 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class PageableSearchRequestDTO extends PostingSearchRequestDTO {
+public class PageableSearchRequestDTO extends PostingSearchAllFieldsRequestDTO {
 	
 	@Min(0)
 	private int pageOffset;

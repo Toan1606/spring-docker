@@ -25,10 +25,10 @@ public class RegisterRequestDTO {
 	@JsonProperty("phone_number")
 	private String phoneNumber;
 	
-	@JsonProperty("province")
-	private String province;
+	@JsonProperty("province_id")
+	private Long provinceId;
 	
-	@JsonProperty("city")
-	private String city;
+	@JsonProperty("city_id")
+	private Long cityId;
 	
 }

@@ -48,8 +48,8 @@ public class AuthService {
 		String email = registerRequestDTO.getEmail();
 		String password = registerRequestDTO.getPassword();
 		String confirmPassword = registerRequestDTO.getConfirmPassword();
-		String provinceName = registerRequestDTO.getProvince();
-		String cityName = registerRequestDTO.getCity();
+		Long provinceId = registerRequestDTO.getProvinceId();
+		Long cityId = registerRequestDTO.getCityId();
 		String phoneNumber = registerRequestDTO.getPhoneNumber();
 		
 //		if (!Objects.equals(password, confirmPassword)) {
@@ -57,7 +57,7 @@ public class AuthService {
 //		}
 //		Address address = addressService.findAddressByProvinceAndCity(provinceName, cityName);
 		
-		Address address = Address.builder().build();
+		Address address = addressService.findAddressByProvinceAndCity(provinceId, cityId);
 		
 		String encodePassword = passwordEncoder.encode(password);
 		return userRepository.save(User.builder()
@@ -89,7 +89,7 @@ public class AuthService {
 		String userIdCharacter = payload.split(",")[0];
 		Long userId = Long.parseLong(Character.toString(userIdCharacter.charAt(userIdCharacter.length() - 1)));
 		
-		User user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+		User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(ExceptionMessage.USER_NOT_FOUND.getErrorMessage()));
 		
 		return user;
 	}
