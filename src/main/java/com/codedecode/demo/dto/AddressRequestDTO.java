@@ -14,9 +14,9 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 public class AddressRequestDTO {
-	@JsonProperty("province_name")
-	private String provinceName;
+	@JsonProperty("province_id")
+	private Long provinceId;
 
-	@JsonProperty("city_name")
-	private String cityName;
+	@JsonProperty("city_id")
+	private Long cityId;
 }

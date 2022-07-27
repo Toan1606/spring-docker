@@ -10,12 +10,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
+ 
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
 
@@ -52,23 +54,19 @@ public class Posting implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-
 	@Column(name = "job_name")
 	@FullTextField()
 	private String jobName;
 
-
 	@Column(name = "position")
 	@FullTextField()
 	private String position;
-
 
 	@Column(name = "degree_required")
 	private String degreeRequired;
 
 	@Column(name = "quantity_needed")
 	private String quantityNeeded;
-
 
 	@Column(name = "descriptions", length = 3000)
 	@FullTextField()
@@ -93,6 +91,7 @@ public class Posting implements Serializable {
 	private Integer quantity;
 
 	@Column(name = "gender_requirement")
+	@FullTextField()
 	private String genderRequirement;
 
 	@Column(name = "job_requirement", length = 4000)
@@ -127,17 +126,24 @@ public class Posting implements Serializable {
 	@JsonIgnore
 	private Address address;
 
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "posting", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
 	@JsonIgnore
 	private Collection<SavedJob> savedJob;
 
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "posting", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
 	@JsonIgnore
 	private Collection<AppliedJob> appliedJob;
+	
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "user_id", referencedColumnName = "id")
+	@EqualsAndHashCode.Exclude
+	@ToString.Exclude
+	@NotNull
+	private User user;
 
 	@NotBlank
 	@Column(name = "recruiter_name")

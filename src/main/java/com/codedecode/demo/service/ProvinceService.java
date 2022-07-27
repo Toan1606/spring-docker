@@ -1,5 +1,7 @@
 package com.codedecode.demo.service;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +19,16 @@ public class ProvinceService {
 	@Autowired
 	private ProvinceRepository provinceRepository;
 
+	public Province findProvinceById(Long id) {
+		return provinceRepository.findById(id).orElseThrow(() -> new ProvinceNotFound(ExceptionMessage.PROVINCE_NOT_FOUND.getErrorMessage()));
+	}
+	
 	public Province findProvinceByName(String provinceName) {
-		Province province = provinceRepository.findByName(provinceName).orElseThrow(() -> new ProvinceNotFound(ExceptionMessage.PROVINCE_NOT_FOUND.getErrorMessage(), null));
+		Province province = provinceRepository.findByName(provinceName).orElseThrow(() -> new ProvinceNotFound(ExceptionMessage.PROVINCE_NOT_FOUND.getErrorMessage()));
 		return province;
+	}
+	
+	public List<Province> findAllProvince() {
+		return provinceRepository.findAll();
 	}
 }
