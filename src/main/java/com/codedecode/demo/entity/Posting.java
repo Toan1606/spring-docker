@@ -143,6 +143,7 @@ public class Posting implements Serializable {
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
 	@NotNull
+	@JsonIgnore
 	private User user;
 
 	@NotBlank

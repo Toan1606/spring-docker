@@ -15,7 +15,6 @@ import com.codedecode.demo.dto.PageDTO;
 import com.codedecode.demo.dto.PageableSearchRequestDTO;
 import com.codedecode.demo.entity.Posting;
 import com.codedecode.demo.service.PostingService;
-import com.codedecode.demo.utils.Message;
 
 
 @RestController
@@ -39,14 +38,10 @@ public class PostingController {
 		return new ResponseEntity<Posting>(returnPosting, HttpStatus.CREATED);
 	}
 
-	@GetMapping("/{id}")
+	@PostMapping("/{id}")
 	public ResponseEntity<?> findPostingById(@PathVariable Long id) {
 		Posting posting = postingService.findPostingById(id);
-
-		if (posting == null)
-			return new ResponseEntity<String>(Message.POSTING_NOT_EXIST, HttpStatus.OK);
-
-		return new ResponseEntity<Posting>(posting, HttpStatus.CREATED);
+		return new ResponseEntity<Posting>(posting, HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/delete/{id}")
