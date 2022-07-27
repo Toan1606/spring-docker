@@ -10,8 +10,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.codedecode.demo.dto.PageDTO;
 import com.codedecode.demo.entity.Address;
 import com.codedecode.demo.entity.Posting;
+import com.codedecode.demo.exception.PostingNotFound;
 import com.codedecode.demo.repository.HomeAddressRepository;
 import com.codedecode.demo.repository.PostingRepository;
+import com.codedecode.demo.utils.ExceptionMessage;
 
 @Service
 @Transactional
@@ -42,12 +44,7 @@ public class PostingService {
 	}
 
 	public Posting findPostingById(Long id) {
-		Optional<Posting> optionalPosting = postingRepository.findById(id);
-		Posting posting = optionalPosting.isPresent() ? optionalPosting.get() : null;
-
-		if (posting == null)
-			return null;
-
+		Posting posting = postingRepository.findById(id).orElseThrow(() -> new PostingNotFound(ExceptionMessage.POSTING_NOT_FOUND.getErrorMessage()));
 		return posting;
 	}
 
