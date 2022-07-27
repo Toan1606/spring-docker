@@ -134,6 +134,12 @@ public class User implements Serializable {
 	@ToString.Exclude
 	@JsonIgnore
 	private Collection<Degree> degrees;
+	
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@EqualsAndHashCode.Exclude
+	@ToString.Exclude
+	@JsonIgnore
+	private Collection<Posting> postings;
 
 	@Column(name = "gender")
 	private String gender;

@@ -15,6 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
@@ -46,7 +47,7 @@ public class City implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@Column(name = "name")
+	@Column(name = "name", unique = true, length = 100)
 	private String name;
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

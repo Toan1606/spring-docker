@@ -47,10 +47,10 @@ public class CandidateLoginController {
 
 	@GetMapping
 	public ResponseEntity<Address> getAddressByProvinceAndCity(@RequestBody AddressRequestDTO addressRequestDTO) {
-		String provinceName = addressRequestDTO.getProvinceName();
-		String cityName = addressRequestDTO.getCityName();
+		Long provinceId = addressRequestDTO.getProvinceId();
+		Long cityId = addressRequestDTO.getCityId();
 		
-		Address address = addressService.findAddressByProvinceAndCity(provinceName, cityName);
+		Address address = addressService.findAddressByProvinceAndCity(provinceId, cityId);
 		return ResponseEntity.ok().body(address);
 	}
 	
