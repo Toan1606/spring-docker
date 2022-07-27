@@ -16,7 +16,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -195,12 +194,4 @@ public class User implements Serializable {
 	@ToString.Exclude
 	@JsonIgnore
 	private Collection<AppliedJob> appliedJob;
-
-	@ManyToOne(cascade = { CascadeType.ALL })
-	@JoinColumn(name = "manager_id")
-	private User manager;
-
-	@OneToMany(mappedBy = "manager")
-	private Collection<User> candidate;
-
 }
