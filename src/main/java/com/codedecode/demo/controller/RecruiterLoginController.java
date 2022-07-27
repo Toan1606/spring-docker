@@ -17,6 +17,7 @@ import com.codedecode.demo.dto.LoginResponseDTO;
 import com.codedecode.demo.dto.RegisterRequestDTO;
 import com.codedecode.demo.entity.User;
 import com.codedecode.demo.service.AuthService;
+import com.codedecode.demo.service.UserService;
 
 @RestController
 @RequestMapping("/recruiter")
@@ -25,6 +26,9 @@ public class RecruiterLoginController {
 	
 	@Autowired
 	private AuthService authService;
+	
+	@Autowired
+	private UserService userService;
 	
 	/*
 	 * 
@@ -41,18 +45,20 @@ public class RecruiterLoginController {
 	 *	@author: Nguyen The Toan
 	 * 
 	 */
-	@PostMapping(value = "/login")
-	public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO loginRequest, HttpServletResponse response) {
-		LoginResponseDTO loginResponse = authService.checkLogin(loginRequest);
-		Cookie cookie = new Cookie("refresh_token", loginResponse.getAccessToken().getToken());
-		cookie.setMaxAge(3600);
-		cookie.setHttpOnly(true);
-//		cookie.setPath("/login");
-		response.addCookie(cookie);
-		
-		response.setHeader("Authorization", loginResponse.getAccessToken().getToken());
-		return ResponseEntity.status(HttpStatus.OK).body(loginResponse);
-	}
+//	@PostMapping(value = "/login")
+//	public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO loginRequest, HttpServletResponse response) {
+////		LoginResponseDTO loginResponse = authService.checkLogin(loginRequest);
+//		String email = loginRequest.getEmail();
+//		User loginUser = userService.getUserByEmail(email);
+//		Cookie cookie = new Cookie("refresh_token", loginResponse.getAccessToken().getToken());
+//		cookie.setMaxAge(3600);
+//		cookie.setHttpOnly(true);
+////		cookie.setPath("/login");
+//		response.addCookie(cookie);
+//		
+//		response.setHeader("Authorization", loginResponse.getAccessToken().getToken());
+//		return ResponseEntity.status(HttpStatus.OK).body(loginResponse);
+//	}
 	
 //	@PostMapping(value = "/decode")
 //	public ResponseEntity<Token> decodeToken(@RequestBody TokenResponse token) {

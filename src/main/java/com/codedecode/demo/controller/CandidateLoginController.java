@@ -26,6 +26,7 @@ import com.codedecode.demo.entity.User;
 import com.codedecode.demo.service.AddressService;
 import com.codedecode.demo.service.AuthService;
 import com.codedecode.demo.service.JwtUtil;
+import com.codedecode.demo.service.UserService;
 import com.codedecode.demo.utils.CookieUtils;
 import com.codedecode.demo.utils.ResponseMessage;
 import com.codedecode.demo.utils.SecretKey;
@@ -44,6 +45,9 @@ public class CandidateLoginController {
 	
 	@Autowired
 	private AddressService addressService;
+	
+	@Autowired
+	private UserService userService;
 
 	@GetMapping
 	public ResponseEntity<Address> getAddressByProvinceAndCity(@RequestBody AddressRequestDTO addressRequestDTO) {
@@ -77,6 +81,8 @@ public class CandidateLoginController {
 		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(email, password);
 		authenticationManager.authenticate(token);
 		
+		User loginUser = userService.getUserByEmail(email);
+		
 		String jwtAccessToken = JwtUtil.of(email, SecretKey.ACCESS_SECRET_KEY.getSecretKey()).getToken();
 		String jwtRefreshToken = JwtUtil.of(email, SecretKey.REFRESH_SECRET_KEY.getSecretKey()).getToken();
 		
@@ -90,6 +96,7 @@ public class CandidateLoginController {
 		return ResponseEntity.status(HttpStatus.OK).body(LoginResponseDTO.builder()
 				.accessToken(JwtUtil.of(jwtAccessToken))
 				.refreshToken(JwtUtil.of(jwtRefreshToken))
+				.user(loginUser)
 				.build()
 				);
 	}
