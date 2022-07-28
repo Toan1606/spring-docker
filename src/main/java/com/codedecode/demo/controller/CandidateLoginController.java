@@ -122,6 +122,4 @@ public class CandidateLoginController {
 		
 		return ResponseEntity.status(HttpStatus.OK).body(LogoutResponseDTO.builder().message(ResponseMessage.LOGOUT_SUCCESS.getMessage()).build());
 	}
-	
-	
 }
