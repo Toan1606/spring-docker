@@ -7,11 +7,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.codedecode.demo.dto.PageDTO;
+import com.codedecode.demo.dto.PostingResponseDTO;
 import com.codedecode.demo.entity.Address;
 import com.codedecode.demo.entity.Posting;
 import com.codedecode.demo.exception.PostingNotFound;
 import com.codedecode.demo.repository.HomeAddressRepository;
-import com.codedecode.demo.repository.PostingDefaultRepository;
+import com.codedecode.demo.repository.PostingProjectionRepository;
 import com.codedecode.demo.repository.PostingRepository;
 import com.codedecode.demo.utils.ExceptionMessage;
 
@@ -25,6 +26,9 @@ public class PostingService {
 	@Autowired
 	private HomeAddressRepository addressRepository;
 
+	@Autowired
+	private PostingProjectionRepository postingProjectionRepository;
+	
 	public Iterable<Posting> getAttractiveJob() {
 		System.out.println("findPosting function");
 		return postingRepository.findPosting();
@@ -43,8 +47,12 @@ public class PostingService {
 		return returnPosting;
 	}
 
-	public Posting findPostingById(Long id) {
-		Posting posting = postingRepository.findById(id).orElseThrow(() -> new PostingNotFound(ExceptionMessage.POSTING_NOT_FOUND.getErrorMessage()));
+	public PostingResponseDTO findPostingByUserIdAndPostingId(Long userId, Long postingId) {
+		PostingResponseDTO posting = postingProjectionRepository.findPostingByUserIdAndPostingId(userId, postingId);
+		System.out.println("posting : " + posting);
+		if (posting == null) {
+			throw new PostingNotFound(ExceptionMessage.POSTING_NOT_FOUND.getErrorMessage());
+		}
 		return posting;
 	}
 
