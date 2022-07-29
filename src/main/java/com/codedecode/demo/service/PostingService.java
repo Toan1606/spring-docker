@@ -31,11 +31,11 @@ public class PostingService {
 	
 	public Iterable<Posting> getAttractiveJob() {
 		System.out.println("findPosting function");
-		return postingRepository.findPosting();
+		return postingRepository.findAll();
 	}
 
 	public Iterable<Posting> getUrgentJob() {
-		return postingRepository.findPosting();
+		return postingRepository.findAll();
 	}
 
 	public List<Address> getJobByProvice() {
@@ -62,5 +62,5 @@ public class PostingService {
 	public PageDTO<Posting> searchPostingPage(String text, List<String> fields, int limit, int pageOffset) {
 		return postingRepository.searchPageBy(text, limit, pageOffset, fields.toArray(new String[0]));
 	}
-
+	
 }

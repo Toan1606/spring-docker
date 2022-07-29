@@ -51,19 +51,21 @@ public class AuthService {
 		Long provinceId = registerRequestDTO.getProvinceId();
 		Long cityId = registerRequestDTO.getCityId();
 		String phoneNumber = registerRequestDTO.getPhoneNumber();
-		if (!Objects.equals(password, confirmPassword)) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ExceptionMessage.PASSWORD_DON_NOT_MATCH.getErrorMessage());
-		}
 		
-		Address address = addressService.findAddressByProvinceAndCity(provinceId, cityId);
+//		if (!Objects.equals(password, confirmPassword)) {
+//			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ExceptionMessage.PASSWORD_DON_NOT_MATCH.getErrorMessage());
+//		}
+//		Address address = addressService.findAddressByProvinceAndCity(provinceName, cityName);
+		
+//		Address address = addressService.findAddressByProvinceAndCity(provinceId, cityId);
 		
 		String encodePassword = passwordEncoder.encode(password);
 		return userRepository.save(User.builder()
-				.name(fullName)
+				.name(fullName) 
 				.email(email)
 				.password(encodePassword)
 				.phone(phoneNumber)
-				.address(address)
+//				.address(address)
 				.build());
 	}
 	
@@ -102,12 +104,13 @@ public class AuthService {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "invalid credentials");
 		}
 		
-		return LoginResponseDTO.of(email, accessTokenSecret, refreshTokenSecret);
+		return LoginResponseDTO.of(email, accessTokenSecret, refreshTokenSecret, user);
 	}
 	
 	public LoginResponseDTO refreshAccess(String refreshToken) {
 		String email = JwtUtil.getSubject(refreshToken, refreshTokenSecret);
-		LoginResponseDTO loginResponse = LoginResponseDTO.of(email, accessTokenSecret, JwtUtil.of(refreshToken));
+		User user = userRepository.findByEmail(email).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "invalid credentials"));
+		LoginResponseDTO loginResponse = LoginResponseDTO.of(email, accessTokenSecret, JwtUtil.of(refreshToken), user);
 		return loginResponse;
 	}
 }
