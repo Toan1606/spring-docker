@@ -106,6 +106,12 @@ public class Posting implements Serializable {
 	@NotNull
 	@JsonIgnore
 	private PostingCategory postingCategory;
+	
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "posting_type_id", referencedColumnName = "id")
+	@NotNull
+	@JsonIgnore
+	private PostingType postingType;
 
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "working_form_id", referencedColumnName = "id")
