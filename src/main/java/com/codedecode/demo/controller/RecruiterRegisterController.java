@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codedecode.demo.dto.RecruiterRegisterDTO;
-import com.codedecode.demo.dto.RegisterRequestDTO;
 import com.codedecode.demo.entity.User;
 import com.codedecode.demo.service.AuthService;
 import com.codedecode.demo.service.RecruiterRegisterService;

@@ -74,11 +74,13 @@ public class AuthService {
 		String password = registerRequestDTO.getPassword();		
 		
 		String encodePassword = passwordEncoder.encode(password);
-		return userRepository.save(User.builder()
-				.name(fullName) 
-				.email(email)
-				.password(encodePassword)
-				.build());
+		
+		User user = new User();
+		user.setName(fullName);
+		user.setEmail(email);
+		user.setPassword(encodePassword);
+		
+		return userRepository.save(user);
 	}
 	
 	public JwtUtil login(LoginRequestDTO loginResponse) {
