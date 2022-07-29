@@ -11,8 +11,8 @@ public class PostingSearchAllFieldsRequestDTO {
 	@NotBlank
 	private String text;
 
-	private List<String> fields = Arrays.asList("address.provinces.name", "address.provinces.cities.name","jobRequirement", "genderRequirement", "salary.name",
-			"workingForm.name", "position", "yearOfExperience.name", "jobName", "description");
+	private List<String> fields = Arrays.asList("jobRequirement", "genderRequirement",
+		"position", "jobName", "description");
 	
     private int limit = 10;
 }

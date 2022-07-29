@@ -57,7 +57,7 @@ public class AuthService {
 //		}
 //		Address address = addressService.findAddressByProvinceAndCity(provinceName, cityName);
 		
-		Address address = addressService.findAddressByProvinceAndCity(provinceId, cityId);
+//		Address address = addressService.findAddressByProvinceAndCity(provinceId, cityId);
 		
 		String encodePassword = passwordEncoder.encode(password);
 		return userRepository.save(User.builder()
