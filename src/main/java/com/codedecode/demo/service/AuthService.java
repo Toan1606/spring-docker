@@ -52,12 +52,11 @@ public class AuthService {
 		Long cityId = registerRequestDTO.getCityId();
 		String phoneNumber = registerRequestDTO.getPhoneNumber();
 		
-//		if (!Objects.equals(password, confirmPassword)) {
-//			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ExceptionMessage.PASSWORD_DON_NOT_MATCH.getErrorMessage());
-//		}
-//		Address address = addressService.findAddressByProvinceAndCity(provinceName, cityName);
+		if (!Objects.equals(password, confirmPassword)) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ExceptionMessage.PASSWORD_DON_NOT_MATCH.getErrorMessage());
+		}
 		
-//		Address address = addressService.findAddressByProvinceAndCity(provinceId, cityId);
+		Address address = addressService.findAddressByProvinceAndCity(provinceId, cityId);
 		
 		String encodePassword = passwordEncoder.encode(password);
 		return userRepository.save(User.builder()
@@ -65,7 +64,7 @@ public class AuthService {
 				.email(email)
 				.password(encodePassword)
 				.phone(phoneNumber)
-//				.address(address)
+				.address(address)
 				.build());
 	}
 	
