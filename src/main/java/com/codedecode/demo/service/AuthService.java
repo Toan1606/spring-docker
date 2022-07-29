@@ -12,6 +12,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.codedecode.demo.dto.LoginRequestDTO;
 import com.codedecode.demo.dto.LoginResponseDTO;
+import com.codedecode.demo.dto.RecruiterRegisterDTO;
 import com.codedecode.demo.dto.RegisterRequestDTO;
 import com.codedecode.demo.entity.Address;
 import com.codedecode.demo.entity.User;
@@ -65,6 +66,19 @@ public class AuthService {
 		user.setAddress(address);
 		
 		return userRepository.save(user);
+	}
+	
+	public User recruiterRegister(RecruiterRegisterDTO registerRequestDTO) {
+		String fullName = registerRequestDTO.getFullName();
+		String email = registerRequestDTO.getEmail();
+		String password = registerRequestDTO.getPassword();		
+		
+		String encodePassword = passwordEncoder.encode(password);
+		return userRepository.save(User.builder()
+				.name(fullName) 
+				.email(email)
+				.password(encodePassword)
+				.build());
 	}
 	
 	public JwtUtil login(LoginRequestDTO loginResponse) {

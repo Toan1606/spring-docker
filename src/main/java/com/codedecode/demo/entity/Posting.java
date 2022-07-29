@@ -70,7 +70,7 @@ public class Posting implements Serializable {
 	@Column(name = "profile_included", length = 1000)
 	private String profileIncluded;
 
-	@Column(name = "images", length = 1000)
+	@Column(name = "images", columnDefinition = "NVARCHAR(MAX)")
 	private String images;
 
 	@Column(name = "commission", length = 1000)
