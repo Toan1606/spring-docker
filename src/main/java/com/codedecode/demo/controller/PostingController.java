@@ -43,7 +43,6 @@ public class PostingController {
 
 	@PostMapping("/{id}")
 	public ResponseEntity<?> findPostingById(@RequestBody PostingRequestDTO postingRequestDTO) {
-		System.out.println("findPostingById: " + postingService);
 		Long userId = postingRequestDTO.getUserId();
 		Long postingId = postingRequestDTO.getPostingId();
 		PostingResponseDTO posting = postingService.findPostingByUserIdAndPostingId(userId, postingId);
