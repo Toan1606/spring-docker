@@ -2,6 +2,7 @@ package com.codedecode.demo.exception.handler;
 
 import java.util.Date;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -117,6 +118,14 @@ public class GlobalExceptionHandler {
 		ErrorDetails error = ErrorDetails.builder().timestamp(new Date())
 				.message(ExceptionMessage.EMPTY_RESULT_DATA_ACCESS_EXCEPTION.getErrorMessage())
 				.details(ExceptionMessage.EMPTY_RESULT_DATA_ACCESS_EXCEPTION.getErrorMessage()).build();
+		return new ResponseEntity<ErrorDetails>(error, HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler(DataIntegrityViolationException.class)
+	public ResponseEntity<ErrorDetails> handleDataIntegrityViolationException() {
+		ErrorDetails error = ErrorDetails.builder().timestamp(new Date())
+				.message(ExceptionMessage.DATA_INTEGRITY_VIOLATION_EXCEPTION.getErrorMessage())
+				.details(ExceptionMessage.DATA_INTEGRITY_VIOLATION_EXCEPTION.getErrorMessage()).build();
 		return new ResponseEntity<ErrorDetails>(error, HttpStatus.BAD_REQUEST);
 	}
 	

@@ -30,7 +30,9 @@ public class PostingControllerTest {
 	
 	@Test
 	public void addNewPostingTest() throws Exception {
-		Posting posting = Posting.builder().recruiterName("FPT Software").phoneNumber("0123456789").emailContact("ericnguyen1606@gmail.com").build();
+		
+		Posting posting = new Posting();
+//		.builder().recruiterName("FPT Software").phoneNumber("0123456789").emailContact("ericnguyen1606@gmail.com").build();
 		RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .put("/home/add/posting")
                 .accept(MediaType.APPLICATION_JSON);

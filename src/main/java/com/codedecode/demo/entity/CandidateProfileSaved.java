@@ -15,10 +15,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -26,12 +24,7 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
-@Data
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
-@EqualsAndHashCode
 @Entity
 @Table(name = "CandidateProfileSaved")
 public class CandidateProfileSaved implements Serializable {
@@ -51,14 +44,14 @@ public class CandidateProfileSaved implements Serializable {
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "recruiter_id")
-	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
+	@JsonIgnore
 	private User recruiter;
 	
-	
-	
-	
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "candidate_profile_save_id", referencedColumnName = "id")
+//	@OneToOne(mappedBy = "candidateProfileSaved", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = "user_id", referencedColumnName = "id")
+	@ToString.Exclude
+	@JsonIgnore
 	private User user;
 }

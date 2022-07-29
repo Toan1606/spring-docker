@@ -32,7 +32,7 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
         // this method will be executed.
         String email = String.valueOf(authentication.getPrincipal());
         String password = String.valueOf(authentication.getCredentials());
-
+        
         // Fetching user as wrapped with UserDetails object
         UserDetails userDetails = userDetailsService.loadUserByUsername(email);
 

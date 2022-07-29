@@ -58,13 +58,14 @@ public class AuthService {
 		Address address = addressService.findAddressByProvinceAndCity(provinceId, cityId);
 		
 		String encodePassword = passwordEncoder.encode(password);
-		return userRepository.save(User.builder()
-				.name(fullName) 
-				.email(email)
-				.password(encodePassword)
-				.phone(phoneNumber)
-				.address(address)
-				.build());
+		User user = new User();
+		user.setName(fullName);
+		user.setEmail(email);
+		user.setPassword(encodePassword);
+		user.setPhone(phoneNumber);
+		user.setAddress(address);
+		
+		return userRepository.save(user);
 	}
 	
 	public User recruiterRegister(RecruiterRegisterDTO registerRequestDTO) {
@@ -84,7 +85,7 @@ public class AuthService {
 		String email = loginResponse.getEmail();
 		String password = loginResponse.getPassword(); 
 		// find user by email
-		User user = userRepository.findByEmail(email).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "invalid credentials"));
+		User user = userRepository.findByEmail(email);
 		
 		if (!passwordEncoder.matches(password, user.getPassword())) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "invalid credentials");
@@ -109,7 +110,7 @@ public class AuthService {
 		String email = loginResponse.getEmail();
 		String password = loginResponse.getPassword(); 
 		// find user by email
-		User user = userRepository.findByEmail(email).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "invalid credentials"));
+		User user = userRepository.findByEmail(email);
 		
 		if (!passwordEncoder.matches(password, user.getPassword())) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "invalid credentials");
@@ -120,7 +121,7 @@ public class AuthService {
 	
 	public LoginResponseDTO refreshAccess(String refreshToken) {
 		String email = JwtUtil.getSubject(refreshToken, refreshTokenSecret);
-		User user = userRepository.findByEmail(email).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "invalid credentials"));
+		User user = userRepository.findByEmail(email);
 		LoginResponseDTO loginResponse = LoginResponseDTO.of(email, accessTokenSecret, JwtUtil.of(refreshToken), user);
 		return loginResponse;
 	}

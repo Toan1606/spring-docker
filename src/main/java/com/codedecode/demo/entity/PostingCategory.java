@@ -2,8 +2,10 @@ package com.codedecode.demo.entity;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -12,11 +14,8 @@ import javax.persistence.Table;
 
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -25,12 +24,7 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
-@Data
 @NoArgsConstructor
-@AllArgsConstructor
-@EqualsAndHashCode
-@Builder
 @Indexed
 @Entity
 @Table(name = "posting_category")
@@ -48,6 +42,8 @@ public class PostingCategory implements Serializable {
 	@Column(name = "category_name")
 	private String categoryName;
 	
-	@OneToOne(mappedBy = "postingCategory")
+	@OneToOne(mappedBy = "postingCategory", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JsonIgnore
+	@ToString.Exclude
 	private Posting posting;
 }

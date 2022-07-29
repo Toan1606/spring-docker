@@ -32,7 +32,7 @@ public class RecruiterOnlineCVFormController {
 		if(rs!=null) {
 			rs.setImages(user.getImages());
 			rs.setPhone(user.getPhone());
-			rs.setAddressName(user.getAddressName());
+//			rs.setAddressName(user.getAddressName());
 			rs.setTaxtNumber(user.getTaxtNumber());
 			rs.setDescription(user.getDescription()); 
 			service.updateCandidateOnlineCVForm();

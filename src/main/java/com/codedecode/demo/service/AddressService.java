@@ -18,9 +18,7 @@ public class AddressService {
 	private AddressRepository addressRepository;
 	
 	public Address findAddressByProvinceAndCity(Long provinceName, Long cityName) {
-		System.out.println("findAddressByProvinceAndCity BEGIN");
 		Address address = addressRepository.findByProvinceAndCity(provinceName, cityName).orElseThrow(() -> new AddressNotFound(ExceptionMessage.ADDRESS_NOT_FOUND.getErrorMessage()));
-		System.out.println("findAddressByProvinceAndCity BEGIN");
 		return address;
 	}
 }
