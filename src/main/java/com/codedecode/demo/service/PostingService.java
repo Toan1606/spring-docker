@@ -49,7 +49,6 @@ public class PostingService {
 
 	public PostingResponseDTO findPostingByUserIdAndPostingId(Long userId, Long postingId) {
 		PostingResponseDTO posting = postingProjectionRepository.findPostingByUserIdAndPostingId(userId, postingId);
-		System.out.println("posting : " + posting);
 		if (posting == null) {
 			throw new PostingNotFound(ExceptionMessage.POSTING_NOT_FOUND.getErrorMessage());
 		}

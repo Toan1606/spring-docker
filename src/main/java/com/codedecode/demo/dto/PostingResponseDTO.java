@@ -6,15 +6,21 @@ package com.codedecode.demo.dto;
 import java.io.Serializable;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class PostingResponseDTO implements Serializable {
+	
+	public PostingResponseDTO(String benefits) {
+		
+	}
 
 	/**
 	 * 
@@ -65,5 +71,11 @@ public class PostingResponseDTO implements Serializable {
 	
 	private Long yearOfExperienceId;
 	
+	private Long companyId;
+	
 	private String companyName;
+	
+	private Long postingCategoryId;
+	
+	private String postingCategoryName;
 }
