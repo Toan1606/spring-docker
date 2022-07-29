@@ -17,9 +17,6 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,12 +25,7 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
-@Data
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
-@EqualsAndHashCode
 @Entity
 @Table(name = "Province")
 public class Province implements Serializable {
@@ -54,6 +46,7 @@ public class Province implements Serializable {
 	@JoinColumn(name = "address_id", referencedColumnName = "id")
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
+	@JsonIgnore
 	private Address address;
 
 	@OneToMany(mappedBy = "province", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

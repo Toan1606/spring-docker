@@ -1,10 +1,8 @@
 package com.codedecode.demo.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
 import com.codedecode.demo.entity.User;
 import com.codedecode.demo.repository.UserRepository;
@@ -28,7 +26,7 @@ public class UserService {
 	}
 	
 	public User getUserByEmail(String email) {
-		User user = userRepository.findByEmail(email).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "invalid credentials"));
+		User user = userRepository.findByEmail(email);
 		return user;
 	}
 }

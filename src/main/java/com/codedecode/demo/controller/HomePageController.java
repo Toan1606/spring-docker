@@ -39,21 +39,6 @@ public class HomePageController {
 		return new ResponseEntity<PostingHomePage>(postingHomePage, HttpStatus.OK);
 	}
 
-	@PutMapping("/add/posting")
-	public ResponseEntity<Posting> addNewPosting() {
-		Posting posting = Posting.builder().recruiterName("FPT Software").phoneNumber("0123456789")
-				.emailContact("ericnguyen1606@gmail.com").position("Leader").degreeRequired("college degree")
-				.quantity(10)
-				.description("- Hoàn thành những mục tiêu đặt ra của dự án\r\n"
-						+ "- Đảm bảo hoàn thành công việc theo sự phân công của cấp trên\r\n"
-						+ "- Chi tiết công việc trao đổi khi phỏng vấn")
-				.benefits("Được làm việc trong môi trường trẻ trung, hiện đại, chuyên nghiệp\r\n"
-						+ "- Được đào tạo thường xuyên, không ngừng phát triển bản thân\r\n")
-				.build();
-		postingService.addPosting(posting);
-		return new ResponseEntity<Posting>(posting, HttpStatus.CREATED);
-	}
-
 	@PutMapping("/add/posting/test")
 	public ResponseEntity<String> addNewPostingTest() {
 		return new ResponseEntity<String>("", HttpStatus.OK);

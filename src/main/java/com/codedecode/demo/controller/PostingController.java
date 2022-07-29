@@ -27,20 +27,7 @@ public class PostingController {
 
 	@Autowired
 	private PostingService postingService;
-
-	/*
-	 * @author: Nguyễn Thế Toàn
-	 */
-	@PostMapping("/add")
-	public ResponseEntity<Posting> addNewPosting() {
-
-		Posting posting = Posting.builder().recruiterName("FPT Software").phoneNumber("0123456789")
-				.emailContact("ericnguyen1606@gmail.com").build();
-		Posting returnPosting = postingService.addPosting(posting);
-		System.err.println(returnPosting);
-		return new ResponseEntity<Posting>(returnPosting, HttpStatus.CREATED);
-	}
-
+	
 	@PostMapping("/{id}")
 	public ResponseEntity<?> findPostingById(@RequestBody PostingRequestDTO postingRequestDTO) {
 		Long userId = postingRequestDTO.getUserId();
