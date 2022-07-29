@@ -158,10 +158,10 @@ public class User implements Serializable {
 	@Column(name = "taxt_number")
 	private Long taxtNumber;
 	
-	@Column(name = "images")
+	@Column(name = "images", columnDefinition = "NVARCHAR(MAX)")
 	private String images;
 	
-	@Column(name = "candidate_cv")
+	@Column(name = "candidate_cv", columnDefinition = "NVARCHAR(MAX)")
 	private String candidateCV;
 
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
