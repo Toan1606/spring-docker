@@ -8,11 +8,14 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codedecode.demo.dto.PageDTO;
 import com.codedecode.demo.dto.PageableSearchRequestDTO;
+import com.codedecode.demo.dto.PostingRequestDTO;
+import com.codedecode.demo.dto.PostingResponseDTO;
 import com.codedecode.demo.entity.Posting;
 import com.codedecode.demo.service.PostingService;
 
@@ -39,9 +42,12 @@ public class PostingController {
 	}
 
 	@PostMapping("/{id}")
-	public ResponseEntity<?> findPostingById(@PathVariable Long id) {
-		Posting posting = postingService.findPostingById(id);
-		return new ResponseEntity<Posting>(posting, HttpStatus.OK);
+	public ResponseEntity<?> findPostingById(@RequestBody PostingRequestDTO postingRequestDTO) {
+		System.out.println("findPostingById: " + postingService);
+		Long userId = postingRequestDTO.getUserId();
+		Long postingId = postingRequestDTO.getPostingId();
+		PostingResponseDTO posting = postingService.findPostingByUserIdAndPostingId(userId, postingId);
+		return new ResponseEntity<PostingResponseDTO>(posting, HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/delete/{id}")
