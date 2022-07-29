@@ -1,7 +1,6 @@
 package com.codedecode.demo.service;
 
 import java.util.Base64;
-import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -47,14 +46,13 @@ public class AuthService {
 		String fullName = registerRequestDTO.getFullName();
 		String email = registerRequestDTO.getEmail();
 		String password = registerRequestDTO.getPassword();
-		String confirmPassword = registerRequestDTO.getConfirmPassword();
 		Long provinceId = registerRequestDTO.getProvinceId();
 		Long cityId = registerRequestDTO.getCityId();
 		String phoneNumber = registerRequestDTO.getPhoneNumber();
 		
-		if (!Objects.equals(password, confirmPassword)) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ExceptionMessage.PASSWORD_DON_NOT_MATCH.getErrorMessage());
-		}
+//		if (!Objects.equals(password, confirmPassword)) {
+//			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ExceptionMessage.PASSWORD_DON_NOT_MATCH.getErrorMessage());
+//		}
 		
 		Address address = addressService.findAddressByProvinceAndCity(provinceId, cityId);
 		

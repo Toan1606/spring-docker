@@ -12,6 +12,6 @@ import com.codedecode.demo.entity.Address;
 @Repository
 public interface AddressRepository extends JpaRepository<Address, Long> {
 
-	@Query(value = "SELECT a.id, a.name FROM address a inner join province p on a.id = p.address_id inner join city c WHERE p.id = c.province_id and p.id = :provinceId and c.id = :cityId", nativeQuery = true)
+	@Query(value = "SELECT a.id, a.name FROM address a inner join province p on a.id = p.address_id inner join city c on p.id = c.province_id WHERE p.id = :provinceId and c.id = :cityId", nativeQuery = true)
 	Optional<Address> findByProvinceAndCity(@Param("provinceId") Long provinceId, @Param("cityId") Long cityId);
 }
