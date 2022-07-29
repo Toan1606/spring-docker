@@ -100,6 +100,12 @@ public class Posting implements Serializable {
 
 	@Column(name = "deadline_for_submission")
 	private String deadlineForSubmission;
+	
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "posting_category_id", referencedColumnName = "id")
+	@NotNull
+	@JsonIgnore
+	private PostingCategory postingCategory;
 
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "working_form_id", referencedColumnName = "id")

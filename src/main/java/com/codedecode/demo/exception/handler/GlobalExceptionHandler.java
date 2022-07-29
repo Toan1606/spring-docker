@@ -2,6 +2,7 @@ package com.codedecode.demo.exception.handler;
 
 import java.util.Date;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -110,4 +111,14 @@ public class GlobalExceptionHandler {
 				.details(ExceptionMessage.USER_NOT_FOUND.getErrorMessage()).build();
 		return new ResponseEntity<ErrorDetails>(error, HttpStatus.BAD_REQUEST);
 	}
+	
+	@ExceptionHandler(EmptyResultDataAccessException.class)
+	public ResponseEntity<ErrorDetails> handleEmptyResultDataAccessException() {
+		ErrorDetails error = ErrorDetails.builder().timestamp(new Date())
+				.message(ExceptionMessage.EMPTY_RESULT_DATA_ACCESS_EXCEPTION.getErrorMessage())
+				.details(ExceptionMessage.EMPTY_RESULT_DATA_ACCESS_EXCEPTION.getErrorMessage()).build();
+		return new ResponseEntity<ErrorDetails>(error, HttpStatus.BAD_REQUEST);
+	}
+	
+	
 }
