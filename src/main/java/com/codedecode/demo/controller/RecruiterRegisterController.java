@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codedecode.demo.entity.User;
-import com.codedecode.demo.service.CandidateRegisterService;
 import com.codedecode.demo.service.RecruiterRegisterService;
 
 @CrossOrigin(origins = "http://localhost:8080")
@@ -22,9 +21,15 @@ public class RecruiterRegisterController {
 	RecruiterRegisterService recruiterRegisterService;
 	
 	@PostMapping("/")
-	public ResponseEntity<User> addCandidate(@RequestBody User user){
+	public ResponseEntity<User> addRecruiter(@RequestBody User user){
 		User rs = recruiterRegisterService.addRecruiter(user);
 		return new ResponseEntity<User>(rs, HttpStatus.CREATED);
 	}
+	
+//	@PutMapping("/recruiterOnlineCVForm/{id}")
+//	public ResponseEntity<User> updateRecruiter(@PathVariable("id") Long id, @RequestBody User user, MultipartFile file){
+//		User rs = recruiterRegisterService.updateRecruiter(id, user,file);
+//		return new ResponseEntity<User>(rs, HttpStatus.OK);
+//	}
 	
 }

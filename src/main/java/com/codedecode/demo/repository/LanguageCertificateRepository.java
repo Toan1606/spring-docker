@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-
 import com.codedecode.demo.entity.Language;
 
 
@@ -17,7 +16,7 @@ public interface LanguageCertificateRepository extends JpaRepository<Language, L
 	 * 
 	 */
 	@Query(value="select * from languages l where l.user_id = ?1", nativeQuery=true)
-	List<Language> findAllByUserID(Long userID);
+	List<Language> findAllLanguageCertificatesByUserId(Long userID);
 	
 	/*
 	 * 
@@ -25,7 +24,7 @@ public interface LanguageCertificateRepository extends JpaRepository<Language, L
 	 * 
 	 */
 	@Query(value="select * from languages where id = ?1", nativeQuery = true)
-	Language findLanguageByLanguageId(Long languageId);
+	Language findLanguageCertificateById(Long languageId);
 
 	/*
 	 * 
@@ -34,5 +33,5 @@ public interface LanguageCertificateRepository extends JpaRepository<Language, L
 	 */
 	@Query(value="delete from languages where id = ?1", nativeQuery=true)
 	@Modifying
-	void deleteLanguageById(int languageId);
+	void deleteLanguageCertificateById(Long languageId);
 }

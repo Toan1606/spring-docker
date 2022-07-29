@@ -29,7 +29,7 @@ public class AppliedJobController {
 	public ResponseEntity<?> showAppliedJobsPage(@PathVariable Long userId) {
 		List<AppliedJob> listAppliedJob = appliedJobService.getAllAppliedJobs(userId);
 		if (listAppliedJob.size() == 0) {
-			return new ResponseEntity<HttpStatus>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<HttpStatus>(HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<List<AppliedJob>>(listAppliedJob, HttpStatus.OK);
 	}
@@ -43,6 +43,5 @@ public class AppliedJobController {
 			appliedJobService.deleteAppliedJob(id);
 			return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 		}
-
 	}
 }

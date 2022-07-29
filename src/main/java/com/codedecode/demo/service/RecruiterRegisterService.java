@@ -15,5 +15,10 @@ public class RecruiterRegisterService {
 	public User addRecruiter(User user) {
 		return repository.save(user);
 	}
+	
+//	public User updateRecruiter(Long id, User user, MultipartFile file) {
+//		
+//		return repository.updateRecruiterById(id);
+//	}
 
 }

@@ -19,4 +19,7 @@ public class SavedJobService {
 	public void deleteSavedJob(Long id) {
 		savedJobRepository.deleteSavedJob(id);
 	}
+	public SavedJob getSavedJobById(Long id) {
+		return savedJobRepository.getSavedJobById(id);
+	}
 }

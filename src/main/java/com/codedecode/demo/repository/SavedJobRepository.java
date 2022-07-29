@@ -16,4 +16,7 @@ public interface SavedJobRepository extends JpaRepository<SavedJob, Long>{
 	@Query(value="delete from saved_jobs where id = ?1", nativeQuery=true)
 	@Modifying
 	void deleteSavedJob(Long savedJobId);
+	
+	@Query(value="select * from saved_jobs where id = ?1", nativeQuery=true)
+	SavedJob getSavedJobById(Long id);
 }
