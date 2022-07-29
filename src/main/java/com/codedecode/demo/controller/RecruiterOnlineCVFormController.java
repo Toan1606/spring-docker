@@ -18,7 +18,7 @@ import com.codedecode.demo.service.UserService;
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
 @RequestMapping("/recruiterOnlineCVForm")
-public class RecruiterOnlineCVForm {
+public class RecruiterOnlineCVFormController {
 	
 	@Autowired
 	UserService service;

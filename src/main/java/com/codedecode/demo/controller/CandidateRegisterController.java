@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.codedecode.demo.dto.RegisterRequestDTO;
 import com.codedecode.demo.entity.User;
+import com.codedecode.demo.service.AuthService;
 import com.codedecode.demo.service.CandidateRegisterService;
 import com.codedecode.demo.service.UserService;
 
@@ -24,10 +26,14 @@ public class CandidateRegisterController {
 	@Autowired
 	UserService userService;
 	
+	@Autowired
+	AuthService authService;
+	
 	@PostMapping("/")
-	public ResponseEntity<User> addCandidate(@RequestBody User user){
-		User rs = candidateRegisterService.addCandidate(user);
-		return new ResponseEntity<User>(rs, HttpStatus.CREATED);
+	public ResponseEntity<User> addCandidate(@RequestBody User registerRequestDTO){
+		User rs = candidateRegisterService.addCandidate(registerRequestDTO);
+//		User rs = authService.register(registerRequestDTO);
+		return ResponseEntity.status(HttpStatus.CREATED).body(registerRequestDTO);
 	}
 	
 }
