@@ -52,7 +52,7 @@ public class LanguageCertificateService{
 	 *	@author: Nguyễn Văn Tuấn 
 	 * 
 	 */
-	public Language addLanguage(Language language) {
+	public Language addLanguageCertificate(Language language) {
 		return languageCertificateRepository.save(language);
 	}
 }

@@ -32,9 +32,9 @@ public class WorkExperienceController {
 	@Autowired
 	private CVService cvService;
 	
-	@GetMapping("/{cv_id}")
-	public ResponseEntity<?> showWorkExpPage(@PathVariable Long cv_id){
-		List<WorkExperiences> list = workExperienceService.getAllWorkExp(cv_id);
+	@GetMapping("/{userId}")
+	public ResponseEntity<?> showWorkExpPage(@PathVariable Long userId){
+		List<WorkExperiences> list = workExperienceService.getAllWorkExp(userId);
 		if(list == null || list.size() == 0) {
 			return new ResponseEntity<HttpStatus>(HttpStatus.NO_CONTENT);
 		}else {
@@ -45,17 +45,23 @@ public class WorkExperienceController {
 	public ResponseEntity<?> deleteWorkExp(@PathVariable Long id){
 		WorkExperiences w = workExperienceService.getWorkExpById(id);
 		if(w == null) {
-			return new ResponseEntity<HttpStatus>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<HttpStatus>(HttpStatus.NOT_FOUND);
 		}else {
 			workExperienceService.deleteWorkExp(id);
 			return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 		}
 	}
-	@PostMapping("/add")
-	public ResponseEntity<?> addWorkExp(@RequestBody WorkExperiences workexp){
-		CV cv = cvService.getCVById(1l);
-		workexp.setCv(cv);
-		workExperienceService.addWorkExp(workexp);
-		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+	@PostMapping("/add/{userId}")
+	public ResponseEntity<?> addWorkExp(@PathVariable Long userId, @RequestBody WorkExperiences workexp){
+		List<CV> cv = cvService.getCVsByUserId(userId);
+		if(!cv.isEmpty() || cv.size() != 0) {
+			for(CV c : cv) {
+				workexp.setCv(c);
+				workExperienceService.addWorkExp(workexp);
+			}
+			return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+		}else {
+			return new ResponseEntity<HttpStatus>(HttpStatus.NOT_FOUND);
+		}
 	}
 }

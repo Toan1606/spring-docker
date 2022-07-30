@@ -71,12 +71,11 @@ public class LanguageCertificateController {
 		Language l = languageService.findLanguageCertificateById(language.getId());
 		if(l == null) {
 			language.setUser(user);
-			languageService.addLanguage(language);
+			languageService.addLanguageCertificate(language);
 			return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 		}else {
 			return new ResponseEntity<HttpStatus>(HttpStatus.BAD_REQUEST);
 		}
-		
 	}
 	/*
 	 * 

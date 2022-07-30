@@ -30,4 +30,5 @@ public class RegisterRequestDTO {
 	
 	@JsonProperty("city")
 	private String city;
+	
 }

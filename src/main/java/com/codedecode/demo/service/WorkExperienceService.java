@@ -13,8 +13,8 @@ public class WorkExperienceService {
 	@Autowired
 	private WorkExperienceRepository workExperienceRepository;
 	
-	public List<WorkExperiences> getAllWorkExp(Long cv_id){
-		return workExperienceRepository.getAllWorkExpByCVId(cv_id);
+	public List<WorkExperiences> getAllWorkExp(Long userId){
+		return workExperienceRepository.getAllWorkExpByUserId(userId);
 	}
 	public WorkExperiences getWorkExpById(Long id) {
 		return workExperienceRepository.getWorkExpById(id);

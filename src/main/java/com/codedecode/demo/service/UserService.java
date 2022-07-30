@@ -11,7 +11,7 @@ import com.codedecode.demo.repository.UserRepository;
 @Transactional
 public class UserService {
 	
-	@Autowired
+	@Autowired(required = true)
 	private UserRepository userRepository;
 	
 	public User addNewUser(User user) {
