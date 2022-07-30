@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.codedecode.demo.dto.PageDTO;
 import com.codedecode.demo.dto.PostingResponseDTO;
+import com.codedecode.demo.dto.PostingResponseInterfaceDTO;
 import com.codedecode.demo.entity.Address;
 import com.codedecode.demo.entity.Posting;
 import com.codedecode.demo.exception.PostingNotFound;
@@ -25,9 +26,10 @@ public class PostingService {
 
 	@Autowired
 	private HomeAddressRepository addressRepository;
-
+	
 	@Autowired
 	private PostingProjectionRepository postingProjectionRepository;
+
 	
 	public Iterable<Posting> getAttractiveJob() {
 		System.out.println("findPosting function");
@@ -48,11 +50,12 @@ public class PostingService {
 	}
 
 	public PostingResponseDTO findPostingByUserIdAndPostingId(Long userId, Long postingId) {
-		PostingResponseDTO posting = postingProjectionRepository.findPostingByUserIdAndPostingId(userId, postingId);
+		PostingResponseInterfaceDTO posting = postingRepository.findPostingByUserIdAndPostingId(userId, postingId);
+		PostingResponseDTO postingResponseDTO = postingProjectionRepository.findPostingByUserIdAndPostingId(userId, postingId);
 		if (posting == null) {
 			throw new PostingNotFound(ExceptionMessage.POSTING_NOT_FOUND.getErrorMessage());
 		}
-		return posting;
+		return postingResponseDTO;
 	}
 
 	public void deletePostingById(Long id) {

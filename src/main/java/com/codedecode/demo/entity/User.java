@@ -183,6 +183,14 @@ public class User implements Serializable {
 	@ToString.Exclude
 	@JsonIgnore
 	private Collection<AppliedJob> appliedJob;
+	
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = UserContract.class)
+	@JoinColumn(name = "candidate_contract_id", referencedColumnName = "id")
+	private UserContract candidateContract;
+	
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = UserContract.class)
+	@JoinColumn(name = "recruiter_contract_id", referencedColumnName = "id")
+	private UserContract recruiterContract;
 
 	public User(Long id, String email) {
 		this.id = id;

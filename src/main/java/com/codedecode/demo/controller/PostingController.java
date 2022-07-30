@@ -28,11 +28,17 @@ public class PostingController {
 	@Autowired
 	private PostingService postingService;
 	
+	
+	
+	/*
+	 * @author : ToanNT16
+	 * */
 	@PostMapping("/{id}")
-	public ResponseEntity<?> findPostingById(@RequestBody PostingRequestDTO postingRequestDTO) {
+	public ResponseEntity<PostingResponseDTO> findPostingById(@RequestBody PostingRequestDTO postingRequestDTO) {
 		Long userId = postingRequestDTO.getUserId();
 		Long postingId = postingRequestDTO.getPostingId();
 		PostingResponseDTO posting = postingService.findPostingByUserIdAndPostingId(userId, postingId);
+		
 		return new ResponseEntity<PostingResponseDTO>(posting, HttpStatus.OK);
 	}
 	
