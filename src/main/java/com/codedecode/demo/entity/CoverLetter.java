@@ -44,7 +44,7 @@ public class CoverLetter implements Serializable {
 	private String description;
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "user_id")
+	@JoinColumn(name = "user_id", referencedColumnName = "id")
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
 	@JsonIgnore
