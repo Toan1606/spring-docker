@@ -50,4 +50,9 @@ public class Contract implements Serializable {
 	@JsonIgnore
 	@ToString.Exclude
 	private CandidateHistory candidateHistory;
+	
+	@OneToOne(mappedBy = "contract",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ToString.Exclude
+	@JsonIgnore
+	private UserContract userContract;
 }
