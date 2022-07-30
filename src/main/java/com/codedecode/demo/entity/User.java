@@ -16,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -75,7 +76,7 @@ public class User implements Serializable {
 	@JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
 
-	@OneToOne(fetch = FetchType.LAZY, optional = false)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Address.class)
 	@JoinColumn(name = "address_id", referencedColumnName = "id")
 	@ToString.Exclude
 	@JsonIgnore
@@ -167,8 +168,6 @@ public class User implements Serializable {
 	@JsonIgnore
 	private Collection<Message> recruiterMessage;
 	
-//	@OneToOne(fetch = FetchType.LAZY, optional = false)
-//	@JoinColumn(name = "candidate_profile_save_id", referencedColumnName = "id")
 	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@ToString.Exclude
 	@JsonIgnore

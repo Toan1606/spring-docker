@@ -13,11 +13,11 @@ public interface PostingResponseInterfaceDTO {
 	
 	String getEmailContact();
 	
-	String getFile();
+	String getFiles();
 	
 	String getGenderRequirement();
 	
-	String getImages();
+	String getImage();
 	
 	String getJobName();
 	
@@ -33,7 +33,7 @@ public interface PostingResponseInterfaceDTO {
 	
 	String getQuantityNeeded();
 	
-	Long getView();
+	Long getViews();
 	
 	Long getAddressId();
 	

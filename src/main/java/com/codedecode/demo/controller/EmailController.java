@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codedecode.demo.dto.EmailRequest;
+import com.codedecode.demo.dto.PostingResponseInterfaceDTO;
 import com.codedecode.demo.entity.User;
+import com.codedecode.demo.repository.PostingRepository;
 import com.codedecode.demo.repository.UserRepository;
 import com.codedecode.demo.service.email.EmailServiceImpl;
 
@@ -21,6 +23,9 @@ public class EmailController {
 	
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private PostingRepository postingRepository;
 	
 	@GetMapping
 	public ResponseEntity<String> forgotPassword(@RequestBody EmailRequest email) {
@@ -35,5 +40,12 @@ public class EmailController {
 		User user = userRepository.findByEmail("ericnguyen1606@gmail.com");
 		System.out.println("user : " + user);
 		return "Reset Password";
+	}
+	
+	@GetMapping(path = "/dto")
+	public ResponseEntity<PostingResponseInterfaceDTO> findPostingDTO() {
+		PostingResponseInterfaceDTO posting = postingRepository.findPostingByUserIdAndPostingId(1L, 1L);
+//		PostingResponseInterfaceDTO posting = postingRepository.findPostingByUserIdAndPostingId();
+		return ResponseEntity.ok().body(posting);
 	}
 }
