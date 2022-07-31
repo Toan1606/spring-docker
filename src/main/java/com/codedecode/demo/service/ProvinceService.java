@@ -1,5 +1,6 @@
 package com.codedecode.demo.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -7,6 +8,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.codedecode.demo.entity.Address;
 import com.codedecode.demo.entity.Province;
 import com.codedecode.demo.exception.ProvinceNotFound;
 import com.codedecode.demo.repository.ProvinceRepository;
@@ -30,5 +32,21 @@ public class ProvinceService {
 	
 	public List<Province> findAllProvince() {
 		return provinceRepository.findAll();
+	}
+	
+	public List<String> findByAddress(List<Address> addresss) {
+		List<String> provinces = new ArrayList<String>();
+		for (Address address : addresss) {
+			Province province = provinceRepository.findByAddressId(address.getId());
+			if (province != null) {
+				provinces.add(province.getName());
+			}
+		}
+		
+		return provinces;
+	}
+	
+	public Province findByAddressId(Long addressId) {
+		return provinceRepository.findByAddressId(addressId);
 	}
 }

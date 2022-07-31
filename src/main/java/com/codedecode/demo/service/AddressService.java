@@ -1,5 +1,7 @@
 package com.codedecode.demo.service;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,5 +22,13 @@ public class AddressService {
 	public Address findAddressByProvinceAndCity(Long provinceName, Long cityName) {
 		Address address = addressRepository.findByProvinceAndCity(provinceName, cityName).orElseThrow(() -> new AddressNotFound(ExceptionMessage.ADDRESS_NOT_FOUND.getErrorMessage()));
 		return address;
+	}
+	
+	public Address findAddressById(Long addressId) {
+		return addressRepository.findById(addressId).orElseThrow(() -> new AddressNotFound(ExceptionMessage.ADDRESS_NOT_FOUND.getErrorMessage()));
+	}
+	
+	public List<Address> findAddressByPostingId(Long postingId) {
+		return addressRepository.findByPostingId(postingId);
 	}
 }

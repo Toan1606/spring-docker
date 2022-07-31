@@ -13,14 +13,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class PostingResponseDTO implements Serializable {
 	
-	public PostingResponseDTO(String benefits) {
-		
-	}
 
 	/**
 	 * 
@@ -55,13 +52,11 @@ public class PostingResponseDTO implements Serializable {
 	
 	private String profileIncluded;
 	
-	private Integer quantity;
+	private int quantity;
 	
 	private String quantityNeeded;
 	
 	private Long view;
-	
-	private Long addressId;
 	
 	private Long rankId;
 	
