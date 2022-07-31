@@ -17,9 +17,6 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,12 +25,7 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
-@Data
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
-@EqualsAndHashCode
 @Entity
 @Table(name = "DesiredJob")
 public class DesiredJob implements Serializable {
@@ -52,21 +44,31 @@ public class DesiredJob implements Serializable {
 
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "working_form_id", referencedColumnName = "id")
+	@ToString.Exclude
+	@JsonIgnore
 	private WorkingForm workingForm;
 
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "year_of_experience_id", referencedColumnName = "id")
+	@ToString.Exclude
+	@JsonIgnore
 	private YearOfExperience yearOfExperience;
 
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "rank_id", referencedColumnName = "id")
+	@ToString.Exclude
+	@JsonIgnore
 	private Rank rank;
 
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "salary_id", referencedColumnName = "id")
+	@ToString.Exclude
+	@JsonIgnore
 	private Salary salary;
 
-	@OneToOne(mappedBy = "desiredJob")
+	@OneToOne(mappedBy = "desiredJob",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ToString.Exclude
+	@JsonIgnore
 	private User user;
 
 	@OneToMany(mappedBy = "desiredJob", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

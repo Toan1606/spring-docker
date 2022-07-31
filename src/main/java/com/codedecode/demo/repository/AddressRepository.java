@@ -10,9 +10,8 @@ import org.springframework.stereotype.Repository;
 import com.codedecode.demo.entity.Address;
 
 @Repository
-public interface AddressRepository extends JpaRepository<Address, Long>{
+public interface AddressRepository extends JpaRepository<Address, Long> {
 
-	@Query(value = "SELECT * FROM Province p INNER JOIN City c WHERE p.id = c.province_id AND p.name = :provinceName AND c.name = :cityName" , nativeQuery = true)
-	Optional<Address> findByProvinceAndCity(@Param("provinceName") String provinceName, @Param("cityName") String cityName);
-	
+	@Query(value = "SELECT a.id, a.name FROM address a inner join province p on a.id = p.address_id inner join city c on p.id = c.province_id WHERE p.id = :provinceId and c.id = :cityId", nativeQuery = true)
+	Optional<Address> findByProvinceAndCity(@Param("provinceId") Long provinceId, @Param("cityId") Long cityId);
 }

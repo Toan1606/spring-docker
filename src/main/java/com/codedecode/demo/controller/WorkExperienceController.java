@@ -20,7 +20,7 @@ import com.codedecode.demo.entity.WorkExperiences;
 import com.codedecode.demo.service.CVService;
 import com.codedecode.demo.service.WorkExperienceService;
 
-@CrossOrigin(origins = "http://localhost:8081")
+@CrossOrigin(origins = "http://localhost:8080")
 @RestController
 @RequestMapping("/workexp")
 @Transactional

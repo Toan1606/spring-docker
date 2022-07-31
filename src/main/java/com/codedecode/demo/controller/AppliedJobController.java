@@ -1,5 +1,6 @@
 package com.codedecode.demo.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +14,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.codedecode.demo.dto.AppliedJobDTO;
 import com.codedecode.demo.entity.AppliedJob;
+import com.codedecode.demo.entity.Posting;
 import com.codedecode.demo.service.AppliedJobService;
 
-@CrossOrigin(origins = "http://localhost:8081")
+@CrossOrigin(origins = "http://localhost:8080")
 @RestController
 @RequestMapping("/appliedjob")
 @Transactional
@@ -30,8 +33,21 @@ public class AppliedJobController {
 		List<AppliedJob> listAppliedJob = appliedJobService.getAllAppliedJobs(userId);
 		if (listAppliedJob.size() == 0) {
 			return new ResponseEntity<HttpStatus>(HttpStatus.NOT_FOUND);
+		}else {
+			List<AppliedJobDTO> listAppliedJobDTOs = new ArrayList<>();
+			for (AppliedJob appliedJob : listAppliedJob) {
+				Posting p = appliedJob.getPosting();
+				AppliedJobDTO aDTO = new AppliedJobDTO(); 
+				aDTO.setId(appliedJob.getId());
+				aDTO.setPositionJobname(p.getJobName());
+				aDTO.setPostingPosition(p.getPosition());
+				aDTO.setDateSubmission(appliedJob.getDateSubmission());
+				aDTO.setDeadlineForSubmission(p.getDeadlineForSubmission());
+				aDTO.setCommentFromEmployer(appliedJob.getCommentFromEmployer());
+				listAppliedJobDTOs.add(aDTO);
+			}
+			return new ResponseEntity<List<AppliedJobDTO>>(listAppliedJobDTOs, HttpStatus.OK);
 		}
-		return new ResponseEntity<List<AppliedJob>>(listAppliedJob, HttpStatus.OK);
 	}
 
 	@DeleteMapping("/delete/{id}")

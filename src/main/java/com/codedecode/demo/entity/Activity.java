@@ -58,7 +58,5 @@ public class Activity implements Serializable {
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "cv_id")
-	@EqualsAndHashCode.Exclude
-	@ToString.Exclude
 	private CV cv;
 }

@@ -24,7 +24,9 @@ public class UserService {
 	public void updateCandidateOnlineCVForm() {
 		userRepository.flush();
 	}
-	public void updateCandidatePassword(User user) {
-		userRepository.flush();
+	
+	public User getUserByEmail(String email) {
+		User user = userRepository.findByEmail(email);
+		return user;
 	}
 }

@@ -20,7 +20,7 @@ import com.codedecode.demo.entity.User;
 import com.codedecode.demo.service.LanguageCertificateService;
 import com.codedecode.demo.service.UserService;
 
-@CrossOrigin(origins = "http://localhost:8081")
+@CrossOrigin(origins = "http://localhost:8080")
 @RestController
 @RequestMapping("/language")
 @Transactional

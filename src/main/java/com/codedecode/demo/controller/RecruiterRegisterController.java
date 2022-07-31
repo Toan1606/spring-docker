@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.codedecode.demo.dto.RecruiterRegisterDTO;
 import com.codedecode.demo.entity.User;
+import com.codedecode.demo.service.AuthService;
 import com.codedecode.demo.service.RecruiterRegisterService;
 
 @CrossOrigin(origins = "http://localhost:8080")
@@ -18,12 +20,20 @@ import com.codedecode.demo.service.RecruiterRegisterService;
 public class RecruiterRegisterController {
 	
 	@Autowired
+	private AuthService authService;
+	
+	@Autowired
 	RecruiterRegisterService recruiterRegisterService;
 	
 	@PostMapping("/")
 	public ResponseEntity<User> addRecruiter(@RequestBody User user){
 		User rs = recruiterRegisterService.addRecruiter(user);
 		return new ResponseEntity<User>(rs, HttpStatus.CREATED);
+	}
+	
+	@PostMapping(value = "/register")
+	public ResponseEntity<User> register(@RequestBody RecruiterRegisterDTO registerRequestDTO) {
+		return ResponseEntity.status(HttpStatus.CREATED).body(authService.recruiterRegister(registerRequestDTO));
 	}
 	
 //	@PutMapping("/recruiterOnlineCVForm/{id}")

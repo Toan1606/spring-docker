@@ -1,7 +1,6 @@
 package com.codedecode.demo.service;
 
 import java.util.Base64;
-import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,6 +12,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.codedecode.demo.dto.LoginRequestDTO;
 import com.codedecode.demo.dto.LoginResponseDTO;
+import com.codedecode.demo.dto.RecruiterRegisterDTO;
 import com.codedecode.demo.dto.RegisterRequestDTO;
 import com.codedecode.demo.entity.Address;
 import com.codedecode.demo.entity.User;
@@ -47,33 +47,47 @@ public class AuthService {
 		String fullName = registerRequestDTO.getFullName();
 		String email = registerRequestDTO.getEmail();
 		String password = registerRequestDTO.getPassword();
-		String confirmPassword = registerRequestDTO.getConfirmPassword();
-		String provinceName = registerRequestDTO.getProvince();
-		String cityName = registerRequestDTO.getCity();
+		Long provinceId = registerRequestDTO.getProvinceId();
+		Long cityId = registerRequestDTO.getCityId();
 		String phoneNumber = registerRequestDTO.getPhoneNumber();
 		
-		if (!Objects.equals(password, confirmPassword)) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ExceptionMessage.PASSWORD_DON_NOT_MATCH.getErrorMessage());
-		}
-//		Address address = addressService.findAddressByProvinceAndCity(provinceName, cityName);
+//		if (!Objects.equals(password, confirmPassword)) {
+//			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ExceptionMessage.PASSWORD_DON_NOT_MATCH.getErrorMessage());
+//		}
 		
-		Address address = Address.builder().build();
+		Address address = addressService.findAddressByProvinceAndCity(provinceId, cityId);
 		
 		String encodePassword = passwordEncoder.encode(password);
-		return userRepository.save(User.builder()
-				.name(fullName)
-				.email(email)
-				.password(encodePassword)
-				.phone(phoneNumber)
-				.address(address)
-				.build());
+		User user = new User();
+		user.setName(fullName);
+		user.setEmail(email);
+		user.setPassword(encodePassword);
+		user.setPhone(phoneNumber);
+		user.setAddress(address);
+		
+		return userRepository.save(user);
+	}
+	
+	public User recruiterRegister(RecruiterRegisterDTO registerRequestDTO) {
+		String fullName = registerRequestDTO.getFullName();
+		String email = registerRequestDTO.getEmail();
+		String password = registerRequestDTO.getPassword();		
+		
+		String encodePassword = passwordEncoder.encode(password);
+		
+		User user = new User();
+		user.setName(fullName);
+		user.setEmail(email);
+		user.setPassword(encodePassword);
+		
+		return userRepository.save(user);
 	}
 	
 	public JwtUtil login(LoginRequestDTO loginResponse) {
 		String email = loginResponse.getEmail();
 		String password = loginResponse.getPassword(); 
 		// find user by email
-		User user = userRepository.findByEmail(email).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "invalid credentials"));
+		User user = userRepository.findByEmail(email);
 		
 		if (!passwordEncoder.matches(password, user.getPassword())) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "invalid credentials");
@@ -89,7 +103,7 @@ public class AuthService {
 		String userIdCharacter = payload.split(",")[0];
 		Long userId = Long.parseLong(Character.toString(userIdCharacter.charAt(userIdCharacter.length() - 1)));
 		
-		User user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+		User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(ExceptionMessage.USER_NOT_FOUND.getErrorMessage()));
 		
 		return user;
 	}
@@ -98,18 +112,19 @@ public class AuthService {
 		String email = loginResponse.getEmail();
 		String password = loginResponse.getPassword(); 
 		// find user by email
-		User user = userRepository.findByEmail(email).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "invalid credentials"));
+		User user = userRepository.findByEmail(email);
 		
 		if (!passwordEncoder.matches(password, user.getPassword())) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "invalid credentials");
 		}
 		
-		return LoginResponseDTO.of(email, accessTokenSecret, refreshTokenSecret);
+		return LoginResponseDTO.of(email, accessTokenSecret, refreshTokenSecret, user);
 	}
 	
 	public LoginResponseDTO refreshAccess(String refreshToken) {
 		String email = JwtUtil.getSubject(refreshToken, refreshTokenSecret);
-		LoginResponseDTO loginResponse = LoginResponseDTO.of(email, accessTokenSecret, JwtUtil.of(refreshToken));
+		User user = userRepository.findByEmail(email);
+		LoginResponseDTO loginResponse = LoginResponseDTO.of(email, accessTokenSecret, JwtUtil.of(refreshToken), user);
 		return loginResponse;
 	}
 }

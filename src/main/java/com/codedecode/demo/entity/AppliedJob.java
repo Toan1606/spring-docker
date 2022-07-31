@@ -12,10 +12,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,12 +20,7 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
-@Data
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
-@EqualsAndHashCode
 @Entity
 @Table(name = "AppliedJobs")
 public class AppliedJob {
@@ -39,11 +30,16 @@ public class AppliedJob {
 	
 	@ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
+	@EqualsAndHashCode.Exclude
+	@ToString.Exclude
 	@JsonIgnore
     private User user;
 	
 	@ManyToOne
     @JoinColumn(name = "posting_id", referencedColumnName = "id")
+	@EqualsAndHashCode.Exclude
+	@ToString.Exclude
+	@JsonIgnore
     private Posting posting;
 	
 	@Column(name = "deadline_for_submission")

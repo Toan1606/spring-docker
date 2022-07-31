@@ -23,9 +23,6 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,12 +31,7 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
-@Data
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
-@EqualsAndHashCode
 @Entity
 @Table(name = "users")
 public class User implements Serializable {
@@ -80,22 +72,16 @@ public class User implements Serializable {
 	@JsonIgnore
 	private Collection<CoverLetter> coverLetter;
 
-	@Builder.Default
-	@ManyToMany
-	@JoinTable(
-		name = "users_roles",
-		joinColumns = @JoinColumn(name = "user_id"),
-		inverseJoinColumns = @JoinColumn(name = "role_id")
-	)
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
 
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Address.class)
 	@JoinColumn(name = "address_id", referencedColumnName = "id")
+	@ToString.Exclude
+	@JsonIgnore
 	private Address address;
 
-	@Column(name = "address")
-	private String addressName;
-	
 	@Column(name = "password")
 	private String password;
 
@@ -104,19 +90,19 @@ public class User implements Serializable {
 
 	@Column(name = "name")
 	private String name;
-	
+
 	@Column(name = "description")
 	private String description;
-	
+
 	@Column(name = "career_goals")
 	private String careerGoals;
-	
+
 	@Column(name = "university")
 	private String university;
-	
+
 	@Column(name = "rating")
 	private String rating;
-	
+
 	@Column(name = "phone")
 	private String phone;
 
@@ -135,6 +121,12 @@ public class User implements Serializable {
 	@JsonIgnore
 	private Collection<Degree> degrees;
 
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@EqualsAndHashCode.Exclude
+	@ToString.Exclude
+	@JsonIgnore
+	private Collection<Posting> postings;
+
 	@Column(name = "gender")
 	private String gender;
 
@@ -152,11 +144,12 @@ public class User implements Serializable {
 
 	@Column(name = "taxt_number")
 	private Long taxtNumber;
+
 	
-	@Column(name = "images", columnDefinition = "LONGTEXT")
+	@Column(name = "images", columnDefinition = "NVARCHAR(MAX)")
 	private String images;
 	
-	@Column(name = "candidate_cv", columnDefinition = "LONGTEXT")
+	@Column(name = "candidate_cv", columnDefinition = "NVARCHAR(MAX)")
 	private String candidateCV;
 
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -174,12 +167,13 @@ public class User implements Serializable {
 	@ToString.Exclude
 	@JsonIgnore
 	private Collection<Message> recruiterMessage;
-
-	@OneToOne(mappedBy = "user")
+	
+	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ToString.Exclude
+	@JsonIgnore
 	private CandidateProfileSaved candidateProfileSaved;
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
 	@JsonIgnore
 	private Collection<SavedJob> savedJob;
@@ -189,12 +183,35 @@ public class User implements Serializable {
 	@ToString.Exclude
 	@JsonIgnore
 	private Collection<AppliedJob> appliedJob;
+	
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = UserContract.class)
+	@JoinColumn(name = "candidate_contract_id", referencedColumnName = "id")
+	private UserContract candidateContract;
+	
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = UserContract.class)
+	@JoinColumn(name = "recruiter_contract_id", referencedColumnName = "id")
+	private UserContract recruiterContract;
 
-	@ManyToOne(cascade = { CascadeType.ALL })
-	@JoinColumn(name = "manager_id")
-	private User manager;
+	public User(Long id, String email) {
+		this.id = id;
+		this.email = email;
+	}
 
-	@OneToMany(mappedBy = "manager")
-	private Collection<User> candidate;
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("User [id=");
+		builder.append(id);
+		builder.append(", email=");
+		builder.append(email);
+		builder.append(", address=");
+		builder.append(address);
+		builder.append(", password=");
+		builder.append(password);
+		builder.append(", name=");
+		builder.append(name);
+		builder.append("]");
+		return builder.toString();
+	}
 
 }

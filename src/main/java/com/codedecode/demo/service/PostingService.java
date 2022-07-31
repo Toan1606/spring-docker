@@ -1,17 +1,21 @@
 package com.codedecode.demo.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.codedecode.demo.dto.PageDTO;
+import com.codedecode.demo.dto.PostingResponseDTO;
+import com.codedecode.demo.dto.PostingResponseInterfaceDTO;
 import com.codedecode.demo.entity.Address;
 import com.codedecode.demo.entity.Posting;
+import com.codedecode.demo.exception.PostingNotFound;
 import com.codedecode.demo.repository.HomeAddressRepository;
+import com.codedecode.demo.repository.PostingProjectionRepository;
 import com.codedecode.demo.repository.PostingRepository;
+import com.codedecode.demo.utils.ExceptionMessage;
 
 @Service
 @Transactional
@@ -22,8 +26,13 @@ public class PostingService {
 
 	@Autowired
 	private HomeAddressRepository addressRepository;
+	
+	@Autowired
+	private PostingProjectionRepository postingProjectionRepository;
 
+	
 	public Iterable<Posting> getAttractiveJob() {
+		System.out.println("findPosting function");
 		return postingRepository.findAll();
 	}
 
@@ -40,14 +49,13 @@ public class PostingService {
 		return returnPosting;
 	}
 
-	public Posting findPostingById(Long id) {
-		Optional<Posting> optionalPosting = postingRepository.findById(id);
-		Posting posting = optionalPosting.isPresent() ? optionalPosting.get() : null;
-
-		if (posting == null)
-			return null;
-
-		return posting;
+	public PostingResponseDTO findPostingByUserIdAndPostingId(Long userId, Long postingId) {
+		PostingResponseInterfaceDTO posting = postingRepository.findPostingByUserIdAndPostingId(userId, postingId);
+		PostingResponseDTO postingResponseDTO = postingProjectionRepository.findPostingByUserIdAndPostingId(userId, postingId);
+		if (posting == null) {
+			throw new PostingNotFound(ExceptionMessage.POSTING_NOT_FOUND.getErrorMessage());
+		}
+		return postingResponseDTO;
 	}
 
 	public void deletePostingById(Long id) {
@@ -57,5 +65,5 @@ public class PostingService {
 	public PageDTO<Posting> searchPostingPage(String text, List<String> fields, int limit, int pageOffset) {
 		return postingRepository.searchPageBy(text, limit, pageOffset, fields.toArray(new String[0]));
 	}
-
+	
 }
