@@ -7,13 +7,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.codedecode.demo.dto.PageDTO;
-import com.codedecode.demo.dto.PostingResponseDTO;
+import com.codedecode.demo.dto.PostingDetailResponse;
 import com.codedecode.demo.dto.PostingResponseInterfaceDTO;
 import com.codedecode.demo.entity.Address;
 import com.codedecode.demo.entity.Posting;
 import com.codedecode.demo.exception.PostingNotFound;
 import com.codedecode.demo.repository.HomeAddressRepository;
-import com.codedecode.demo.repository.PostingProjectionRepository;
 import com.codedecode.demo.repository.PostingRepository;
 import com.codedecode.demo.utils.ExceptionMessage;
 
@@ -26,11 +25,7 @@ public class PostingService {
 
 	@Autowired
 	private HomeAddressRepository addressRepository;
-	
-	@Autowired
-	private PostingProjectionRepository postingProjectionRepository;
 
-	
 	public Iterable<Posting> getAttractiveJob() {
 		System.out.println("findPosting function");
 		return postingRepository.findAll();
@@ -49,13 +44,44 @@ public class PostingService {
 		return returnPosting;
 	}
 
-	public PostingResponseDTO findPostingByUserIdAndPostingId(Long userId, Long postingId) {
+	public PostingResponseInterfaceDTO findPostingByUserIdAndPostingId(Long userId, Long postingId) {
 		PostingResponseInterfaceDTO posting = postingRepository.findPostingByUserIdAndPostingId(userId, postingId);
-		PostingResponseDTO postingResponseDTO = postingProjectionRepository.findPostingByUserIdAndPostingId(userId, postingId);
 		if (posting == null) {
 			throw new PostingNotFound(ExceptionMessage.POSTING_NOT_FOUND.getErrorMessage());
 		}
-		return postingResponseDTO;
+		return posting;
+	}
+	
+	public PostingDetailResponse convertPostingResponseDTO(PostingResponseInterfaceDTO postingInterface) {
+		
+		PostingDetailResponse posting = PostingDetailResponse.builder()
+		.benefits(postingInterface.getBenefits())
+		.commission(postingInterface.getCommission())
+		.deadlineForSubmission(postingInterface.getDeadlineForSubmission())
+		.degreeRequired(postingInterface.getDegreeRequired())
+		.description(postingInterface.getDescription())
+		.emailContact(postingInterface.getEmailContact())
+		.file(postingInterface.getFiles())
+		.genderRequirement(postingInterface.getGenderRequirement())
+		.images(postingInterface.getImage())
+		.jobName(postingInterface.getJobName())
+		.jobRequirement(postingInterface.getJobRequirement())
+		.phoneNumber(postingInterface.getPhoneNumber())
+		.position(postingInterface.getPosition())
+		.profileIncluded(postingInterface.getProfileIncluded())
+		.quantity(postingInterface.getQuantity())
+		.quantityNeeded(postingInterface.getQuantityNeeded())
+		.view(postingInterface.getViews())
+		.rankId(postingInterface.getRankId())
+		.salaryId(postingInterface.getSalaryId())
+		.workingFormId(postingInterface.getWorkingFormId())
+		.yearOfExperienceId(postingInterface.getYearOfExperienceId())
+		.companyId(postingInterface.getCompanyId())
+		.companyName(postingInterface.getCompanyName())
+		.postingCategoryId(postingInterface.getPostingCategoryId())
+		.postingCategoryName(postingInterface.getPostingCategoryName())
+		.build();
+		return posting;
 	}
 
 	public void deletePostingById(Long id) {
