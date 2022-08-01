@@ -17,9 +17,12 @@ import com.codedecode.demo.exception.NoBearerTokenError;
 import com.codedecode.demo.exception.NotFoundProvince;
 import com.codedecode.demo.exception.PostingNotFound;
 import com.codedecode.demo.exception.ProvinceNotFound;
+import com.codedecode.demo.exception.SalaryException;
 import com.codedecode.demo.exception.StreetNotFound;
 import com.codedecode.demo.exception.UnauthenticatedException;
 import com.codedecode.demo.exception.UserNotFoundException;
+import com.codedecode.demo.exception.WorkingFormException;
+import com.codedecode.demo.exception.YearOfExperienceException;
 import com.codedecode.demo.utils.ExceptionMessage;
 
 @RestControllerAdvice
@@ -129,5 +132,27 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<ErrorDetails>(error, HttpStatus.BAD_REQUEST);
 	}
 	
+	@ExceptionHandler(SalaryException.class)
+	public ResponseEntity<ErrorDetails> handleSalaryException() {
+		ErrorDetails error = ErrorDetails.builder().timestamp(new Date())
+				.message(ExceptionMessage.SALARY_EXCEPTION.getErrorMessage())
+				.details(ExceptionMessage.SALARY_EXCEPTION.getErrorMessage()).build();
+		return new ResponseEntity<ErrorDetails>(error, HttpStatus.BAD_REQUEST);
+	}
 	
+	@ExceptionHandler(YearOfExperienceException.class)
+	public ResponseEntity<ErrorDetails> handleYearOfExperienceException() {
+		ErrorDetails error = ErrorDetails.builder().timestamp(new Date())
+				.message(ExceptionMessage.YEAR_OF_EXPERIENCE_EXCEPTION.getErrorMessage())
+				.details(ExceptionMessage.YEAR_OF_EXPERIENCE_EXCEPTION.getErrorMessage()).build();
+		return new ResponseEntity<ErrorDetails>(error, HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler(WorkingFormException.class)
+	public ResponseEntity<ErrorDetails> handleWorkingFormException() {
+		ErrorDetails error = ErrorDetails.builder().timestamp(new Date())
+				.message(ExceptionMessage.WORKING_FORM_EXCEPTION.getErrorMessage())
+				.details(ExceptionMessage.WORKING_FORM_EXCEPTION.getErrorMessage()).build();
+		return new ResponseEntity<ErrorDetails>(error, HttpStatus.BAD_REQUEST);
+	}
 }

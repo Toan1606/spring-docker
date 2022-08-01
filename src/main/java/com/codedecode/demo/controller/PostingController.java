@@ -20,15 +20,18 @@ import com.codedecode.demo.dto.PostingDetailResponse;
 import com.codedecode.demo.dto.PostingRequestDTO;
 import com.codedecode.demo.dto.PostingResponseInterfaceDTO;
 import com.codedecode.demo.entity.Address;
-import com.codedecode.demo.entity.City;
 import com.codedecode.demo.entity.Posting;
-import com.codedecode.demo.entity.Province;
-import com.codedecode.demo.entity.Street;
+import com.codedecode.demo.entity.Salary;
+import com.codedecode.demo.entity.WorkingForm;
+import com.codedecode.demo.entity.YearOfExperience;
 import com.codedecode.demo.service.AddressService;
 import com.codedecode.demo.service.CityService;
 import com.codedecode.demo.service.PostingService;
 import com.codedecode.demo.service.ProvinceService;
+import com.codedecode.demo.service.SalaryService;
 import com.codedecode.demo.service.StreetService;
+import com.codedecode.demo.service.WorkingFormService;
+import com.codedecode.demo.service.YearOfExperienceService;
 
 
 @RestController
@@ -50,6 +53,16 @@ public class PostingController {
 	
 	@Autowired
 	private StreetService streetService;
+	
+	@Autowired
+	private SalaryService salaryService;
+	
+	@Autowired
+	private YearOfExperienceService yearOfExperienceService;
+	
+	@Autowired
+	private WorkingFormService workingFormService;
+	
 	/*
 	 * @author : ToanNT16
 	 * */
@@ -57,49 +70,57 @@ public class PostingController {
 	public ResponseEntity<PostingDetailResponse> findPostingById(@RequestBody PostingRequestDTO postingRequestDTO) {
 		Long userId = postingRequestDTO.getUserId();
 		Long postingId = postingRequestDTO.getPostingId();
+		
 		PostingResponseInterfaceDTO posting = postingService.findPostingByUserIdAndPostingId(userId, postingId);
 		List<Address> addresss = addressService.findAddressByPostingId(postingId);
 		
-		for (Address address : addresss) {
-			Province province = address.getProvince();
-			City city = address.getCity();
-			Street street = address.getStreet();
-			if (province != null) {
-				System.out.println(province.getName());
-			}
-			
-			if (city != null) {
-				System.out.println(city.getName());
-			}
-			
-			if (street != null) {
-				System.out.println(street.getName());
-			}
-		}
+		Long salaryId = posting.getSalaryId();
+		
+		Long yearOfExperienceId = posting.getYearOfExperienceId();
+		
+		Long workingFormId = posting.getWorkingFormId();
+		
+		Salary salary = salaryService.findSalaryById(salaryId);
+		
+		YearOfExperience yearOfExperience = yearOfExperienceService.findYearOfExperienceById(yearOfExperienceId);
+		
+		WorkingForm workingForm = workingFormService.findWorkingFormById(workingFormId);
 		
 		List<String> provinces = provinceService.findByAddress(addresss);
-		
+
 		List<String> cities = cityService.findByAddress(addresss);
 		
 		List<String> streets = streetService.findByAddress(addresss);
 		
 		PostingDetailResponse response = postingService.convertPostingResponseDTO(posting);
 		
+		response.setSalary(salary.getName());
+		
+		response.setYearOfExperience(yearOfExperience.getName());
+		
+		response.setWorkingForm(workingForm.getName());
+		
 		response.setProvince(provinces);
 		
-		response.setProvince(cities);
+		response.setCities(cities);
 		
-		response.setProvince(streets);
+		response.setStreet(streets);
 		
 		return new ResponseEntity<PostingDetailResponse>(response, HttpStatus.OK);
 	}
 	
+	/*
+	 * @author : ToanNT16
+	 * */
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<Long> deletePostingById(@PathVariable Long id) {
 		postingService.deletePostingById(id);
 		return ResponseEntity.ok(id);
 	}
 	
+	/*
+	 * @author : ToanNT16
+	 * */
 	@GetMapping("/search/page")
     public PageDTO<Posting> searchPlantPage(PageableSearchRequestDTO pageableSearchRequestDTO) {
 

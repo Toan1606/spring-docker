@@ -9,7 +9,8 @@ public enum ExceptionMessage {
 	, PASSWORD_DON_NOT_MATCH("Password do not match"), USER_NOT_FOUND("User Does Not Exist"), POSTING_NOT_FOUND("Posting Does Not Exist")
 	, ILLEGAL_ARGUMENT_EXCEPTION("Illegal argument exception"), INDEX_EXCEPTION("Index error"), NO_BEARER_TOKEN_ERROR("No bearer in token")
 	, UNAUTHENTICATED_EXCEPTION("unauthenticated"), EMPTY_RESULT_DATA_ACCESS_EXCEPTION("No Data Found From Database")
-	, DATA_INTEGRITY_VIOLATION_EXCEPTION("Data integrity violation exception");
+	, DATA_INTEGRITY_VIOLATION_EXCEPTION("Data integrity violation exception"), SALARY_EXCEPTION("Salary Not Found"), YEAR_OF_EXPERIENCE_EXCEPTION("Year Of Experience Not Found")
+	, WORKING_FORM_EXCEPTION("Working Form Not Found");
 	
 	@Getter
 	private String errorMessage;

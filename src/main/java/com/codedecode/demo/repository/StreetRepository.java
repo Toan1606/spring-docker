@@ -15,6 +15,6 @@ public interface StreetRepository extends JpaRepository<Street, Long>{
 	
 	List<Street> findByCity(City city);
 
-	@Query(value = "select * from street s join address a on s.id =a.province_id where a.id = :addressId", nativeQuery = true)
+	@Query(value = "select * from street s join address a on s.id =a.street_id where a.id = :addressId", nativeQuery = true)
 	Street findByAddressId(@Param("addressId") Long addressId);
 }
