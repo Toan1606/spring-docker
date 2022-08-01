@@ -59,6 +59,8 @@ public class PostingDetailResponse implements Serializable {
 	
 	private Long workingFormId;
 	
+	private String workingForm;
+	
 	private Long yearOfExperienceId;
 	
 	private Long companyId;
@@ -68,6 +70,10 @@ public class PostingDetailResponse implements Serializable {
 	private Long postingCategoryId;
 	
 	private String postingCategoryName;
+	
+	private String salary;
+	
+	private String yearOfExperience;
 	
 	private List<String> province;
 	
