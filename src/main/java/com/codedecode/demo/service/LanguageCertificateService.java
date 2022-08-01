@@ -20,7 +20,7 @@ public class LanguageCertificateService{
 	 *	@author: Nguyễn Văn Tuấn 
 	 * 
 	 */
-	public List<Language> findAllLanguageCertificatesByUserId(Long userId){
+	public List<Language> findAllLanguageCertificatesByUserId(int userId){
 		return languageCertificateRepository.findAllLanguageCertificatesByUserId(userId);
 	}
 	/*
@@ -37,7 +37,7 @@ public class LanguageCertificateService{
 	 * 
 	 */
 	public void updateLanguageCertificate(Language language) {
-		languageCertificateRepository.flush();
+		languageCertificateRepository.save(language);
 	}
 	/*
 	 * 

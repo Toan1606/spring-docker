@@ -17,7 +17,7 @@ public interface LanguageCertificateRepository extends JpaRepository<Language, L
 	 * 
 	 */
 	@Query(value="select * from languages l where l.user_id = ?1", nativeQuery=true)
-	List<Language> findAllLanguageCertificatesByUserId(Long userID);
+	List<Language> findAllLanguageCertificatesByUserId(int userID);
 	
 	/*
 	 * 
