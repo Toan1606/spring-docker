@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.codedecode.demo.dto.WorkExperienceDTO;
 import com.codedecode.demo.entity.CV;
 import com.codedecode.demo.entity.WorkExperiences;
 import com.codedecode.demo.service.CVService;
@@ -51,17 +52,24 @@ public class WorkExperienceController {
 			return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 		}
 	}
-	@PostMapping("/add/{userId}")
-	public ResponseEntity<?> addWorkExp(@PathVariable Long userId, @RequestBody WorkExperiences workexp){
-		List<CV> cv = cvService.getCVsByUserId(userId);
+	@PostMapping("/add")
+	public ResponseEntity<?> addWorkExp(@RequestBody WorkExperienceDTO workexpDTO){
+		List<CV> cv = cvService.getCVsByUserId(workexpDTO.getUserId());
 		if(!cv.isEmpty() || cv.size() != 0) {
 			for(CV c : cv) {
+				WorkExperiences workexp = new WorkExperiences();
+				workexp.setCompanyName(workexpDTO.getCompanyName());
+				workexp.setPosition(workexpDTO.getPosition());
+				workexp.setDescription(workexpDTO.getDescription());
+				workexp.setStartDate(workexpDTO.getStartDate());
+				workexp.setEndDate(workexpDTO.getEndDate());
 				workexp.setCv(c);
 				workExperienceService.addWorkExp(workexp);
 			}
-			return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 		}else {
-			return new ResponseEntity<HttpStatus>(HttpStatus.NOT_FOUND);
+//			return new ResponseEntity<HttpStatus>(HttpStatus.NOT_FOUND);
 		}
+		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+
 	}
 }

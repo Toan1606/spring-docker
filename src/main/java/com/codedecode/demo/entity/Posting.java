@@ -10,6 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -95,40 +97,54 @@ public class Posting implements Serializable {
 	
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "posting_category_id", referencedColumnName = "id")
+	@EqualsAndHashCode.Exclude
+	@ToString.Exclude
 	@NotNull
 	@JsonIgnore
 	private PostingCategory postingCategory;
 	
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "posting_type_id", referencedColumnName = "id")
+	@EqualsAndHashCode.Exclude
+	@ToString.Exclude
 	@NotNull
 	@JsonIgnore
 	private PostingType postingType;
 
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "working_form_id", referencedColumnName = "id")
+	@EqualsAndHashCode.Exclude
+	@ToString.Exclude
 	@JsonIgnore
 	private WorkingForm workingForm;
 
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "year_of_experience_id", referencedColumnName = "id")
+	@EqualsAndHashCode.Exclude
+	@ToString.Exclude
 	@JsonIgnore
 	private YearOfExperience yearOfExperience;
 
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "rank_id", referencedColumnName = "id")
+	@EqualsAndHashCode.Exclude
+	@ToString.Exclude
 	@JsonIgnore
 	private Rank rank;
 
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "salary_id", referencedColumnName = "id")
+	@EqualsAndHashCode.Exclude
+	@ToString.Exclude
 	@JsonIgnore
 	private Salary salary;
 
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "address_id", referencedColumnName = "id")
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(name = "posting_address", joinColumns = @JoinColumn(name = "posting_id"), inverseJoinColumns = @JoinColumn(name = "address_id"))
+	@EqualsAndHashCode.Exclude
+	@ToString.Exclude
 	@JsonIgnore
-	private Address address;
+	private Collection<Address> addresss;
 
 	@OneToMany(mappedBy = "posting", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@EqualsAndHashCode.Exclude
