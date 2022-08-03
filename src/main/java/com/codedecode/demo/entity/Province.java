@@ -47,10 +47,15 @@ public class Province implements Serializable {
 	@JsonIgnore
 	private Collection<City> cities;
 
-	
 	@OneToOne(mappedBy = "province",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
 	@JsonIgnore
 	private Address address;
+	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "name : " + this.name;
+	}
 }

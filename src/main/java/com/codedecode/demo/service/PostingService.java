@@ -1,5 +1,6 @@
 package com.codedecode.demo.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +9,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.codedecode.demo.dto.PageDTO;
 import com.codedecode.demo.dto.PostingDetailResponse;
+import com.codedecode.demo.dto.PostingRelatedDTO;
 import com.codedecode.demo.dto.PostingResponseInterfaceDTO;
+import com.codedecode.demo.dto.PostingSearchCategoryResponse;
+import com.codedecode.demo.dto.PostingSearchCategoryResponseInterface;
+import com.codedecode.demo.dto.PostingSearchCityResponse;
+import com.codedecode.demo.dto.PostingSearchProvinceResponse;
 import com.codedecode.demo.entity.Address;
 import com.codedecode.demo.entity.Posting;
 import com.codedecode.demo.exception.PostingNotFound;
@@ -92,4 +98,47 @@ public class PostingService {
 		return postingRepository.searchPageBy(text, limit, pageOffset, fields.toArray(new String[0]));
 	}
 	
+	public List<PostingRelatedDTO> findTop10RelatedPosting(Long postingCategoryId) {
+		return postingRepository.findTop10RelatedPosting(postingCategoryId);
+	}
+
+	public List<PostingSearchCategoryResponseInterface> searchPostingByCategory(Integer pageOffSet, Long postingCategoryId) {
+		int start = (pageOffSet - 1) * 30;
+		int end = pageOffSet * 30;
+		return postingRepository.findPostingByCategory(start, end, postingCategoryId);
+	}
+	
+	public List<PostingSearchCategoryResponse> convertSearchByCategoryResult(List<PostingSearchCategoryResponseInterface> postings) {
+		List<PostingSearchCategoryResponse> results = new ArrayList<PostingSearchCategoryResponse>();
+		
+		for(PostingSearchCategoryResponseInterface posting : postings ) {
+			PostingSearchCategoryResponse reponse = new PostingSearchCategoryResponse();
+			reponse.setRowNumber(posting.getRowNumber());
+			reponse.setImages(posting.getImages());
+			reponse.setPosition(posting.getPosition());
+			reponse.setPostingId(posting.getPostingId());
+			reponse.setJobName(posting.getJobName());
+			reponse.setDeadlineForSubmission(posting.getDeadlineForSubmission());
+			reponse.setCompanyId(posting.getCompanyId());
+			reponse.setCompanyName(posting.getcompanyName());
+			reponse.setSalary(posting.getSalary());
+			reponse.setProvince(posting.getProvince());
+			reponse.setPostingCategoryId(posting.getPostingCategoryId());
+			results.add(reponse);
+		}
+		return results;
+	}
+	
+	
+	public List<PostingSearchProvinceResponse> searchPostingByProvince(Integer pageOffSet, Long provinceId) {
+		int start = (pageOffSet - 1) * 30;
+		int end = pageOffSet * 30;
+		return postingRepository.findPostingByProvince(start, end, provinceId);
+	}
+	
+	public List<PostingSearchCityResponse> searchPostingByCity(Integer pageOffSet, Long cityId) {
+		int start = (pageOffSet - 1) * 30;
+		int end = pageOffSet * 30;
+		return postingRepository.findPostingByCity(start, end, cityId);
+	}
 }

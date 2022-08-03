@@ -51,7 +51,7 @@ public class LanguageCertificateController {
 	 */
 	@PutMapping("/add")
 	public ResponseEntity<Language> addLanguageCertificate(){
-		User user = userService.findUserById(1);
+		User user = userService.findUserById(1L);
 		Language l = new Language(2L, "Tieng Anh", "Toeic", 700, user);
 		languageService.addLanguage(l);
 		return new ResponseEntity<>(HttpStatus.OK);

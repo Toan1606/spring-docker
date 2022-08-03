@@ -68,4 +68,10 @@ public class City implements Serializable {
 	@ToString.Exclude
 	@JsonIgnore
 	private Collection<Street> streets;
+	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "name : " + this.name;
+	}
 }
