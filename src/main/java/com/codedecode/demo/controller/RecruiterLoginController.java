@@ -56,7 +56,7 @@ public class RecruiterLoginController {
 				.postings(postings)
 				.build();
 		
-		return new ResponseEntity<UserResponseIdDTO>(response, HttpStatus.OK);
+		return new ResponseEntity<UserResponseIdDTO>(response, HttpStatus.OK); 
 	}
 	
 	/*
