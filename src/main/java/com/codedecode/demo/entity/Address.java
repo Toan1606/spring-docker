@@ -15,6 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.EqualsAndHashCode;
@@ -41,7 +42,6 @@ public class Address implements Serializable {
 
 	@Column(name = "name")
 	private String name;
-
 	
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "province_id", referencedColumnName = "id")
@@ -69,4 +69,10 @@ public class Address implements Serializable {
 	@ToString.Exclude
 	@JsonIgnore
 	private Collection<User> users;
+	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "name : " + this.name;
+	}
 }

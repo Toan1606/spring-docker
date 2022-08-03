@@ -184,4 +184,10 @@ public class Posting implements Serializable {
 
 	@Column(name = "files", length = 500)
 	private String file;
+	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "name : " + this.jobName;
+	}
 }

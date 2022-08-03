@@ -143,7 +143,7 @@ public class User implements Serializable {
 	private Collection<Experience> experiences;
 
 	@Column(name = "taxt_number")
-	private Long taxtNumber;
+	private String taxtNumber;
 
 	
 	@Column(name = "images", columnDefinition = "NVARCHAR(MAX)")
