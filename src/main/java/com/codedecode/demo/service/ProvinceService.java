@@ -1,7 +1,10 @@
 package com.codedecode.demo.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.transaction.Transactional;
 
@@ -34,15 +37,18 @@ public class ProvinceService {
 		return provinceRepository.findAll();
 	}
 	
-	public List<String> findByAddress(List<Address> addresss) {
-		List<String> provinces = new ArrayList<String>();
+	public List<Map<String, String>> findByAddress(Set<Address> addresss) {
+		List<Map<String, String>> provinces = new ArrayList<Map<String,String>>();
+		
 		for (Address address : addresss) {
+			Map<String, String> provincesMap = new HashMap<String, String>();
 			Province province = provinceRepository.findByAddressId(address.getId());
 			if (province != null) {
-				provinces.add(province.getName());
+				provincesMap.put("id", String.valueOf(province.getId()));
+				provincesMap.put("name", province.getName());
+				provinces.add(provincesMap);
 			}
 		}
-		
 		return provinces;
 	}
 	

@@ -1,6 +1,6 @@
 package com.codedecode.demo.service;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.transaction.Transactional;
 
@@ -28,7 +28,7 @@ public class AddressService {
 		return addressRepository.findById(addressId).orElseThrow(() -> new AddressNotFound(ExceptionMessage.ADDRESS_NOT_FOUND.getErrorMessage()));
 	}
 	
-	public List<Address> findAddressByPostingId(Long postingId) {
+	public Set<Address> findAddressByPostingId(Long postingId) {
 		return addressRepository.findByPostingId(postingId);
 	}
 }

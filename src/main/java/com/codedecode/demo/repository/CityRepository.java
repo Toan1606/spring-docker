@@ -20,4 +20,7 @@ public interface CityRepository extends JpaRepository<City, Long>{
 
 	@Query(value = "select * from city c join address a on c.id =a.province_id where a.id = :addressId", nativeQuery = true)
 	City findByAddressId(@Param("addressId") Long addressId);
+
+	@Query(value = "select * from city c join province p on c.province_id =  p.id where p.id = :provinceId", nativeQuery = true)
+	List<City> findCityByProvinceId(Long provinceId);
 }

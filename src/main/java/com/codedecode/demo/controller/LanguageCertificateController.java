@@ -41,11 +41,10 @@ public class LanguageCertificateController {
 	 */
 
 	@GetMapping("/{userId}")
-	public ResponseEntity<?> showAllLanguageCertitficates(@PathVariable int userId) {
+	public ResponseEntity<?> showAllLanguageCertitficates(@PathVariable Long userId) {
 		List<Language> list = languageService.findAllLanguageCertificatesByUserId(userId);
 		if(list == null || list.size() == 0) {
 			return new ResponseEntity<HttpStatus>(HttpStatus.NO_CONTENT);
-
 		}else {
 			List<LanguageDTO> lists = new ArrayList<LanguageDTO>();
 			for (Language language : list) {
@@ -80,16 +79,7 @@ public class LanguageCertificateController {
 		l.setGrade(languageDTO.getMark());
 		l.setUser(user);
 		languageService.addLanguageCertificate(l);
-		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
-//		Language l = new Language(2L, "Tieng Anh", "Toeic", 700, user);
-//		Language l = languageService.findLanguageCertificateById(language.getId());
-//		if(l == null) {
-//			language.setUser(user);
-//			languageService.addLanguageCertificate(language);
-//			return new ResponseEntity<HttpStatus>(HttpStatus.OK);
-//		}else {
-//			return new ResponseEntity<HttpStatus>(HttpStatus.BAD_REQUEST);
-//		}
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	/*
 	 * 
@@ -113,7 +103,6 @@ public class LanguageCertificateController {
 	 */
 	@PostMapping("/update")
 	public ResponseEntity<?> updateLanguageCertificateById(@RequestBody LanguageDTO languageDTO){
-//		System.out.println(language.toString());
 		User user = userService.findUserById(languageDTO.getUserId());
 		Language l = new Language();
 		l.setName(languageDTO.getName());
@@ -123,17 +112,5 @@ public class LanguageCertificateController {
 		l.setId(languageDTO.getId());
 		languageService.updateLanguageCertificate(l);
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
-		
-//		Language l = languageService.findLanguageCertificateById(id);
-//		if(l != null) {
-//			l.setCertificateName(language.getCertificateName());
-//			l.setGrade(language.getGrade());
-//			l.setName(language.getName());
-//			languageService.updateLanguageCertificate(l);
-//			return new ResponseEntity<HttpStatus>(HttpStatus.OK);
-//		}else {
-//			return new ResponseEntity<HttpStatus>(HttpStatus.NOT_FOUND);
-//		}
-
 	}
 }

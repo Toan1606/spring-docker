@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import com.codedecode.demo.dto.PostingResponseDTO;
 
 @DataJpaTest
 public class PostingRepositoryTest {
@@ -22,12 +21,5 @@ public class PostingRepositoryTest {
 	public void testGetAllJob() {
 		assertNotNull(postingRepository);
 		assertEquals(postingRepository, postingRepository);
-	}
-	
-	@Test
-	public void testPostingProjectionJPQL() {
-		PostingResponseDTO posting = postingProjectionRepository.findPostingByUserIdAndPostingId(1L, 1L);
-		System.out.println("posting : " + posting);
-		assertNotNull(posting);
 	}
 }

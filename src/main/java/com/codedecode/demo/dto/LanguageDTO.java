@@ -15,5 +15,5 @@ public class LanguageDTO {
 	private String certificate_name;
 	private String name;
 	private float mark;
-	private int userId;
+	private Long userId;
 }

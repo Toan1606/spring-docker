@@ -2,6 +2,7 @@ package com.codedecode.demo.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.transaction.Transactional;
 
@@ -30,7 +31,7 @@ public class StreetService {
 		return streetRepository.findByCity(city);
 	}
 	
-	public List<String> findByAddress(List<Address> addresss) {
+	public List<String> findByAddress(Set<Address> addresss) {
 		List<String> streets = new ArrayList<String>();
 		for (Address address : addresss) {
 			Street street = streetRepository.findByAddressId(address.getId());

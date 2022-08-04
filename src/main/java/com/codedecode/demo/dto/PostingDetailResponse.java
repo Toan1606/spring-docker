@@ -3,6 +3,7 @@ package com.codedecode.demo.dto;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -75,9 +76,13 @@ public class PostingDetailResponse implements Serializable {
 	
 	private String yearOfExperience;
 	
-	private List<String> province;
+	private List<Map<String, String>> province;
 	
-	private List<String> cities;
+	private List<Map<String, String>> cities;
 	
 	private List<String> street;
+	
+	private List<CityResponseDTO> citiesDto;
+	
+	private List<PostingRelatedDTO> relatedPosting;
 }
