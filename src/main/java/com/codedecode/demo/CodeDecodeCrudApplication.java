@@ -20,6 +20,7 @@ public class CodeDecodeCrudApplication {
 	public ApplicationRunner buildIndex(Indexer indexer) {
 		return (ApplicationArguments args) -> {
 			indexer.indexPersistedData("com.codedecode.demo.entity.Posting");
+			indexer.indexPersistedData("com.codedecode.demo.entity.User");
 		};
 	}
 
