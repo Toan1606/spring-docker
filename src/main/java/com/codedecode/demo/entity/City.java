@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 
@@ -49,8 +50,7 @@ public class City implements Serializable {
 	@ToString.Exclude
 	private DesiredJob desiredJob;
 	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "address_id", referencedColumnName = "id")
+	@OneToOne(mappedBy = "city", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
 	@JsonIgnore
@@ -63,9 +63,15 @@ public class City implements Serializable {
 	@JsonIgnore
 	private Province province;
 
-	@OneToMany(mappedBy = "city", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
 	@JsonIgnore
 	private Collection<Street> streets;
+	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "name : " + this.name;
+	}
 }

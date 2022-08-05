@@ -87,8 +87,6 @@ public class UserController {
 		
 		User loginUser = userService.getUserByEmail(email);
 		
-		System.out.println("loginUser: " + loginUser);
-		
 		String jwtAccessToken = JwtUtil.of(email, SecretKey.ACCESS_SECRET_KEY.getSecretKey()).getToken();
 		String jwtRefreshToken = JwtUtil.of(email, SecretKey.REFRESH_SECRET_KEY.getSecretKey()).getToken();
 		

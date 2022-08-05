@@ -27,8 +27,8 @@ public class RecruiterOnlineCVFormController {
 	UserRepository repository;
 	
 	@PutMapping(value="/{recruiterId}") 
-	public ResponseEntity<User> updateRecuiter(@PathVariable("recruiterId") int id, @RequestBody User user){	
-		User rs = repository.getUserById(id);
+	public ResponseEntity<User> updateRecuiter(@PathVariable("recruiterId") Long id, @RequestBody User user){	
+		User rs = service.findUserById(id);
 		if(rs!=null) {
 			rs.setImages(user.getImages());
 			rs.setPhone(user.getPhone());

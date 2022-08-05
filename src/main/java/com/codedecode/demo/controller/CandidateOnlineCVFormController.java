@@ -47,8 +47,8 @@ public class CandidateOnlineCVFormController {
 	}
 	
 	@PutMapping(value="/{candidateId}") 
-	public ResponseEntity<User> updateCandidate(@PathVariable("candidateId") int id, @RequestBody User user){	
-		User rs = repository.getUserById(id);
+	public ResponseEntity<User> updateCandidate(@PathVariable("candidateId") Long id, @RequestBody User user){	
+		User rs = service.findUserById(id);
 		if(rs!=null) {
 			rs.setBirthDate(user.getBirthDate());
 			rs.setGender(user.getGender());
