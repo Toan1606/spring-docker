@@ -1,16 +1,19 @@
 package com.codedecode.demo.service;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
+import com.codedecode.demo.dto.CandidateByIdResponseDTO;
 import com.codedecode.demo.dto.FindAllUserResponseDTO;
 import com.codedecode.demo.dto.PageDTO;
 import com.codedecode.demo.entity.Posting;
+import com.codedecode.demo.entity.Role;
 import com.codedecode.demo.entity.User;
 import com.codedecode.demo.repository.SearchCandidateRepository;
 import com.codedecode.demo.dto.PostingRecruiterResponseDTO;
@@ -98,5 +101,24 @@ public class UserService {
 			usersDto.add(userDto);
 		}
 		return usersDto;
+	}
+	public CandidateByIdResponseDTO findCandidateById(Long candidateId) {
+		User user = userRepository.findById(candidateId).orElseThrow(() -> new UserNotFoundException(ExceptionMessage.USER_NOT_FOUND.getErrorMessage()));
+		
+		Set<Role> roles = user.getRoles();
+		Iterator<Role> value = roles.iterator();
+		
+		while (value.hasNext()) {
+			Role role = value.next();
+			if (role.getRoleName().equals(ApplicationUserRole.ROLE_RECRUITER.name()))
+			throw new UserNotFoundException(ExceptionMessage.USER_NOT_FOUND.getErrorMessage());
+		}
+		
+		CandidateByIdResponseDTO userDto = convertToCandidateResposeDTO(user);
+		return userDto;
+	}
+	
+	public CandidateByIdResponseDTO convertToCandidateResposeDTO(User user) {
+		return new CandidateByIdResponseDTO();
 	}
 }
