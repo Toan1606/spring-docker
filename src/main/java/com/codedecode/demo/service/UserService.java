@@ -8,16 +8,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import com.codedecode.demo.dto.FindAllUserResponseDTO;
 import com.codedecode.demo.dto.PageDTO;
 import com.codedecode.demo.entity.Posting;
 import com.codedecode.demo.entity.User;
 import com.codedecode.demo.repository.SearchCandidateRepository;
-
 import com.codedecode.demo.dto.PostingRecruiterResponseDTO;
 import com.codedecode.demo.entity.Address;
 import com.codedecode.demo.entity.ApplicationUserRole;
-import com.codedecode.demo.entity.Posting;
-import com.codedecode.demo.entity.User;
 import com.codedecode.demo.exception.UserNotFoundException;
 import com.codedecode.demo.repository.UserRepository;
 import com.codedecode.demo.utils.ExceptionMessage;
@@ -82,8 +80,23 @@ public class UserService {
 		return postingsDto;
 
 	}
+	
 	public List<User> findAllRecruiter() {
 		List<User> users = userRepository.findByRoles_RoleName(ApplicationUserRole.ROLE_RECRUITER.name());
 		return users;
+	}
+	public List<FindAllUserResponseDTO> convertFindAllUser(List<User> users) {
+		List<FindAllUserResponseDTO> usersDto = new ArrayList<FindAllUserResponseDTO>();
+		for (User user : users) {
+			FindAllUserResponseDTO userDto = new FindAllUserResponseDTO();
+			userDto.setId(user.getId());
+			userDto.setName(user.getName());
+			String description = user.getRecruiterDescription();
+			if (description != null)
+				userDto.setRecruiterDescription(description.substring(0, 100));
+			userDto.setImage(user.getImages());
+			usersDto.add(userDto);
+		}
+		return usersDto;
 	}
 }
