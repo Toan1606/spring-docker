@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.codedecode.demo.dto.PostingRecruiterResponseDTO;
 import com.codedecode.demo.entity.Address;
+import com.codedecode.demo.entity.ApplicationUserRole;
 import com.codedecode.demo.entity.Posting;
 import com.codedecode.demo.entity.User;
 import com.codedecode.demo.exception.UserNotFoundException;
@@ -64,5 +65,9 @@ public class UserService {
 			postingsDto.add(postingDto);
 		}
 		return postingsDto;
+	}
+	public List<User> findAllRecruiter() {
+		List<User> users = userRepository.findByRoles_RoleName(ApplicationUserRole.ROLE_RECRUITER.name());
+		return users;
 	}
 }

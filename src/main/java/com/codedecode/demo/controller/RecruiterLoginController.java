@@ -77,5 +77,15 @@ public class RecruiterLoginController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(authService.register(registerRequestDTO));
 	}
 	
+	/*
+	 * 
+	 *	@author: Nguyen The Toan
+	 * 
+	 */
+	@PostMapping(value = "/find-all")
+	public ResponseEntity<List<User>> findAllRecruiter() {
+		List<User> users = userService.findAllRecruiter();
+		return ResponseEntity.status(HttpStatus.CREATED).body(users);
+	}
 	
 }
