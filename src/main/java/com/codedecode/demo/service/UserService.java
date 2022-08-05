@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.codedecode.demo.dto.FindAllUserResponseDTO;
 import com.codedecode.demo.dto.PostingRecruiterResponseDTO;
 import com.codedecode.demo.entity.Address;
 import com.codedecode.demo.entity.ApplicationUserRole;
@@ -22,6 +23,9 @@ public class UserService {
 	
 	@Autowired(required = true)
 	private UserRepository userRepository;
+	
+//	@Autowired
+//	private PostingRepository postingRepository;
 	
 	public User addNewUser(User user) {
 		return userRepository.save(user);
@@ -66,8 +70,23 @@ public class UserService {
 		}
 		return postingsDto;
 	}
+	
 	public List<User> findAllRecruiter() {
 		List<User> users = userRepository.findByRoles_RoleName(ApplicationUserRole.ROLE_RECRUITER.name());
 		return users;
+	}
+	public List<FindAllUserResponseDTO> convertFindAllUser(List<User> users) {
+		List<FindAllUserResponseDTO> usersDto = new ArrayList<FindAllUserResponseDTO>();
+		for (User user : users) {
+			FindAllUserResponseDTO userDto = new FindAllUserResponseDTO();
+			userDto.setId(user.getId());
+			userDto.setName(user.getName());
+			String description = user.getRecruiterDescription();
+			if (description != null)
+				userDto.setRecruiterDescription(description.substring(0, 100));
+			userDto.setImage(user.getImages());
+			usersDto.add(userDto);
+		}
+		return usersDto;
 	}
 }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.codedecode.demo.dto.FindAllUserResponseDTO;
 import com.codedecode.demo.dto.PostingRecruiterResponseDTO;
 import com.codedecode.demo.dto.RegisterRequestDTO;
 import com.codedecode.demo.dto.UserRequestIdDTO;
@@ -59,7 +60,7 @@ public class RecruiterLoginController {
 				.city(city.getName())
 				.province(province.getName())
 				.street(street.getName())
-				.recruiterDescription(user.getRecruiterDescription())
+				.recruiterDescription(user.getRecruiterDescription().substring(0,100))
 				.taxNumber(user.getTaxtNumber())
 				.postings(postingsDto)
 				.build();
@@ -83,9 +84,10 @@ public class RecruiterLoginController {
 	 * 
 	 */
 	@PostMapping(value = "/find-all")
-	public ResponseEntity<List<User>> findAllRecruiter() {
+	public ResponseEntity<List<FindAllUserResponseDTO>> findAllRecruiter() {
 		List<User> users = userService.findAllRecruiter();
-		return ResponseEntity.status(HttpStatus.CREATED).body(users);
+		List<FindAllUserResponseDTO> usersDto = userService.convertFindAllUser(users);
+		return ResponseEntity.status(HttpStatus.CREATED).body(usersDto);
 	}
 	
 }
