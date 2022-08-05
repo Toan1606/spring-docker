@@ -19,8 +19,9 @@ public class AddressService {
 	@Autowired
 	private AddressRepository addressRepository;
 	
-	public Address findAddressByProvinceAndCity(Long provinceName, Long cityName) {
-		Address address = addressRepository.findByProvinceAndCity(provinceName, cityName).orElseThrow(() -> new AddressNotFound(ExceptionMessage.ADDRESS_NOT_FOUND.getErrorMessage()));
+	public Address findAddressByProvinceAndCity(Long provinceId, Long cityId) {
+		System.out.println("findAddressByProvinceAndCity service");
+		Address address = addressRepository.findAddressByProvinceAndCity(provinceId, cityId).orElseThrow(() -> new AddressNotFound(ExceptionMessage.ADDRESS_NOT_FOUND.getErrorMessage()));
 		return address;
 	}
 	
