@@ -160,7 +160,6 @@ public class PostingController {
 	/*
 	 * @author : ToanNT16
 	 */
-	@GetMapping("/search/page")
 	public PageDTO<Posting> searchPlantPage(PageableSearchRequestDTO pageableSearchRequestDTO) {
 
 		return postingService.searchPostingPage(pageableSearchRequestDTO.getText(),
