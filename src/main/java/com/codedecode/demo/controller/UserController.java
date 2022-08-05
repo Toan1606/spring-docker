@@ -20,8 +20,12 @@ import com.codedecode.demo.dto.AddressRequestDTO;
 import com.codedecode.demo.dto.LoginRequestDTO;
 import com.codedecode.demo.dto.LoginResponseDTO;
 import com.codedecode.demo.dto.LogoutResponseDTO;
+import com.codedecode.demo.dto.PageDTO;
+import com.codedecode.demo.dto.PageableSearchCandidateRequestDTO;
+import com.codedecode.demo.dto.PageableSearchRequestDTO;
 import com.codedecode.demo.dto.RegisterRequestDTO;
 import com.codedecode.demo.entity.Address;
+import com.codedecode.demo.entity.Posting;
 import com.codedecode.demo.entity.User;
 import com.codedecode.demo.service.AddressService;
 import com.codedecode.demo.service.AuthService;
@@ -131,4 +135,9 @@ public class UserController {
 		
 		return ResponseEntity.status(HttpStatus.OK).body(LogoutResponseDTO.builder().message(ResponseMessage.LOGOUT_SUCCESS.getMessage()).build());
 	}
+	
+	@GetMapping("/search/page")
+    public PageDTO<User> searchCandidate(PageableSearchCandidateRequestDTO pageableSearchRequestDTO) {
+        return userService.searchCandidatePage(pageableSearchRequestDTO.getText(), pageableSearchRequestDTO.getFields(), pageableSearchRequestDTO.getLimit(), pageableSearchRequestDTO.getPageOffset());
+    }
 }

@@ -21,6 +21,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.EqualsAndHashCode;
@@ -29,6 +32,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+@Indexed
 @Getter
 @Setter
 @NoArgsConstructor
@@ -94,9 +98,11 @@ public class User implements Serializable {
 	@Column(name = "description")
 	private String description;
 
+	@FullTextField
 	@Column(name = "career_goals")
 	private String careerGoals;
 
+	@FullTextField
 	@Column(name = "university")
 	private String university;
 
