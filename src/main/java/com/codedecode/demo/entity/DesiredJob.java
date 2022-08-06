@@ -11,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -76,5 +78,11 @@ public class DesiredJob implements Serializable {
 	@ToString.Exclude
 	@JsonIgnore
 	private Collection<City> cities;
+	
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(name = "desired_job_address", joinColumns = @JoinColumn(name = "desired_job_id"), inverseJoinColumns = @JoinColumn(name = "address_id"))
+	@ToString.Exclude
+	@JsonIgnore
+	private Collection<Address> workPlaceDesired;
 
 }

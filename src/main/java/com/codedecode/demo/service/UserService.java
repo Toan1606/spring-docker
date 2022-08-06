@@ -3,6 +3,7 @@ package com.codedecode.demo.service;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -119,6 +120,34 @@ public class UserService {
 	}
 	
 	public CandidateByIdResponseDTO convertToCandidateResposeDTO(User user) {
-		return new CandidateByIdResponseDTO();
+		Random rnd = new Random();
+		CandidateByIdResponseDTO candidateDto = new CandidateByIdResponseDTO();
+		candidateDto.setId(user.getId());
+		candidateDto.setName(user.getName());
+		candidateDto.setGender(user.getGender());
+		candidateDto.setDateOfBirth(user.getBirthDate().toString());
+		candidateDto.setProfileCode(String.valueOf(rnd.nextInt(999999)));
+		candidateDto.setDesiredJob(user.getDesiredJob().getName());
+		candidateDto.setMariaStatus(user.getMariaStatus());
+		candidateDto.setPhone(user.getPhone());
+		candidateDto.setEmail(user.getEmail());
+		
+		candidateDto.setProfileCode(user.getAddress().getProvince().getName());
+		candidateDto.setCity(user.getAddress().getCity().getName());
+		
+//		String workplaceDesired = convertWorkPlaceDesired(addresss);
+//		candidateDto.setWorkplaceDesired(workplaceDesired);
+//		candidateDto.setYearOfExperience(user.getYearOfExperience().getName());
+//		candidateDto.setSalary(user.);
+		
+		return candidateDto;
+	}
+	
+	public String convertWorkPlaceDesired(List<Address> addresss) {
+		StringBuilder addressStr = new StringBuilder();
+		for (Address address : addresss) {
+			addressStr.append(address.getProvince().getName());
+		}
+		return addressStr.toString();
 	}
 }
