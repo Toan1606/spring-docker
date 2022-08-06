@@ -191,6 +191,16 @@ public class User implements Serializable {
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = UserContract.class)
 	@JoinColumn(name = "recruiter_contract_id", referencedColumnName = "id")
 	private UserContract recruiterContract;
+	
+	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ToString.Exclude
+	@JsonIgnore
+	private CareerGoal careerGoal;
+	
+	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ToString.Exclude
+	@JsonIgnore
+	private SelfSkill selfSkill;
 
 	public User(Long id, String email) {
 		this.id = id;

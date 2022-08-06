@@ -28,6 +28,11 @@ public class LanguageCertificateService{
 	 *	@author: Nguyễn Văn Tuấn 
 	 * 
 	 */
+	public Language findLanguage(Language language) {
+		return languageCertificateRepository.saveAndFlush(language);
+	}
+	
+	
 	public void deleteLanguageCertificate(Long languageId) {
 		languageCertificateRepository.deleteLanguageCertificateById(languageId);
 	}
