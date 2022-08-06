@@ -86,6 +86,12 @@ public class User implements Serializable {
 	@ToString.Exclude
 	@JsonIgnore
 	private Address address;
+	
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(name = "users_address_desired", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "address_id"))
+	@ToString.Exclude
+	@JsonIgnore
+	private Collection<Address> workPlaceDesired;
 
 	@Column(name = "password")
 	private String password;
@@ -155,7 +161,6 @@ public class User implements Serializable {
 
 	@Column(name = "taxt_number")
 	private String taxtNumber;
-
 	
 	@Column(name = "images", columnDefinition = "NVARCHAR(MAX)")
 	private String images;
@@ -202,6 +207,10 @@ public class User implements Serializable {
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = UserContract.class)
 	@JoinColumn(name = "recruiter_contract_id", referencedColumnName = "id")
 	private UserContract recruiterContract;
+	
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "year_of_experience", referencedColumnName = "id")
+	private YearOfExperience yearOfExperience;
 
 	public User(Long id, String email) {
 		this.id = id;
