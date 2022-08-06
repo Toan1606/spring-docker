@@ -53,6 +53,4 @@ public class CandidateByIdResponseDTO implements Serializable{
 	private String workExperience;
 	
 	private String degree;
-	
-	private String references;
 }

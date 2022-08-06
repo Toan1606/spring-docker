@@ -48,7 +48,6 @@ public class CandidateProfileSaved implements Serializable {
 	@JsonIgnore
 	private User recruiter;
 	
-//	@OneToOne(mappedBy = "candidateProfileSaved", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@OneToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
 	@ToString.Exclude

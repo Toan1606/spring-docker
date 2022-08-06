@@ -11,6 +11,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -138,8 +139,8 @@ public class UserController {
         return userService.searchCandidatePage(pageableSearchRequestDTO.getText(), pageableSearchRequestDTO.getFields(), pageableSearchRequestDTO.getLimit(), pageableSearchRequestDTO.getPageOffset());
     }
 	
-	@PostMapping(value = "/id")
-	public ResponseEntity<CandidateByIdResponseDTO> findCandidateById(@RequestBody Long candidateId) {
+	@PostMapping(value = "/id/{candidateId}")
+	public ResponseEntity<CandidateByIdResponseDTO> findCandidateById(@PathVariable Long candidateId) {
 		CandidateByIdResponseDTO candidate = userService.findCandidateById(candidateId);
 		return new ResponseEntity<CandidateByIdResponseDTO>(candidate, HttpStatus.OK);
 	}

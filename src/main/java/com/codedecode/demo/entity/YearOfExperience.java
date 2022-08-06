@@ -1,6 +1,7 @@
 package com.codedecode.demo.entity;
 
 import java.io.Serializable;
+import java.util.Collection;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -9,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -46,4 +48,7 @@ public class YearOfExperience implements Serializable {
 	@ToString.Exclude
 	@JsonIgnore
 	private DesiredJob desiredJob;
+	
+	@OneToMany(mappedBy = "yearOfExperience", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Collection<CV> cvs;
 }
