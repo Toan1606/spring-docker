@@ -53,11 +53,12 @@ public class User implements Serializable {
 	@Column(name = "email", unique = true, length = 100)
 	private String email;
 
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "cv_id", referencedColumnName = "id")
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
 	@JsonIgnore
-	private Collection<CV> cv;
+	private CV cv;
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@EqualsAndHashCode.Exclude
@@ -132,12 +133,6 @@ public class User implements Serializable {
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
 	@JsonIgnore
-	private Collection<Degree> degrees;
-
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@EqualsAndHashCode.Exclude
-	@ToString.Exclude
-	@JsonIgnore
 	private Collection<Posting> postings;
 
 	@Column(name = "gender")
@@ -207,10 +202,6 @@ public class User implements Serializable {
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = UserContract.class)
 	@JoinColumn(name = "recruiter_contract_id", referencedColumnName = "id")
 	private UserContract recruiterContract;
-	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "year_of_experience", referencedColumnName = "id")
-	private YearOfExperience yearOfExperience;
 
 	public User(Long id, String email) {
 		this.id = id;
