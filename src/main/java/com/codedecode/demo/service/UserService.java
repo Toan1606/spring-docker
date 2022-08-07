@@ -1,5 +1,7 @@
 package com.codedecode.demo.service;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -146,27 +148,12 @@ public class UserService {
 	public String getSkill(CV cv) {
 		if (cv == null)
 			return "";
-		System.out.println("getSkill function");
-		System.out.println("cvs.get(0) : " + cv);
 		StringBuilder skillStr = new StringBuilder();
 		List<Skill> skills = new ArrayList<Skill>(cv.getSkills());
 		for (Skill skill : skills) {
 			skillStr.append(skill.getSkillName());
 		}
 		return skillStr.toString();
-	}
-
-	public String getWorkExperience(CV cv) {
-		if (cv == null)
-			return "";
-		System.out.println("getWorkExperience function");
-		System.out.println("cvs.get(0) : " + cv);
-		StringBuilder workExperiencesStr = new StringBuilder();
-		List<WorkExperiences> workExperiences = new ArrayList<WorkExperiences>(cv.getWorkExperiences());
-		for (WorkExperiences workExperience : workExperiences) {
-			workExperiencesStr.append(workExperience.getCompanyName());
-		}
-		return workExperiencesStr.toString();
 	}
 
 	public String getYearOfExperience(CV cv) {
@@ -176,30 +163,11 @@ public class UserService {
 		return yearOfExperience != null ? yearOfExperience.getName() : null;
 	}
 
-	public String getDegree(CV cv) {
-		if (cv == null)
-			return "";
-		System.out.println("getDegree function");
-		System.out.println("cvs.get(0) : " + cv);
-		List<Degree> degrees = new ArrayList<Degree>(cv.getDegrees());
-		StringBuilder degreeStr = new StringBuilder();
-
-		for (Degree degree : degrees) {
-			degreeStr.append(degree.getCertificateName());
-			degreeStr.append(degree.getTeachingUnit());
-			degreeStr.append(degree.getMajor());
-			degreeStr.append(degree.getGrade());
-			degreeStr.append(degree.getStartTime());
-		}
-
-		return degreeStr.toString();
-	}
-
 	public CandidateByIdResponseDTO setCandidateByIdResponseDTO(Long userId, String userName, String gender,
 			String birthDate, Random rnd, String desiredJobName, String mariaStatus, String phone, String email,
 			String provinceName, String cityName, String workplaceDesired, String yearOfExperience, String salaryName,
-			String workingFormName, String rankName, String careerGoal, String skillName, String workExperience,
-			String degree) {
+			String workingFormName, String rankName, String careerGoal, String skillName, List<WorkExperiences> workExperiences,
+			List<Degree>  degrees) {
 		CandidateByIdResponseDTO candidateDto = new CandidateByIdResponseDTO();
 		candidateDto.setId(userId);
 		candidateDto.setName(userName);
@@ -221,20 +189,21 @@ public class UserService {
 		candidateDto.setRank(rankName);
 		candidateDto.setCareerGoal(careerGoal);
 		candidateDto.setSkill(skillName);
-		candidateDto.setWorkExperience(workExperience);
-		candidateDto.setDegree(degree);
+		candidateDto.setWorkExperiences(workExperiences);
+		candidateDto.setDegrees(degrees);
 		return candidateDto;
 	}
 
-	public CandidateByIdResponseDTO convertToCandidateResposeDTO(User user) {
+	public CandidateByIdResponseDTO convertToCandidateResposeDTO(User user)  {
 		// 1. get object related
 		// 1.1 birth date
 		Date birthDate = user.getBirthDate();
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");  
+		String strDate = dateFormat.format(birthDate);  
 		// 1.2 random Mã hồ sơ
 		Random rnd = new Random();
 		// 1.3
 		DesiredJob desiredJob = user.getDesiredJob();
-		System.out.println("desiredJob : " + desiredJob);
 		// province
 		Address address = user.getAddress();
 		Province province = address.getProvince();
@@ -258,10 +227,11 @@ public class UserService {
 		}
 
 		String yearOfExperience = getYearOfExperience(cv);
-		String careerGoal = user.getCareerGoals();
+		String careerGoal = cv.getCareerJobObjective();
 		String skillName = getSkill(cv);
-		String workExperience = getWorkExperience(cv);
-		String degree = getDegree(cv);
+		List<WorkExperiences> workExperiences = new ArrayList<WorkExperiences>(cv.getWorkExperiences());
+		
+		List<Degree> degrees = new ArrayList<Degree>(cv.getDegrees());
 		
 		salary = salary == null ? new Salary() : salary;
 		workingForm = workingForm == null ? new WorkingForm() : workingForm;
@@ -269,13 +239,15 @@ public class UserService {
 
 		// 3. set
 		CandidateByIdResponseDTO candidateDto = setCandidateByIdResponseDTO(user.getId(), user.getName(),
-				user.getGender(), birthDate.toString(), rnd, desiredJobName, user.getMariaStatus(), user.getPhone(),
+				user.getGender(), strDate, rnd, desiredJobName, user.getMariaStatus(), user.getPhone(),
 				user.getEmail(), province.getName(), city.getName(), workplaceDesired, yearOfExperience,
-				salary.getName(), workingForm.getName(), rank.getName(), careerGoal, skillName, workExperience, degree);
+				salary.getName(), workingForm.getName(), rank.getName(), careerGoal, skillName, workExperiences, degrees);
 
 		// 4. return
 		return candidateDto;
 	}
+	
+	
 
 	public String convertWorkPlaceDesired(List<Address> addresss) {
 		StringBuilder addressStr = new StringBuilder();

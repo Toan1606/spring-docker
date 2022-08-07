@@ -60,7 +60,7 @@ public class RecruiterLoginController {
 				.city(city.getName())
 				.province(province.getName())
 				.street(street.getName())
-				.recruiterDescription(user.getRecruiterDescription().substring(0,100))
+				.recruiterDescription(user.getRecruiterDescription().substring(0,50))
 				.taxNumber(user.getTaxtNumber())
 				.postings(postingsDto)
 				.build();

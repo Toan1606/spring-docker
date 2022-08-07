@@ -39,10 +39,10 @@ public class YearOfExperience implements Serializable {
 	@Column(name = "name")
 	private String name;
 
-	@OneToOne(mappedBy = "yearOfExperience", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@ToString.Exclude
-	@JsonIgnore
-	private Posting posting;
+//	@OneToOne(mappedBy = "yearOfExperience", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//	@ToString.Exclude
+//	@JsonIgnore
+//	private Posting posting;
 
 	@OneToOne(mappedBy = "yearOfExperience", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@ToString.Exclude
@@ -50,5 +50,7 @@ public class YearOfExperience implements Serializable {
 	private DesiredJob desiredJob;
 	
 	@OneToMany(mappedBy = "yearOfExperience", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ToString.Exclude
+	@JsonIgnore
 	private Collection<CV> cvs;
 }

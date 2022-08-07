@@ -11,7 +11,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codedecode.demo.dto.AddressRequestDTO;
 import com.codedecode.demo.dto.CandidateByIdResponseDTO;
+import com.codedecode.demo.dto.CandidateFindByIdDTO;
 import com.codedecode.demo.dto.LoginRequestDTO;
 import com.codedecode.demo.dto.LoginResponseDTO;
 import com.codedecode.demo.dto.LogoutResponseDTO;
@@ -139,9 +139,9 @@ public class UserController {
         return userService.searchCandidatePage(pageableSearchRequestDTO.getText(), pageableSearchRequestDTO.getFields(), pageableSearchRequestDTO.getLimit(), pageableSearchRequestDTO.getPageOffset());
     }
 	
-	@PostMapping(value = "/id/{candidateId}")
-	public ResponseEntity<CandidateByIdResponseDTO> findCandidateById(@PathVariable Long candidateId) {
-		CandidateByIdResponseDTO candidate = userService.findCandidateById(candidateId);
+	@PostMapping(value = "/id")
+	public ResponseEntity<CandidateByIdResponseDTO> findCandidateById(@RequestBody CandidateFindByIdDTO request) {
+		CandidateByIdResponseDTO candidate = userService.findCandidateById(request.getCanddiateId());
 		return new ResponseEntity<CandidateByIdResponseDTO>(candidate, HttpStatus.OK);
 	}
 }
