@@ -49,3 +49,6 @@ build/
 *.si
 segments_po
 *.lock
+
+## application.properties
+application.properties
