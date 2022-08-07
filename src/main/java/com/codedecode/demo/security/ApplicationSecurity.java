@@ -29,7 +29,7 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter{
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable();
-		http.authorizeRequests()	
+		http.authorizeRequests()
 		.antMatchers("/**").permitAll()
 		.anyRequest().authenticated()
         // setting stateless session, because we choose to implement Rest API

@@ -31,6 +31,7 @@ public class SavedJob {
 
 	@ManyToOne
 	@JoinColumn(name = "student_id", referencedColumnName = "id")
+	@JsonIgnore
 	private User user;
 
 	@ManyToOne

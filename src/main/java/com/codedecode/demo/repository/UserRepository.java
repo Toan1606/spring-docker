@@ -11,6 +11,9 @@ import com.codedecode.demo.entity.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long>{
+
+	@Query(value="select * from users where id = ?1", nativeQuery=true)
+	User getUserById(int id);
 	
 	User findByEmail(String email);
 

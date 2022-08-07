@@ -107,8 +107,8 @@ public class User implements Serializable {
 	private String description;
 
 	@FullTextField
-	@Column(name = "career_goals")
-	private String careerGoals;
+	@Column(name = "self_skill")
+	private String selfSkill;
 
 	@FullTextField
 	@Column(name = "university")
