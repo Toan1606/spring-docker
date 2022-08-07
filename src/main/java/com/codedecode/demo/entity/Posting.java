@@ -118,12 +118,12 @@ public class Posting implements Serializable {
 	@JsonIgnore
 	private WorkingForm workingForm;
 
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "year_of_experience_id", referencedColumnName = "id")
-	@EqualsAndHashCode.Exclude
-	@ToString.Exclude
-	@JsonIgnore
-	private YearOfExperience yearOfExperience;
+//	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//	@JoinColumn(name = "year_of_experience_id", referencedColumnName = "id")
+//	@EqualsAndHashCode.Exclude
+//	@ToString.Exclude
+//	@JsonIgnore
+//	private YearOfExperience yearOfExperience;
 
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "rank_id", referencedColumnName = "id")

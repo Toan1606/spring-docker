@@ -1,6 +1,10 @@
 package com.codedecode.demo.dto;
 
 import java.io.Serializable;
+import java.util.List;
+
+import com.codedecode.demo.entity.Degree;
+import com.codedecode.demo.entity.WorkExperiences;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -50,7 +54,7 @@ public class CandidateByIdResponseDTO implements Serializable{
 	
 	private String skill;
 	
-	private String workExperience;
+	private List<WorkExperiences> workExperiences;
 	
-	private String degree;
+	private List<Degree> degrees;
 }

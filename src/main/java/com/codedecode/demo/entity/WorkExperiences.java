@@ -13,6 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -48,9 +50,11 @@ public class WorkExperiences implements Serializable {
 	private String description;
 
 	@Column(name = "start_date")
+	@Temporal(TemporalType.DATE)
 	private Date startDate;
 
 	@Column(name = "end_date")
+	@Temporal(TemporalType.DATE)
 	private Date endDate;
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
