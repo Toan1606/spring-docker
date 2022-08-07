@@ -15,11 +15,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -29,6 +33,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+@Indexed
 @Getter
 @Setter
 @NoArgsConstructor
@@ -48,11 +53,12 @@ public class User implements Serializable {
 	@Column(name = "email", unique = true, length = 100)
 	private String email;
 
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "cv_id", referencedColumnName = "id")
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
 	@JsonIgnore
-	private Collection<CV> cv;
+	private CV cv;
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@EqualsAndHashCode.Exclude
@@ -81,6 +87,12 @@ public class User implements Serializable {
 	@ToString.Exclude
 	@JsonIgnore
 	private Address address;
+	
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(name = "users_address_desired", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "address_id"))
+	@ToString.Exclude
+	@JsonIgnore
+	private Collection<Address> workPlaceDesired;
 
 	@Column(name = "password")
 	private String password;
@@ -94,9 +106,11 @@ public class User implements Serializable {
 	@Column(name = "description")
 	private String description;
 
-	@Column(name = "career_goals")
-	private String careerGoals;
+	@FullTextField
+	@Column(name = "self_skill")
+	private String selfSkill;
 
+	@FullTextField
 	@Column(name = "university")
 	private String university;
 
@@ -119,16 +133,14 @@ public class User implements Serializable {
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
 	@JsonIgnore
-	private Collection<Degree> degrees;
-
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@EqualsAndHashCode.Exclude
-	@ToString.Exclude
-	@JsonIgnore
 	private Collection<Posting> postings;
 
 	@Column(name = "gender")
 	private String gender;
+	
+	@Lob
+	@Column(name = "recruiter_description")
+	private String recruiterDescription;
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@EqualsAndHashCode.Exclude
@@ -144,7 +156,6 @@ public class User implements Serializable {
 
 	@Column(name = "taxt_number")
 	private String taxtNumber;
-
 	
 	@Column(name = "images", columnDefinition = "NVARCHAR(MAX)")
 	private String images;
@@ -191,16 +202,6 @@ public class User implements Serializable {
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = UserContract.class)
 	@JoinColumn(name = "recruiter_contract_id", referencedColumnName = "id")
 	private UserContract recruiterContract;
-	
-	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@ToString.Exclude
-	@JsonIgnore
-	private CareerGoal careerGoal;
-	
-	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@ToString.Exclude
-	@JsonIgnore
-	private SelfSkill selfSkill;
 
 	public User(Long id, String email) {
 		this.id = id;

@@ -7,7 +7,6 @@ import lombok.Setter;
 @Setter
 public class SelfSkillDTO {
 	
-	private Long id;
 	private String selfSkill;
 	private Long userId;
 }

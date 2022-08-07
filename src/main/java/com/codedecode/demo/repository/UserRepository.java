@@ -1,6 +1,8 @@
 package com.codedecode.demo.repository;
 
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -17,4 +19,6 @@ public interface UserRepository extends JpaRepository<User, Long>{
 
 	@Query(value="update users set images = ?1, taxt_number = ?2, phone = ?3, description = ?4 where id = ?5", nativeQuery=true)
 	User updateRecruiterById(Long id, User user, MultipartFile file);
+
+	List<User> findByRoles_RoleName(String roleName);
 }

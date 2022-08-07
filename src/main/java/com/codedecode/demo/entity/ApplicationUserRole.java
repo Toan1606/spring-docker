@@ -10,7 +10,7 @@ import com.google.common.collect.Sets;
 import lombok.Getter;
 
 public enum ApplicationUserRole {
-	RECRUITER(Sets.newHashSet()), CANDIDATE(Sets.newHashSet()), GUEST(Sets.newHashSet());
+	ROLE_RECRUITER(Sets.newHashSet()), ROLE_CANDIDATE(Sets.newHashSet()), ROLE_GUEST(Sets.newHashSet());
 	
 	@Getter
 	private Set<ApplicationUserPermission> permissions;

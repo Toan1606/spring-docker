@@ -3,7 +3,6 @@ package com.codedecode.demo.dto;
 import java.io.Serializable;
 import java.util.List;
 
-import com.codedecode.demo.entity.Posting;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,9 +32,13 @@ public class UserResponseIdDTO implements Serializable {
 	
 	private String province;
 	
+	private String street;
+	
+	private String recruiterDescription;
+	
 	private String taxNumber;
 	
-	private List<Posting> postings;
+	private List<PostingRecruiterResponseDTO> postings;
 	
 	
 }

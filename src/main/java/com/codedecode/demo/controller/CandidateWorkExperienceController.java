@@ -29,46 +29,42 @@ public class CandidateWorkExperienceController {
 
 	@Autowired
 	private WorkExperienceService workExperienceService;
-	
+
 	@Autowired
 	private CVService cvService;
-	
+
 	@GetMapping("/{userId}")
-	public ResponseEntity<?> showWorkExpPage(@PathVariable Long userId){
+	public ResponseEntity<?> showWorkExpPage(@PathVariable Long userId) {
 		List<WorkExperiences> list = workExperienceService.getAllWorkExp(userId);
-		if(list == null || list.size() == 0) {
+		if (list == null || list.size() == 0) {
 			return new ResponseEntity<HttpStatus>(HttpStatus.NO_CONTENT);
-		}else {
-			return new ResponseEntity<List<WorkExperiences>>(list,HttpStatus.OK);
+		} else {
+			return new ResponseEntity<List<WorkExperiences>>(list, HttpStatus.OK);
 		}
 	}
+
 	@DeleteMapping("/delete/{id}")
-	public ResponseEntity<?> deleteWorkExp(@PathVariable Long id){
+	public ResponseEntity<?> deleteWorkExp(@PathVariable Long id) {
 		WorkExperiences w = workExperienceService.getWorkExpById(id);
-		if(w == null) {
+		if (w == null) {
 			return new ResponseEntity<HttpStatus>(HttpStatus.NOT_FOUND);
-		}else {
+		} else {
 			workExperienceService.deleteWorkExp(id);
 			return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 		}
 	}
+
 	@PostMapping("/add")
-	public ResponseEntity<?> addWorkExp(@RequestBody WorkExperienceDTO workexpDTO){
-		List<CV> cv = cvService.getCVsByUserId(workexpDTO.getUserId());
-		if(!cv.isEmpty() || cv.size() != 0) {
-			for(CV c : cv) {
-				WorkExperiences workexp = new WorkExperiences();
-				workexp.setCompanyName(workexpDTO.getCompanyName());
-				workexp.setPosition(workexpDTO.getPosition());
-				workexp.setDescription(workexpDTO.getDescription());
-				workexp.setStartDate(workexpDTO.getStartDate());
-				workexp.setEndDate(workexpDTO.getEndDate());
-				workexp.setCv(c);
-				workExperienceService.addWorkExp(workexp);
-			}
-		}else {
-//			return new ResponseEntity<HttpStatus>(HttpStatus.NOT_FOUND);
-		}
+	public ResponseEntity<?> addWorkExp(@RequestBody WorkExperienceDTO workexpDTO) {
+		CV cv = cvService.getCVsByUserId(workexpDTO.getUserId());
+		WorkExperiences workexp = new WorkExperiences();
+		workexp.setCompanyName(workexpDTO.getCompanyName());
+		workexp.setPosition(workexpDTO.getPosition());
+		workexp.setDescription(workexpDTO.getDescription());
+		workexp.setStartDate(workexpDTO.getStartDate());
+		workexp.setEndDate(workexpDTO.getEndDate());
+		workexp.setCv(cv);
+		workExperienceService.addWorkExp(workexp);
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 
 	}

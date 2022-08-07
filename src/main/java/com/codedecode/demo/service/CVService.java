@@ -1,7 +1,5 @@
 package com.codedecode.demo.service;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,8 +25,15 @@ public class CVService {
 	 * @author: TuanNV
 	 * 
 	 * */
-	public List<CV> getCVsByUserId(Long id) {
+	public CV getCVsByUserId(Long id) {
 		return cvRepository.getCVsByUserId(id);
 	}
-	
+	/*
+	 * 
+	 * @author: TuanNV
+	 * 
+	 * */
+	public void updateCareerJobObjective(CV cv) {
+		cvRepository.save(cv);
+	}
 }

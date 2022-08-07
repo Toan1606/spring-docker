@@ -11,15 +11,19 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codedecode.demo.dto.AddressRequestDTO;
+import com.codedecode.demo.dto.CandidateByIdResponseDTO;
 import com.codedecode.demo.dto.LoginRequestDTO;
 import com.codedecode.demo.dto.LoginResponseDTO;
 import com.codedecode.demo.dto.LogoutResponseDTO;
+import com.codedecode.demo.dto.PageDTO;
+import com.codedecode.demo.dto.PageableSearchCandidateRequestDTO;
 import com.codedecode.demo.dto.RegisterRequestDTO;
 import com.codedecode.demo.entity.Address;
 import com.codedecode.demo.entity.User;
@@ -83,8 +87,6 @@ public class UserController {
 		
 		User loginUser = userService.getUserByEmail(email);
 		
-		System.out.println("loginUser: " + loginUser);
-		
 		String jwtAccessToken = JwtUtil.of(email, SecretKey.ACCESS_SECRET_KEY.getSecretKey()).getToken();
 		String jwtRefreshToken = JwtUtil.of(email, SecretKey.REFRESH_SECRET_KEY.getSecretKey()).getToken();
 		
@@ -130,5 +132,16 @@ public class UserController {
 		response.addCookie(cookie);
 		
 		return ResponseEntity.status(HttpStatus.OK).body(LogoutResponseDTO.builder().message(ResponseMessage.LOGOUT_SUCCESS.getMessage()).build());
+	}
+	
+	@GetMapping("/search/page")
+    public PageDTO<User> searchCandidate(PageableSearchCandidateRequestDTO pageableSearchRequestDTO) {
+        return userService.searchCandidatePage(pageableSearchRequestDTO.getText(), pageableSearchRequestDTO.getFields(), pageableSearchRequestDTO.getLimit(), pageableSearchRequestDTO.getPageOffset());
+    }
+	
+	@PostMapping(value = "/id/{candidateId}")
+	public ResponseEntity<CandidateByIdResponseDTO> findCandidateById(@PathVariable Long candidateId) {
+		CandidateByIdResponseDTO candidate = userService.findCandidateById(candidateId);
+		return new ResponseEntity<CandidateByIdResponseDTO>(candidate, HttpStatus.OK);
 	}
 }
