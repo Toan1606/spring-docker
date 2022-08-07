@@ -96,6 +96,9 @@ public class User implements Serializable {
 
 	@Column(name = "password")
 	private String password;
+	
+	@Column(name = "career_goals")
+	private String careerGoals;
 
 	@Column(name = "birth_date")
 	private Date birthDate;
@@ -107,8 +110,8 @@ public class User implements Serializable {
 	private String description;
 
 	@FullTextField
-	@Column(name = "career_goals")
-	private String careerGoals;
+	@Column(name = "self_skill")
+	private String selfSkill;
 
 	@FullTextField
 	@Column(name = "university")

@@ -7,13 +7,13 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Data
-@Getter
 @Setter
 @AllArgsConstructor
 @Builder
 public class LanguageDTO {
+	private Long id;
 	private String certificate_name;
 	private String name;
-	private String mark;
-	private int userId;
+	private float mark;
+	private Long userId;
 }
