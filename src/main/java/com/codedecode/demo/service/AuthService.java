@@ -55,7 +55,7 @@ public class AuthService {
 //			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ExceptionMessage.PASSWORD_DON_NOT_MATCH.getErrorMessage());
 //		}
 		
-		Address address = addressService.findAddressByProvinceAndCity(provinceId, cityId);
+//		Address address = addressService.findAddressByProvinceAndCity(provinceId, cityId);
 		
 		String encodePassword = passwordEncoder.encode(password);
 		User user = new User();
@@ -63,7 +63,7 @@ public class AuthService {
 		user.setEmail(email);
 		user.setPassword(encodePassword);
 		user.setPhone(phoneNumber);
-		user.setAddress(address);
+//		user.setAddress(address);
 		
 		return userRepository.save(user);
 	}
