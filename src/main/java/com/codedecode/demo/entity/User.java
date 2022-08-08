@@ -21,10 +21,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -97,7 +98,12 @@ public class User implements Serializable {
 
 	@Column(name = "password")
 	private String password;
+	
+	@FullTextField
+	@Column(name = "career_goals")
+	private String careerGoals;
 
+	@Temporal(TemporalType.DATE)
 	@Column(name = "birth_date")
 	private Date birthDate;
 
@@ -160,12 +166,6 @@ public class User implements Serializable {
 	
 	@Column(name = "images", columnDefinition = "NVARCHAR(MAX)")
 	private String images;
-	
-	private MultipartFile imageFile;
-	
-	@Column(name = "candidate_cv", columnDefinition = "NVARCHAR(MAX)")
-	private String candidateCV;
-
 	
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "desired_job_id", referencedColumnName = "id")

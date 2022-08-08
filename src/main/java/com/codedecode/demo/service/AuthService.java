@@ -14,7 +14,6 @@ import com.codedecode.demo.dto.LoginRequestDTO;
 import com.codedecode.demo.dto.LoginResponseDTO;
 import com.codedecode.demo.dto.RecruiterRegisterDTO;
 import com.codedecode.demo.dto.RegisterRequestDTO;
-import com.codedecode.demo.entity.Address;
 import com.codedecode.demo.entity.User;
 import com.codedecode.demo.exception.UserNotFoundException;
 import com.codedecode.demo.repository.UserRepository;
@@ -55,7 +54,7 @@ public class AuthService {
 //			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ExceptionMessage.PASSWORD_DON_NOT_MATCH.getErrorMessage());
 //		}
 		
-		Address address = addressService.findAddressByProvinceAndCity(provinceId, cityId);
+//		Address address = addressService.findAddressByProvinceAndCity(provinceId, cityId);
 		
 		String encodePassword = passwordEncoder.encode(password);
 		User user = new User();
@@ -63,7 +62,7 @@ public class AuthService {
 		user.setEmail(email);
 		user.setPassword(encodePassword);
 		user.setPhone(phoneNumber);
-		user.setAddress(address);
+//		user.setAddress(address);
 		
 		return userRepository.save(user);
 	}

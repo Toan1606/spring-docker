@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.codedecode.demo.dto.AddPostingRequestDTO;
 import com.codedecode.demo.dto.CityResponseDTO;
 import com.codedecode.demo.dto.GeneralManagementDTO;
 import com.codedecode.demo.dto.PageDTO;
@@ -165,7 +166,7 @@ public class PostingController {
 	/*
 	 * @author : ToanNT16
 	 */
-	@GetMapping(path = "/search/page")
+	@GetMapping(path = "/searchJob")
 	public PageDTO<Posting> searchPlantPage(PageableSearchRequestDTO pageableSearchRequestDTO) {
 
 		return postingService.searchPostingPage(pageableSearchRequestDTO.getText(),
@@ -242,5 +243,12 @@ public class PostingController {
 		generalManagementDTO.setNumberOfSuitableJob(numberOfSuitableJob);
 	
 		return new ResponseEntity<GeneralManagementDTO>(generalManagementDTO, HttpStatus.OK);
+	}
+
+	
+	@PostMapping(value = "/addPosting")
+	public ResponseEntity<Posting> addPosting(@RequestBody AddPostingRequestDTO addPostingRequestDTO) {
+		return ResponseEntity.status(HttpStatus.CREATED).body(postingService.addPosting(addPostingRequestDTO));
+
 	}
 }
