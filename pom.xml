@@ -16,6 +16,7 @@
 	<description>Demo project for Spring Boot and hibernate</description>
 	<properties>
 		<java.version>1.8</java.version>
+		<start-class>com.codedecode.demo.CodeDecodeCrudApplication.java</start-class>
 	</properties>
 	<dependencies>
 		<dependency>

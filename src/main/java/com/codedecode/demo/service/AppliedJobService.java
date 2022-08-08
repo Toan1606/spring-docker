@@ -1,20 +1,27 @@
 package com.codedecode.demo.service;
 
-import javax.transaction.Transactional;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.codedecode.demo.repository.AppliedJobRepostory;
+import com.codedecode.demo.entity.AppliedJob;
+import com.codedecode.demo.repository.AppliedJobRepository;
 
 @Service
-@Transactional
 public class AppliedJobService {
-
-	@Autowired
-	private AppliedJobRepostory appliedJobRepostory;
 	
-	public int countNumberOfAppliedJob() {
-		return appliedJobRepostory.countNumberOfAppliedJob();
+	@Autowired
+	private AppliedJobRepository appliedJobRepository;
+	
+	public List<AppliedJob> getAllAppliedJobs(Long userId) {
+		return appliedJobRepository.getAllAppliedJobs(userId);
+	}
+	public AppliedJob getAppliedJobById(Long id) {
+		return appliedJobRepository.getAppliedJobById(id);
+	}
+	public void deleteAppliedJob(Long id) {
+		appliedJobRepository.deleteAppliedJob(id);
 	}
 }
+
