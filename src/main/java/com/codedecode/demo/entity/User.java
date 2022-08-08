@@ -21,6 +21,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
@@ -101,6 +103,7 @@ public class User implements Serializable {
 	@Column(name = "career_goals")
 	private String careerGoals;
 
+	@Temporal(TemporalType.DATE)
 	@Column(name = "birth_date")
 	private Date birthDate;
 
@@ -164,9 +167,6 @@ public class User implements Serializable {
 	@Column(name = "images", columnDefinition = "NVARCHAR(MAX)")
 	private String images;
 	
-	@Column(name = "candidate_cv", columnDefinition = "NVARCHAR(MAX)")
-	private String candidateCV;
-
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "desired_job_id", referencedColumnName = "id")
 	private DesiredJob desiredJob;
@@ -185,6 +185,7 @@ public class User implements Serializable {
 	
 	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@ToString.Exclude
+	@EqualsAndHashCode.Exclude
 	@JsonIgnore
 	private CandidateProfileSaved candidateProfileSaved;
 
@@ -210,23 +211,6 @@ public class User implements Serializable {
 	public User(Long id, String email) {
 		this.id = id;
 		this.email = email;
-	}
-
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("User [id=");
-		builder.append(id);
-		builder.append(", email=");
-		builder.append(email);
-		builder.append(", address=");
-		builder.append(address);
-		builder.append(", password=");
-		builder.append(password);
-		builder.append(", name=");
-		builder.append(name);
-		builder.append("]");
-		return builder.toString();
 	}
 
 }

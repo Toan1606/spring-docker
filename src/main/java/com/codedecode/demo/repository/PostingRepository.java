@@ -1,6 +1,7 @@
 package com.codedecode.demo.repository;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -11,6 +12,7 @@ import com.codedecode.demo.dto.PostingResponseInterfaceDTO;
 import com.codedecode.demo.dto.PostingSearchCategoryResponseInterface;
 import com.codedecode.demo.dto.PostingSearchCityResponse;
 import com.codedecode.demo.dto.PostingSearchProvinceResponse;
+import com.codedecode.demo.entity.Address;
 import com.codedecode.demo.entity.Posting;
 
 @Repository
@@ -29,7 +31,7 @@ public interface PostingRepository extends SearchRepository<Posting, Long> {
 			+ "	, p.gender_requirement as genderRequirement, p.job_requirement as jobRequirement, p.images as image, p.job_name as jobName\r\n"
 			+ "	, p.phone_number as phoneNumber, p.position as position, p.profile_included as profileIncluded, p.quantity as quantity\r\n"
 			+ "	, p.quantity_needed as quantityNeeded, p.views as views, p.rank_id as rankId, p.salary_id as salaryId\r\n"
-			+ "	, p.working_form_id as workingFormId, p.year_of_experience_id as yearOfExperienceId, u.id as CompanyId, u.name as companyName\r\n"
+			+ "	, p.working_form_id as workingFormId, u.id as CompanyId, u.name as companyName\r\n"
 			+ "	, p.posting_category_id as postingCategoryId, pc.category_name as postingCategoryName\r\n"
 			+ "	from posting p join users u on p.user_id = u.id and p.id = :postingId and u.id = :userId\r\n"
 			+ "	join posting_category pc on pc.id = p.posting_category_id;", nativeQuery = true)
@@ -78,4 +80,5 @@ public interface PostingRepository extends SearchRepository<Posting, Long> {
 			+ "WHERE t.rowNumber BETWEEN :start and :end and t.cityId = :city_id", nativeQuery = true)
 	List<PostingSearchCityResponse> findPostingByCity(@Param("start") int start, @Param("end") int end, @Param("city_id") Long cityId);
 
+	Set<Posting> findByAddresss(Address addresss);
 }

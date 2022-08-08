@@ -1,5 +1,6 @@
 package com.codedecode.demo.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codedecode.demo.dto.AddPostingRequestDTO;
 import com.codedecode.demo.dto.CityResponseDTO;
+import com.codedecode.demo.dto.GeneralManagementDTO;
 import com.codedecode.demo.dto.PageDTO;
 import com.codedecode.demo.dto.PageableSearchRequestDTO;
 import com.codedecode.demo.dto.PostingDetailResponse;
@@ -31,22 +33,24 @@ import com.codedecode.demo.dto.PostingSearchCityRequest;
 import com.codedecode.demo.dto.PostingSearchCityResponse;
 import com.codedecode.demo.dto.PostingSearchProvinceRequest;
 import com.codedecode.demo.dto.PostingSearchProvinceResponse;
-import com.codedecode.demo.dto.RegisterRequestDTO;
+import com.codedecode.demo.dto.SuitableJobDTO;
+import com.codedecode.demo.dto.SuitablePostingDTO;
 import com.codedecode.demo.entity.Address;
 import com.codedecode.demo.entity.City;
+import com.codedecode.demo.entity.DesiredJob;
 import com.codedecode.demo.entity.Posting;
 import com.codedecode.demo.entity.Salary;
 import com.codedecode.demo.entity.User;
 import com.codedecode.demo.entity.WorkingForm;
-import com.codedecode.demo.entity.YearOfExperience;
 import com.codedecode.demo.service.AddressService;
+import com.codedecode.demo.service.AppliedJobService;
 import com.codedecode.demo.service.CityService;
 import com.codedecode.demo.service.PostingService;
 import com.codedecode.demo.service.ProvinceService;
 import com.codedecode.demo.service.SalaryService;
 import com.codedecode.demo.service.StreetService;
+import com.codedecode.demo.service.UserService;
 import com.codedecode.demo.service.WorkingFormService;
-import com.codedecode.demo.service.YearOfExperienceService;
 
 @RestController
 @RequestMapping("/posting")
@@ -72,22 +76,25 @@ public class PostingController {
 	private SalaryService salaryService;
 
 	@Autowired
-	private YearOfExperienceService yearOfExperienceService;
+	private WorkingFormService workingFormService;
 
 	@Autowired
-	private WorkingFormService workingFormService;
+	private UserService userService;
+	
+	@Autowired
+	private AppliedJobService appliedJobService;
 
 	/*
 	 * @author : ToanNT16
 	 */
 	@PostMapping("/{id}")
 	public ResponseEntity<PostingDetailResponse> findPostingById(@RequestBody PostingRequestDTO postingRequestDTO) {
+
 		Long userId = postingRequestDTO.getUserId();
 
 		Long postingId = postingRequestDTO.getPostingId();
 
 		PostingResponseInterfaceDTO posting = postingService.findPostingByUserIdAndPostingId(userId, postingId);
-
 		// 1. get top 10
 		// 2. get address by posting
 		// 3. get province by address
@@ -99,8 +106,6 @@ public class PostingController {
 		// 1. get response
 		Long salaryId = posting.getSalaryId();
 
-		Long yearOfExperienceId = posting.getYearOfExperienceId();
-
 		Long workingFormId = posting.getWorkingFormId();
 
 		String degreeRequired = posting.getDegreeRequired();
@@ -108,7 +113,7 @@ public class PostingController {
 		// 2. query
 		Salary salary = salaryService.findSalaryById(salaryId);
 
-		YearOfExperience yearOfExperience = yearOfExperienceService.findYearOfExperienceById(yearOfExperienceId);
+		System.out.println("Salary : " + salary);
 
 		WorkingForm workingForm = workingFormService.findWorkingFormById(workingFormId);
 
@@ -133,8 +138,6 @@ public class PostingController {
 		response.setDegreeRequired(degreeRequired);
 
 		response.setSalary(salary.getName());
-
-		response.setYearOfExperience(yearOfExperience.getName());
 
 		response.setWorkingForm(workingForm.getName());
 
@@ -209,9 +212,43 @@ public class PostingController {
 		List<PostingSearchCityResponse> postings = postingService.searchPostingByCity(pageOffSet, cityId);
 		return new ResponseEntity<List<PostingSearchCityResponse>>(postings, HttpStatus.OK);
 	}
+
+	@PostMapping(path = "/suitable")
+	public ResponseEntity<GeneralManagementDTO> findTop6SuitablePosting(@RequestBody SuitableJobDTO request) {
+		GeneralManagementDTO generalManagementDTO = new GeneralManagementDTO();
+		String email = request.getEmail();
+		// suitable job by address
+		// case 1 : address of desired job
+		// case 2 : address of posting
+		// step 1. find user
+		
+		User user = userService.findUserByEmail(email);
+		// step 2. get desired job
+		DesiredJob desiredJob = user.getDesiredJob();
+		
+		Set<SuitablePostingDTO> postings = null;
+		List<Address> addresss = null;
+		if (desiredJob == null) {
+			addresss = new ArrayList<Address>();
+			addresss.add(user.getAddress());
+		} else {
+			addresss = new ArrayList<Address>(desiredJob.getAddresss());
+		}
+		postings = postingService.findPostingByAddress(addresss);
+		
+		int numberOfAppliedJob = appliedJobService.countNumberOfAppliedJob();
+		int numberOfSuitableJob = postings.size() * 3;
+		generalManagementDTO.setSuitableJob(postings);
+		generalManagementDTO.setNumberOfAppliedJob(numberOfAppliedJob);
+		generalManagementDTO.setNumberOfSuitableJob(numberOfSuitableJob);
+	
+		return new ResponseEntity<GeneralManagementDTO>(generalManagementDTO, HttpStatus.OK);
+	}
+
 	
 	@PostMapping(value = "/addPosting")
 	public ResponseEntity<Posting> addPosting(@RequestBody AddPostingRequestDTO addPostingRequestDTO) {
 		return ResponseEntity.status(HttpStatus.CREATED).body(postingService.addPosting(addPostingRequestDTO));
+
 	}
 }
