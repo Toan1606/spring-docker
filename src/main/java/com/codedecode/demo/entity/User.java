@@ -202,6 +202,12 @@ public class User implements Serializable {
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = UserContract.class)
 	@JoinColumn(name = "recruiter_contract_id", referencedColumnName = "id")
 	private UserContract recruiterContract;
+	
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@EqualsAndHashCode.Exclude
+	@ToString.Exclude
+	@JsonIgnore
+	private Collection<Degree> degrees;
 
 	public User(Long id, String email) {
 		this.id = id;
