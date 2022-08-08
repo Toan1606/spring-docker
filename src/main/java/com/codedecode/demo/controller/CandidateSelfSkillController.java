@@ -29,7 +29,7 @@ public class CandidateSelfSkillController {
 	public ResponseEntity<?> showSelfSkill(@PathVariable Long userId){
 		User user = userService.findUserById(userId);
 		SelfSkillDTO selfSkillDTO = new SelfSkillDTO();
-		selfSkillDTO.setSelfSkill(user.getDescription());
+		selfSkillDTO.setSelfSkill(user.getSelfSkill());
 		selfSkillDTO.setUserId(userId);
 		return new ResponseEntity<SelfSkillDTO>(selfSkillDTO, HttpStatus.OK);
 	}
@@ -37,7 +37,7 @@ public class CandidateSelfSkillController {
 	@PostMapping("/update")
 	public ResponseEntity<?> updateCareerGoal(@RequestBody SelfSkillDTO selfSkillDTO) {
 		User user = userService.findUserById(selfSkillDTO.getUserId());
-		user.setDescription(selfSkillDTO.getSelfSkill());
+		user.setSelfSkill(selfSkillDTO.getSelfSkill());
 		userService.addNewUser(user);
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 	}
