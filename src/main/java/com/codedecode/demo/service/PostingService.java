@@ -1,7 +1,9 @@
 package com.codedecode.demo.service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,8 +17,12 @@ import com.codedecode.demo.dto.PostingSearchCategoryResponse;
 import com.codedecode.demo.dto.PostingSearchCategoryResponseInterface;
 import com.codedecode.demo.dto.PostingSearchCityResponse;
 import com.codedecode.demo.dto.PostingSearchProvinceResponse;
+import com.codedecode.demo.dto.SuitablePostingDTO;
 import com.codedecode.demo.entity.Address;
 import com.codedecode.demo.entity.Posting;
+import com.codedecode.demo.entity.Province;
+import com.codedecode.demo.entity.Salary;
+import com.codedecode.demo.entity.User;
 import com.codedecode.demo.exception.PostingNotFound;
 import com.codedecode.demo.repository.HomeAddressRepository;
 import com.codedecode.demo.repository.PostingRepository;
@@ -81,7 +87,6 @@ public class PostingService {
 		.rankId(postingInterface.getRankId())
 		.salaryId(postingInterface.getSalaryId())
 		.workingFormId(postingInterface.getWorkingFormId())
-		.yearOfExperienceId(postingInterface.getYearOfExperienceId())
 		.companyId(postingInterface.getCompanyId())
 		.companyName(postingInterface.getCompanyName())
 		.postingCategoryId(postingInterface.getPostingCategoryId())
@@ -140,5 +145,42 @@ public class PostingService {
 		int start = (pageOffSet - 1) * 30;
 		int end = pageOffSet * 30;
 		return postingRepository.findPostingByCity(start, end, cityId);
+	}
+	
+	public SuitablePostingDTO convertToSuitablePosting(User user, Province province, Salary salary, Posting posting) {
+		SuitablePostingDTO suitablePosting = new SuitablePostingDTO();
+		
+		// set
+//		image	: Posting
+//		position : Posting
+//		companyName	: User
+//		Province	: Posting
+//		Salary	: Posting
+//		DeadlineForSubmition	: Posting
+		suitablePosting.setImages(posting.getImages());
+		suitablePosting.setPosition(posting.getPosition());
+		suitablePosting.setCompanyName(user.getName());
+		suitablePosting.setProvince(province.getName());
+		suitablePosting.setSalary(salary.getName());
+		suitablePosting.setDeadLineForSubmission(posting.getDeadlineForSubmission());
+		
+		return suitablePosting;
+	}
+	
+	
+	public Set<SuitablePostingDTO> findPostingByAddress(List<Address> addresss) {
+		Set<SuitablePostingDTO> postings = new HashSet<SuitablePostingDTO>();
+		for (Address address : addresss) { 
+			if (postings.size() == 6)	break;
+			Set<Posting> posting = postingRepository.findByAddresss(address);
+			for (Posting p : posting) {
+				User user = p.getUser();
+				Province province = address.getProvince();
+				Salary salary = p.getSalary();
+				SuitablePostingDTO suitablePosting = convertToSuitablePosting(user, province, salary, p);
+				postings.add(suitablePosting);
+			}
+		}
+		return postings;
 	}
 }
