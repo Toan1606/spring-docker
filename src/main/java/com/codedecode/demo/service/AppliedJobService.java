@@ -14,6 +14,7 @@ public class AppliedJobService {
 	@Autowired
 	private AppliedJobRepository appliedJobRepository;
 	
+	
 	public List<AppliedJob> getAllAppliedJobs(Long userId) {
 		return appliedJobRepository.getAllAppliedJobs(userId);
 	}
@@ -23,4 +24,9 @@ public class AppliedJobService {
 	public void deleteAppliedJob(Long id) {
 		appliedJobRepository.deleteAppliedJob(id);
 	}
+	
+	public int countNumberOfAppliedJob() {
+		return appliedJobRepository.countNumberOfAppliedJob();
+	}
 }
+

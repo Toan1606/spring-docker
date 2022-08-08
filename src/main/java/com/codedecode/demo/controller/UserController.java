@@ -144,4 +144,6 @@ public class UserController {
 		CandidateByIdResponseDTO candidate = userService.findCandidateById(request.getCanddiateId());
 		return new ResponseEntity<CandidateByIdResponseDTO>(candidate, HttpStatus.OK);
 	}
+	
+	
 }

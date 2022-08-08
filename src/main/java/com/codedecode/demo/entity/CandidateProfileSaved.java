@@ -14,6 +14,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -38,16 +40,16 @@ public class CandidateProfileSaved implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
+	@Temporal(TemporalType.DATE)
 	@Column(name = "save_date")
 	private Date saveDate;
-	
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "recruiter_id")
 	@ToString.Exclude
 	@JsonIgnore
 	private User recruiter;
-	
+
 	@OneToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
 	@ToString.Exclude
