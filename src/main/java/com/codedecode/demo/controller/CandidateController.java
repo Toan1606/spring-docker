@@ -25,7 +25,7 @@ public class CandidateController {
 	private UserService userService;
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<?> getUserForChangePassword(@PathVariable int id){
+	public ResponseEntity<?> getUserForChangePassword(@PathVariable long id){
 		User user = userService.findUserById(id);
 		if(user == null) {
 			return new ResponseEntity<HttpStatus>(HttpStatus.NOT_FOUND);
@@ -34,7 +34,7 @@ public class CandidateController {
 	}
 	@PostMapping("/change")
 	public ResponseEntity<?> changePassword(@RequestBody User user){
-		userService.updateCandidatePassword(user);
+//		userService.updateCandidatePassword(user);
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 	}
 }
