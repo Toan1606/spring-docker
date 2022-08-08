@@ -73,6 +73,6 @@ public class Address implements Serializable {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return "name : " + this.name;
+		return "id : " + this.id + ", name : " + this.name;
 	}
 }

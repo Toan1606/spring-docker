@@ -14,7 +14,6 @@ import com.codedecode.demo.dto.LoginRequestDTO;
 import com.codedecode.demo.dto.LoginResponseDTO;
 import com.codedecode.demo.dto.RecruiterRegisterDTO;
 import com.codedecode.demo.dto.RegisterRequestDTO;
-import com.codedecode.demo.entity.Address;
 import com.codedecode.demo.entity.User;
 import com.codedecode.demo.exception.UserNotFoundException;
 import com.codedecode.demo.repository.UserRepository;

@@ -67,9 +67,9 @@ public class DesiredJob implements Serializable {
 	@JsonIgnore
 	private Salary salary;
 
-	@OneToOne(mappedBy = "desiredJob",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToOne(mappedBy = "desiredJob", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
-	@JsonIgnore
 	private User user;
 	
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)

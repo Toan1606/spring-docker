@@ -51,10 +51,17 @@ public class UserService {
 	public User addNewUser(User user) {
 		return userRepository.save(user);
 	}
-
+	
 	public User findUserById(Long id) {
-		return userRepository.findById(id)
-				.orElseThrow(() -> new UserNotFoundException(ExceptionMessage.USER_NOT_FOUND.getErrorMessage()));
+		User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(ExceptionMessage.USER_NOT_FOUND.getErrorMessage()));
+		return user;
+	}
+
+	public User findUserByEmail(String email) {
+		System.out.println("BEGIN findUserById");
+		User user = userRepository.findByEmail(email);
+		System.out.println("END findUserById");
+		return user;
 	}
 
 	public void updateCandidateOnlineCVForm() {
@@ -112,7 +119,7 @@ public class UserService {
 			userDto.setName(user.getName());
 			String description = user.getRecruiterDescription();
 			if (description != null)
-				userDto.setRecruiterDescription(description.substring(0, 100));
+				userDto.setRecruiterDescription(description.substring(0, 50));
 			userDto.setImage(user.getImages());
 			usersDto.add(userDto);
 		}
