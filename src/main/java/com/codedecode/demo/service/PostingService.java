@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.codedecode.demo.dto.AddPostingRequestDTO;
 import com.codedecode.demo.dto.PageDTO;
 import com.codedecode.demo.dto.PostingDetailResponse;
 import com.codedecode.demo.dto.PostingRelatedDTO;
@@ -17,6 +18,9 @@ import com.codedecode.demo.dto.PostingSearchCityResponse;
 import com.codedecode.demo.dto.PostingSearchProvinceResponse;
 import com.codedecode.demo.entity.Address;
 import com.codedecode.demo.entity.Posting;
+import com.codedecode.demo.entity.PostingCategory;
+import com.codedecode.demo.entity.PostingType;
+import com.codedecode.demo.entity.User;
 import com.codedecode.demo.exception.PostingNotFound;
 import com.codedecode.demo.repository.HomeAddressRepository;
 import com.codedecode.demo.repository.PostingRepository;
@@ -25,6 +29,9 @@ import com.codedecode.demo.utils.ExceptionMessage;
 @Service
 @Transactional
 public class PostingService {
+	
+	@Autowired
+	private UserService userService;
 
 	@Autowired
 	private PostingRepository postingRepository;
@@ -140,5 +147,39 @@ public class PostingService {
 		int start = (pageOffSet - 1) * 30;
 		int end = pageOffSet * 30;
 		return postingRepository.findPostingByCity(start, end, cityId);
+	}
+	
+	public Posting addPosting(AddPostingRequestDTO addPostingRequestDTO) {
+		String email = addPostingRequestDTO.getEmail();
+		String position = addPostingRequestDTO.getPosition();
+		long workingForm = addPostingRequestDTO.getWorkingForm();
+		long salary = addPostingRequestDTO.getSalary();
+		int quantity = addPostingRequestDTO.getQuantity();
+		String degreeRequired = addPostingRequestDTO.getDegreeRequired();
+		String genderRequirement = addPostingRequestDTO.getGenderRequirement();
+		String benefits = addPostingRequestDTO.getBenefits();
+		String files = addPostingRequestDTO.getFiles();
+		String deadlineForSubmission = addPostingRequestDTO.getDeadlineForSubmission();
+		User user = userService.getUserByEmail(email);
+		PostingCategory postingCategory = new PostingCategory();
+		PostingType postingType = new PostingType(); 
+		
+		Posting posting = new Posting();
+		posting.setUser(user);
+		posting.setPosition(position);
+		posting.setWorkingForm(null);
+		posting.setSalary(null);
+		posting.setQuantity(quantity);
+		posting.setDegreeRequired(degreeRequired);
+		posting.setGenderRequirement(genderRequirement);
+		posting.setBenefits(benefits);
+		posting.setFile(files);
+		posting.setDeadlineForSubmission(deadlineForSubmission);
+		posting.setRecruiterName(user.getName());
+		posting.setPhoneNumber(user.getPhone());
+		posting.setEmailContact(user.getEmail());
+		posting.setPostingCategory(postingCategory);
+		posting.setPostingType(postingType);
+		return postingRepository.save(posting);
 	}
 }

@@ -97,6 +97,7 @@ public class User implements Serializable {
 	@Column(name = "password")
 	private String password;
 	
+	@FullTextField
 	@Column(name = "career_goals")
 	private String careerGoals;
 
