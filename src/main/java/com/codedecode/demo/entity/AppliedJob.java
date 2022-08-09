@@ -31,6 +31,7 @@ public class AppliedJob {
 	@EmbeddedId
 	private AppliedJobKey appliedJobKey;
 
+
 	@ManyToOne
     @MapsId(value = "candidateId")
 	@JoinColumn(name = "candidate_id", referencedColumnName = "id")
@@ -42,6 +43,7 @@ public class AppliedJob {
 	@ManyToOne
     @MapsId(value = "recruiterId")
 	@JoinColumn(name = "recruiter_id", referencedColumnName = "id")
+
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
 	@JsonIgnore
