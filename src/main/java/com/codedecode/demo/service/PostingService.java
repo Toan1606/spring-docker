@@ -192,7 +192,7 @@ public class PostingService {
 		return postings;
 	}
 
-	public Posting addPosting(AddPostingRequestDTO addPostingRequestDTO) {
+	public Posting addPostingRecruiter(AddPostingRequestDTO addPostingRequestDTO) {
 		String email = addPostingRequestDTO.getEmail();
 		String position = addPostingRequestDTO.getPosition();
 		long workingForm = addPostingRequestDTO.getWorkingForm();
@@ -225,6 +225,14 @@ public class PostingService {
 		posting.setPostingType(postingType);
 		return postingRepository.save(posting);
 	}
+	
+	public List<Posting> getPostingByRecruiterId(long recruiterId){
+		List<Posting> list = postingRepository.fingPostingByUserId(recruiterId);
+		if(list.size() > 0) {
+			return list;
+		} 
+		return null;
+  }
 
 	public Posting findPostingById(Long postingId) {
 		

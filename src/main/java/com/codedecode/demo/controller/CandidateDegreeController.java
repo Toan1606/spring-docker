@@ -45,11 +45,11 @@ public class CandidateDegreeController {
 	@PostMapping("/add")
 	public ResponseEntity<?> addDegree(@RequestBody EducationDegreeDTO educationDegreeDTO){
 		Degree degree = new Degree();
-		degree.setDegreeName(educationDegreeDTO.getDegreeName());
+//		degree.setDegreeName(educationDegreeDTO.getDegreeName());
 		degree.setStartTime(educationDegreeDTO.getStartTime());
-		degree.setEndTime(educationDegreeDTO.getEndTime());
+//		degree.setEndTime(educationDegreeDTO.getEndTime());
 		degree.setMajor(educationDegreeDTO.getMajor());
-		degree.setRank(educationDegreeDTO.getRank());
+//		degree.setRank(educationDegreeDTO.getRank());
 		degree.setTeachingUnit(educationDegreeDTO.getTeachingUnit());
 		degree.setSupplementaryInformation(educationDegreeDTO.getSupplementaryInformation());
 		List<Degree> list = degreeService.getAllDegreeByUserId(educationDegreeDTO.getUserId());
@@ -65,11 +65,11 @@ public class CandidateDegreeController {
 		List<Degree> list = degreeService.getAllDegreeByUserId(educationDegreeDTO.getUserId());
 		for (Degree degree : list) {
 			if(degree.getId() == educationDegreeDTO.getId()) {
-				degree.setDegreeName(educationDegreeDTO.getDegreeName());
+//				degree.setDegreeName(educationDegreeDTO.getDegreeName());
 				degree.setStartTime(educationDegreeDTO.getStartTime());
-				degree.setEndTime(educationDegreeDTO.getEndTime());
+//				degree.setEndTime(educationDegreeDTO.getEndTime());
 				degree.setMajor(educationDegreeDTO.getMajor());
-				degree.setRank(educationDegreeDTO.getRank());
+//				degree.setRank(educationDegreeDTO.getRank());
 				degree.setTeachingUnit(educationDegreeDTO.getTeachingUnit());
 				degree.setSupplementaryInformation(educationDegreeDTO.getSupplementaryInformation());
 				break;

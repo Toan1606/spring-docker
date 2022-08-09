@@ -16,8 +16,10 @@ public class AppliedJobKey implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private Long userId;
+
+	private Long candidateId;
+	
+	private Long recruiterId;
 	
 	private Long postingId;
-
 }
