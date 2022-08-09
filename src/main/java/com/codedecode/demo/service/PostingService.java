@@ -239,4 +239,8 @@ public class PostingService {
 	public int countNumberOfRecordsByCity(Long cityId) {
 		return postingRepository.countNumberOfRecordsByCity(cityId);
 	}
+	
+	public int countNumberOfRecordsByCategory(Long categoryId) {
+		return postingRepository.countNumberOfRecordsByCategory(categoryId);
+	}
 }
