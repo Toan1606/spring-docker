@@ -15,7 +15,6 @@ import com.codedecode.demo.dto.PostingDetailResponse;
 import com.codedecode.demo.dto.PostingRelatedDTO;
 import com.codedecode.demo.dto.PostingResponseInterfaceDTO;
 import com.codedecode.demo.dto.PostingSearchCategory;
-import com.codedecode.demo.dto.PostingSearchCategoryResponse;
 import com.codedecode.demo.dto.PostingSearchCategoryResponseInterface;
 import com.codedecode.demo.dto.PostingSearchCity;
 import com.codedecode.demo.dto.PostingSearchProvince;

@@ -83,8 +83,7 @@ public class CandidateAppliedJobController {
 		String candidateEmail = request.getCandidateEmail();
 		String recruiterEmail = request.getRecruiterEmail();
 		Long postingId = request.getPostingId();
-		System.out.println("candidateEmail : " + candidateEmail + ", recruiterEmail : " + recruiterEmail
-				+ ", postingId : " + postingId);
+		
 		// 2. query
 		User candidate = userService.findUserByEmail(candidateEmail);
 		User recruiter = userService.findUserByEmail(recruiterEmail);
@@ -96,6 +95,7 @@ public class CandidateAppliedJobController {
 				.recruiterId(recruiter.getId()).postingId(postingId).build();
 		appliedJob.setAppliedJobKey(appliedJobKey);
 		appliedJob.setPosting(posting);
+		
 		appliedJob.setCandidate(candidate);
 		appliedJob.setRecruiter(recruiter);
 

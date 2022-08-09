@@ -92,9 +92,7 @@ public interface PostingRepository extends SearchRepository<Posting, Long> {
 			+ "where a.province_id = :province_id", nativeQuery = true)
 	int countNumberOfRecordsByProvince(@Param("province_id") Long provinceId);
 	
-	@Query(value = "select count(*) as numberOfRecords from posting p join posting_address pa on pa.posting_id = p.id\r\n"
-			+ "join address a on a.id = pa.address_id\r\n"
-			+ "where a.province_id = :province_id", nativeQuery = true)
+	@Query(value = "select count(*) from posting p where p.posting_category_id = :category_id", nativeQuery = true)
 	int countNumberOfRecordsByCategory(@Param("category_id") Long categoryId);
 	
 }
