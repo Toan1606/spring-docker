@@ -54,7 +54,6 @@ public class CandidateAppliedJobController {
 			for (AppliedJob appliedJob : listAppliedJob) {
 				Posting p = appliedJob.getPosting();
 				AppliedJobDTO aDTO = new AppliedJobDTO(); 
-				aDTO.setId(appliedJob.getId());
 				aDTO.setPositionJobname(p.getJobName());
 				aDTO.setPostingPosition(p.getPosition());
 				aDTO.setDateSubmission(appliedJob.getDateSubmission());
@@ -104,7 +103,6 @@ public class CandidateAppliedJobController {
 		
 		// 5. set dto to return
 		AppliedJobDTOResponse response = AppliedJobDTOResponse.builder()
-				.id(result.getId())
 				.deadlineForSubmission(dateFormat.format(result.getDeadlineForSubmission()))
 				.dateSubmission(dateFormat.format(result.getDateSubmission()))
 				.commentFromEmployer(result.getCommentFromEmployer())

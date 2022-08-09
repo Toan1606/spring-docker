@@ -55,7 +55,6 @@ public class CandidateSavedJobController {
 			for(SavedJob s : listSavedJob) {
 				SavedJobDTO sDTO = new SavedJobDTO();
 				Posting p = s.getPosting();
-				sDTO.setId(s.getId());
 				sDTO.setPostingJobname(p.getJobName());
 				sDTO.setDeadlineForSubmission(p.getDeadlineForSubmission());
 				sDTO.setPostingPosition(p.getPosition());
@@ -95,7 +94,6 @@ public class CandidateSavedJobController {
 
 		// dto to return
 		SavedNewJobResponseDTO response = SavedNewJobResponseDTO.builder()
-				.id(result.getId())
 				.deadlineForSubmission(dateFormat.format(date))
 				.build();
 		
