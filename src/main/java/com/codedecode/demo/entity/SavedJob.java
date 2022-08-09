@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -30,7 +32,7 @@ public class SavedJob {
 	private Long id;
 
 	@ManyToOne
-	@JoinColumn(name = "student_id", referencedColumnName = "id")
+	@JoinColumn(name = "candidate_id", referencedColumnName = "id")
 	@JsonIgnore
 	private User user;
 
@@ -40,6 +42,7 @@ public class SavedJob {
 	@JsonIgnore
 	private Posting posting;
 
-	@Column(name = "deadline_for_submission")
-	private Date deadlineForSubmission;
+	@Temporal(TemporalType.DATE)
+	@Column(name = "saved_date")
+	private Date savedDate;
 }

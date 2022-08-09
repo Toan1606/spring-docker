@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.EqualsAndHashCode;
@@ -45,6 +47,7 @@ public class AppliedJob {
 	@Column(name = "deadline_for_submission")
 	private Date deadlineForSubmission;
 	
+	@Temporal(TemporalType.DATE)
 	@Column(name = "date_submission")
 	private Date dateSubmission;
 	

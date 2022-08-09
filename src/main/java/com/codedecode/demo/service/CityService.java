@@ -38,6 +38,11 @@ public class CityService {
 		return cityRepository.findAll();
 	}
 
+	
+	public List<CityResponseDTO> findAllCityDto() {
+		return cityRepository.findAllCityDto();
+	}
+	
 	public List<Map<String, String>> findByAddress(Set<Address> addresss) {
 		List<Map<String, String>> cities = new ArrayList<Map<String,String>>();
 		for (Address address : addresss) {
@@ -59,7 +64,6 @@ public class CityService {
 	public List<CityResponseDTO> convertToDTO(List<City> cities) {
 		List<CityResponseDTO> citiesDTO = new ArrayList<CityResponseDTO>();
 		for(City city : cities) {
-			System.out.println("id : " + city.getId() + ", name: "+ city.getName());
 			citiesDTO.add(new CityResponseDTO(city.getId(), city.getName()));
 		}
 		return citiesDTO;

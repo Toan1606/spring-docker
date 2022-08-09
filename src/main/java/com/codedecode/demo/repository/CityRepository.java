@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.codedecode.demo.dto.CityResponseDTO;
 import com.codedecode.demo.entity.City;
 import com.codedecode.demo.entity.Province;
 
@@ -23,4 +24,7 @@ public interface CityRepository extends JpaRepository<City, Long>{
 
 	@Query(value = "select * from city c join province p on c.province_id =  p.id where p.id = :provinceId", nativeQuery = true)
 	List<City> findCityByProvinceId(Long provinceId);
+
+	@Query(value = "select new com.codedecode.demo.dto.CityResponseDTO(c.id, c.name) from City c")
+	List<CityResponseDTO> findAllCityDto();
 }

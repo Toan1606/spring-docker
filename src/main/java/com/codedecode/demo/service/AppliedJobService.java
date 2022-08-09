@@ -28,5 +28,10 @@ public class AppliedJobService {
 	public int countNumberOfAppliedJob() {
 		return appliedJobRepository.countNumberOfAppliedJob();
 	}
+	
+	public AppliedJob addAppliedJob(AppliedJob appliedJob) {
+		AppliedJob returnObject = appliedJobRepository.save(appliedJob);
+		return returnObject;
+	}
 }
 
