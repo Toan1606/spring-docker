@@ -1,7 +1,6 @@
 package com.codedecode.demo.dto;
 
-
-public interface PostingSearchProvince {
+public interface PostingSearchCity {
 
 	Integer getRowNumber();
 	
@@ -21,7 +20,7 @@ public interface PostingSearchProvince {
 	
 	String getSalary();
 	
-	String getProvinceName();
+	String getCityName();
 	
-	Integer getProvinceId();
+	Integer getCityId();
 }
