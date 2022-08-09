@@ -3,15 +3,18 @@ package com.codedecode.demo.entity;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
+import com.codedecode.demo.entity.key.AppliedJobKey;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,19 +27,31 @@ import lombok.ToString;
 @Entity
 @Table(name = "AppliedJobs")
 public class AppliedJob {
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
-	
+
+	@EmbeddedId
+	private AppliedJobKey appliedJobKey;
+
+
 	@ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @MapsId(value = "candidateId")
+	@JoinColumn(name = "candidate_id", referencedColumnName = "id")
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
 	@JsonIgnore
-    private User user;
+    private User candidate;
 	
 	@ManyToOne
-    @JoinColumn(name = "posting_id", referencedColumnName = "id")
+    @MapsId(value = "recruiterId")
+	@JoinColumn(name = "recruiter_id", referencedColumnName = "id")
+
+	@EqualsAndHashCode.Exclude
+	@ToString.Exclude
+	@JsonIgnore
+    private User recruiter;
+	
+	@ManyToOne
+	@MapsId(value = "postingId")
+	@JoinColumn(name = "posting_id", referencedColumnName = "id")
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
 	@JsonIgnore
@@ -45,6 +60,7 @@ public class AppliedJob {
 	@Column(name = "deadline_for_submission")
 	private Date deadlineForSubmission;
 	
+	@Temporal(TemporalType.DATE)
 	@Column(name = "date_submission")
 	private Date dateSubmission;
 	

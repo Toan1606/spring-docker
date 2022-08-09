@@ -1,6 +1,7 @@
 package com.codedecode.demo.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -26,7 +27,6 @@ import com.codedecode.demo.dto.PageableSearchRequestDTO;
 import com.codedecode.demo.dto.PostingDetailResponse;
 import com.codedecode.demo.dto.PostingRelatedDTO;
 import com.codedecode.demo.dto.PostingRequestDTO;
-import com.codedecode.demo.dto.PostingResponseInterfaceDTO;
 import com.codedecode.demo.dto.PostingSearchCategoryRequest;
 import com.codedecode.demo.dto.PostingSearchCategoryResponse;
 import com.codedecode.demo.dto.PostingSearchCategoryResponseInterface;
@@ -40,18 +40,17 @@ import com.codedecode.demo.entity.Address;
 import com.codedecode.demo.entity.City;
 import com.codedecode.demo.entity.DesiredJob;
 import com.codedecode.demo.entity.Posting;
+import com.codedecode.demo.entity.PostingCategory;
+import com.codedecode.demo.entity.Province;
+import com.codedecode.demo.entity.Rank;
 import com.codedecode.demo.entity.Salary;
+import com.codedecode.demo.entity.Street;
 import com.codedecode.demo.entity.User;
 import com.codedecode.demo.entity.WorkingForm;
-import com.codedecode.demo.service.AddressService;
 import com.codedecode.demo.service.AppliedJobService;
 import com.codedecode.demo.service.CityService;
 import com.codedecode.demo.service.PostingService;
-import com.codedecode.demo.service.ProvinceService;
-import com.codedecode.demo.service.SalaryService;
-import com.codedecode.demo.service.StreetService;
 import com.codedecode.demo.service.UserService;
-import com.codedecode.demo.service.WorkingFormService;
 
 @RestController
 @RequestMapping("/posting")
@@ -62,28 +61,13 @@ public class PostingController {
 	private PostingService postingService;
 
 	@Autowired
-	private AddressService addressService;
-
-	@Autowired
-	private ProvinceService provinceService;
-
-	@Autowired
-	private CityService cityService;
-
-	@Autowired
-	private StreetService streetService;
-
-	@Autowired
-	private SalaryService salaryService;
-
-	@Autowired
-	private WorkingFormService workingFormService;
-
-	@Autowired
 	private UserService userService;
 	
 	@Autowired
 	private AppliedJobService appliedJobService;
+	
+	@Autowired
+	private CityService cityService;
 
 	/*
 	 * @author : ToanNT16
@@ -91,66 +75,105 @@ public class PostingController {
 	@PostMapping("/{id}")
 	public ResponseEntity<PostingDetailResponse> findPostingById(@RequestBody PostingRequestDTO postingRequestDTO) {
 
-		Long userId = postingRequestDTO.getUserId();
-
 		Long postingId = postingRequestDTO.getPostingId();
 
-		PostingResponseInterfaceDTO posting = postingService.findPostingByUserIdAndPostingId(userId, postingId);
+//		PostingResponseInterfaceDTO posting = postingService.findPostingByUserIdAndPostingId(userId, postingId);
+		Posting posting = postingService.findPostingById(postingId);
 		// 1. get top 10
 		// 2. get address by posting
 		// 3. get province by address
+		// 4. get rank
+		// 5. get working form
+		// 6. get user
 		// 4. convert to dto
 		// 5. return
 
-		Set<Address> addresss = addressService.findAddressByPostingId(postingId);
 
 		// 1. get response
-		Long salaryId = posting.getSalaryId();
+		Salary salary = posting.getSalary();
 
-		Long workingFormId = posting.getWorkingFormId();
-
-		String degreeRequired = posting.getDegreeRequired();
+		WorkingForm workingForm = posting.getWorkingForm();
 
 		// 2. query
-		Salary salary = salaryService.findSalaryById(salaryId);
+		List<Address> addresss = new ArrayList<Address>(posting.getAddresss());
+		
+		// province
+		List<Map<String, String>> provinces = new ArrayList<Map<String, String>>();
+		// city
+		List<Map<String, String>> cities = new ArrayList<Map<String, String>>();
+		
+		List<CityResponseDTO> citiesDto = cityService.findAllCityDto();
+		//street
+		List<String> streets = new ArrayList<String>();
+		
+		for (Address address : addresss) {
+			
+			// province
+			Map<String, String> provinceMap = new HashMap<String, String>();
+			Province province = address.getProvince();
+			provinceMap.put("id", String.valueOf(province.getId()));
+			provinceMap.put("name", String.valueOf(province.getName()));
+			
+			provinces.add(provinceMap);
+			
+			// city
+			Map<String, String> cityMap = new HashMap<String, String>();
+			City city = address.getCity();
+			cityMap.put("id", String.valueOf(city.getId()));
+			cityMap.put("name", String.valueOf(city.getName()));
+			
+			// city dto
+			citiesDto.add(new CityResponseDTO(city.getId(), city.getName()));
+			
+			cities.add(cityMap);
+			
+			// street
+			Street street = address.getStreet();
+			streets.add(street.getName());
+		}
+		
+		PostingCategory postingCategory =posting.getPostingCategory();
 
-		System.out.println("Salary : " + salary);
+		List<PostingRelatedDTO> relatedPosting = postingService.findTop10RelatedPosting(postingCategory.getId());
 
-		WorkingForm workingForm = workingFormService.findWorkingFormById(workingFormId);
-
-		List<Map<String, String>> provinces = provinceService.findByAddress(addresss);
-
-		List<Map<String, String>> cities = cityService.findByAddress(addresss);
-
-		List<String> streets = streetService.findByAddress(addresss);
-
-		Set<String> setKey = provinces.get(0).keySet();
-		String[] keys = setKey.toArray(new String[setKey.size()]);
-
-		List<City> rawCities = cityService.findCityByProvinceId(Long.valueOf(provinces.get(0).get(keys[1])));
-
-		List<CityResponseDTO> citiesDTO = cityService.convertToDTO(rawCities);
-
-		List<PostingRelatedDTO> relatedPosting = postingService.findTop10RelatedPosting(posting.getPostingCategoryId());
-
+		Rank rank = posting.getRank();
+		
+		User user = posting.getUser();
+				
 		// 3. set response
-		PostingDetailResponse response = postingService.convertPostingResponseDTO(posting);
-
-		response.setDegreeRequired(degreeRequired);
-
-		response.setSalary(salary.getName());
-
-		response.setWorkingForm(workingForm.getName());
-
-		response.setProvince(provinces);
-
-		response.setCities(cities);
-
-		response.setStreet(streets);
-
-		response.setCitiesDto(citiesDTO);
-
-		response.setRelatedPosting(relatedPosting);
+		PostingDetailResponse response = PostingDetailResponse.builder()
+				.id(postingId)
+				.benefits(posting.getBenefits())
+				.commission(posting.getCommission())
+				.deadlineForSubmission(posting.getDeadlineForSubmission())
+				.degreeRequired(posting.getDegreeRequired())
+				.description(posting.getDescription())
+				.emailContact(posting.getEmailContact())
+				.file(posting.getFile())
+				.genderRequirement(posting.getGenderRequirement())
+				.images(posting.getImages())
+				.jobName(posting.getJobName())
+				.jobRequirement(posting.getJobRequirement())
+				.phoneNumber(posting.getPhoneNumber())
+				.position(posting.getPosition())
+				.profileIncluded(posting.getProfileIncluded())
+				.quantity(posting.getQuantity())
+				.quantityNeeded(posting.getQuantityNeeded())
+				.view(posting.getView())
+				.rankId(rank == null ? null : rank.getId())
+				.salaryId(salary == null ? null : salary.getId())
+				.workingFormId(workingForm == null ? null : workingForm.getId())
+				.workingForm(workingForm == null ? null : workingForm.getName())
+				.companyId(user.getId())
+				.companyName(user.getName())
+				.postingCategoryId(postingCategory.getId())
+				.salary(salary == null ? null : salary.getName())
+				.province(provinces)
+				.cities(cities)
+				.street(streets)
+				.citiesDto(citiesDto)
+				.relatedPosting(relatedPosting)
+				.build();
 
 		return new ResponseEntity<PostingDetailResponse>(response, HttpStatus.OK);
 	}

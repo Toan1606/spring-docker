@@ -1,23 +1,27 @@
 package com.codedecode.demo.dto;
 
-
 import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
-@Data
 @Getter
 @Setter
-public class PostingRequestDTO implements Serializable {
+@ToString
+public class AppliedNewJobDTO implements Serializable {
+	
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+
+	@JsonProperty("email")
+	private String email;
+	
 	@JsonProperty("posting_id")
 	private Long postingId;
 }
