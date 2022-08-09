@@ -1,27 +1,27 @@
 package com.codedecode.demo.dto;
 
+import java.io.Serializable;
+import java.util.List;
 
-public interface PostingSearchProvinceResponse {
 
-	Integer getRowNumber();
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class PostingSearchProvinceResponse implements Serializable {/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	
-	String getImages();
+	private List<PostingSearchProvince> postings;
 	
-	String getPosition();
-	
-	Long getPostingId();
-	
-	String getJobName();
-	
-	String getDeadlineForSubmission();
-	
-	String getCompanyId();
-	
-	String getcompanyName();
-	
-	String getSalary();
-	
-	String getProvinceName();
-	
-	Integer getProvinceId();
+	private int numberOfRecords;
+
 }
