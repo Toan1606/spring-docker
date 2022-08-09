@@ -18,6 +18,7 @@ import com.codedecode.demo.dto.RecruiterRegisterDTO;
 import com.codedecode.demo.dto.RegisterRequestDTO;
 import com.codedecode.demo.entity.Address;
 import com.codedecode.demo.entity.ApplicationUserRole;
+import com.codedecode.demo.entity.CV;
 import com.codedecode.demo.entity.Role;
 import com.codedecode.demo.entity.User;
 import com.codedecode.demo.exception.UserNotFoundException;
@@ -68,6 +69,7 @@ public class AuthService {
 		Role role = roleService.findRoleByName(ApplicationUserRole.ROLE_CANDIDATE.name());
 		Set<Role> roles = new HashSet<Role>();
 		roles.add(role);
+		CV cv = new CV();
 		
 		User user = new User();
 		user.setRoles(roles);
@@ -76,6 +78,7 @@ public class AuthService {
 		user.setEmail(email);
 		user.setPassword(encodePassword);
 		user.setPhone(phoneNumber);
+		user.setCv(cv);
 		
 		return userRepository.save(user);
 	}
@@ -86,11 +89,17 @@ public class AuthService {
 		String password = registerRequestDTO.getPassword();		
 		
 		String encodePassword = passwordEncoder.encode(password);
+		Role role = roleService.findRoleByName(ApplicationUserRole.ROLE_RECRUITER.name());
+		Set<Role> roles = new HashSet<Role>();
+		roles.add(role);
 		
+		CV cv = new CV();
 		User user = new User();
+		user.setRoles(roles);
 		user.setName(fullName);
 		user.setEmail(email);
 		user.setPassword(encodePassword);
+		user.setCv(cv);
 		
 		return userRepository.save(user);
 	}

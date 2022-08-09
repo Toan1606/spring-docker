@@ -166,6 +166,9 @@ public class User implements Serializable {
 	
 	@Column(name = "images", columnDefinition = "NVARCHAR(MAX)")
 	private String images;
+
+	@Column(name = "candidate_cv", columnDefinition = "NVARCHAR(MAX)")
+	private String candidateCV;
 	
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "desired_job_id", referencedColumnName = "id")

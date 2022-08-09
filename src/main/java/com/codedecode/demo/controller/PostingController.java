@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codedecode.demo.dto.AddPostingRequestDTO;
@@ -297,7 +298,12 @@ public class PostingController {
 	
 	@PostMapping(value = "/addPosting")
 	public ResponseEntity<Posting> addPosting(@RequestBody AddPostingRequestDTO addPostingRequestDTO) {
-		return ResponseEntity.status(HttpStatus.CREATED).body(postingService.addPosting(addPostingRequestDTO));
+		return ResponseEntity.status(HttpStatus.CREATED).body(postingService.addPostingRecruiter(addPostingRequestDTO));
 
+	}
+	
+	@GetMapping(value = "/getPosting/{userId}")
+	public ResponseEntity<List<Posting>> getPostingByUserId(@PathVariable("userId") long id){
+		return new ResponseEntity<List<Posting>>(postingService.getPostingByRecruiterId(id), HttpStatus.OK);
 	}
 }
