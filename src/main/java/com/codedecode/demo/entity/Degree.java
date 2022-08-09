@@ -59,10 +59,4 @@ public class Degree implements Serializable {
 	@Column(name = "supplementary_information")
 	private String supplementaryInformation;
 	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "user_id")
-	@EqualsAndHashCode.Exclude
-	@ToString.Exclude
-	@JsonIgnore
-	private User user;
 }

@@ -72,6 +72,7 @@ public class CandidateLanguageCertificateController {
 	 */
 	@PostMapping("/add")
 	public ResponseEntity<?> addLanguageCertificate(@RequestBody LanguageDTO languageDTO){
+//		Language language = languageService.findLanguage(languageDTO);
 		User user = userService.findUserById(languageDTO.getUserId());
 		Language l = new Language();
 		l.setName(languageDTO.getName());

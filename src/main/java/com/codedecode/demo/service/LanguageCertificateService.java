@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.codedecode.demo.dto.LanguageDTO;
 import com.codedecode.demo.entity.Language;
 import com.codedecode.demo.repository.LanguageCertificateRepository;
 
@@ -28,9 +29,9 @@ public class LanguageCertificateService{
 	 *	@author: Nguyễn Văn Tuấn 
 	 * 
 	 */
-	public Language findLanguage(Language language) {
-		return languageCertificateRepository.saveAndFlush(language);
-	}
+//	public Language findLanguage(LanguageDTO languageDTO) {
+//		return languageCertificateRepository.
+//	}
 	
 	
 	public void deleteLanguageCertificate(Long languageId) {
