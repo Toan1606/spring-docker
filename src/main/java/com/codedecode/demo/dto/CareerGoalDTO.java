@@ -7,6 +7,7 @@ import lombok.Setter;
 @Setter
 public class CareerGoalDTO {
 
+	private Long id;
 	private String careerGoal;
 	private Long userId;
 }

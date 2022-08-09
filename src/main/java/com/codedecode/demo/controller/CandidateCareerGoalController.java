@@ -14,9 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codedecode.demo.dto.CareerGoalDTO;
 import com.codedecode.demo.entity.CV;
-import com.codedecode.demo.entity.User;
 import com.codedecode.demo.service.CVService;
-import com.codedecode.demo.service.UserService;
 
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
@@ -25,22 +23,23 @@ import com.codedecode.demo.service.UserService;
 public class CandidateCareerGoalController {
 
 	@Autowired
-	private UserService userService;
+	private CVService cvService;
 
 	@GetMapping("/{userId}")
 	public ResponseEntity<?> showCareerGoal(@PathVariable Long userId) {
-		User user = userService.findUserById(userId);
+		CV cv = cvService.getCVsByUserId(userId);
 		CareerGoalDTO careerGoalDTO = new CareerGoalDTO();
-		careerGoalDTO.setCareerGoal(user.getCareerGoals());
+		careerGoalDTO.setCareerGoal(cv.getCareerJobObjective());
 		careerGoalDTO.setUserId(userId);
+		careerGoalDTO.setId(cv.getId());
 		return new ResponseEntity<CareerGoalDTO>(careerGoalDTO, HttpStatus.OK);
 	}
 
 	@PostMapping("/update")
 	public ResponseEntity<?> updateCareerGoal(@RequestBody CareerGoalDTO careerGoalDTO) {
-		User user = userService.findUserById(careerGoalDTO.getUserId());
-		user.setCareerGoals(careerGoalDTO.getCareerGoal());
-		userService.addNewUser(user);
+		CV cv = cvService.getCVsByUserId(careerGoalDTO.getId());
+		cv.setCareerJobObjective(careerGoalDTO.getCareerGoal());
+		cvService.update(cv);
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 	}
 }
