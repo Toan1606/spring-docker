@@ -10,8 +10,8 @@ import org.springframework.stereotype.Repository;
 import com.codedecode.demo.dto.PostingRelatedDTO;
 import com.codedecode.demo.dto.PostingResponseInterfaceDTO;
 import com.codedecode.demo.dto.PostingSearchCategoryResponseInterface;
-import com.codedecode.demo.dto.PostingSearchCityResponse;
-import com.codedecode.demo.dto.PostingSearchProvinceResponse;
+import com.codedecode.demo.dto.PostingSearchCity;
+import com.codedecode.demo.dto.PostingSearchProvince;
 import com.codedecode.demo.entity.Address;
 import com.codedecode.demo.entity.Posting;
 
@@ -66,7 +66,7 @@ public interface PostingRepository extends SearchRepository<Posting, Long> {
 			+ "	join posting_address pa on pa.posting_id = p.id\r\n"
 			+ "	join address a on a.id = pa.address_id\r\n"
 			+ "	join province pr on pr.id = a.province_id) t WHERE t.rowNumber BETWEEN :start and :end and t.provinceId = :province_id", nativeQuery = true)
-	List<PostingSearchProvinceResponse> findPostingByProvince(@Param("start") int start, @Param("end") int end, @Param("province_id") Long provinceId);
+	List<PostingSearchProvince> findPostingByProvince(@Param("start") int start, @Param("end") int end, @Param("province_id") Long provinceId);
 
 	
 	@Query(value = "SELECT * FROM (\r\n"
@@ -78,7 +78,17 @@ public interface PostingRepository extends SearchRepository<Posting, Long> {
 			+ "	join address a on a.id = pa.address_id\r\n"
 			+ "	join city c on c.id = a.city_id ) t "
 			+ "WHERE t.rowNumber BETWEEN :start and :end and t.cityId = :city_id", nativeQuery = true)
-	List<PostingSearchCityResponse> findPostingByCity(@Param("start") int start, @Param("end") int end, @Param("city_id") Long cityId);
+	List<PostingSearchCity> findPostingByCity(@Param("start") int start, @Param("end") int end, @Param("city_id") Long cityId);
 
 	Set<Posting> findByAddresss(Address addresss);
+
+	@Query(value = "select count(*) as numberOfRecords from posting p join posting_address pa on pa.posting_id = p.id\r\n"
+			+ "join address a on a.id = pa.address_id\r\n"
+			+ "where a.province_id = :province_id", nativeQuery = true)
+	int countNumberOfRecordsByCity(@Param("province_id") Long provinceId);
+	
+	@Query(value = "select count(*) as numberOfRecords from posting p join posting_address pa on pa.posting_id = p.id\r\n"
+			+ "join address a on a.id = pa.address_id\r\n"
+			+ "where a.province_id = :province_id", nativeQuery = true)
+	int countNumberOfRecordsByProvince(@Param("province_id") Long provinceId);
 }

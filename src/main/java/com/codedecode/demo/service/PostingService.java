@@ -14,10 +14,11 @@ import com.codedecode.demo.dto.PageDTO;
 import com.codedecode.demo.dto.PostingDetailResponse;
 import com.codedecode.demo.dto.PostingRelatedDTO;
 import com.codedecode.demo.dto.PostingResponseInterfaceDTO;
+import com.codedecode.demo.dto.PostingSearchCategory;
 import com.codedecode.demo.dto.PostingSearchCategoryResponse;
 import com.codedecode.demo.dto.PostingSearchCategoryResponseInterface;
-import com.codedecode.demo.dto.PostingSearchCityResponse;
-import com.codedecode.demo.dto.PostingSearchProvinceResponse;
+import com.codedecode.demo.dto.PostingSearchCity;
+import com.codedecode.demo.dto.PostingSearchProvince;
 import com.codedecode.demo.dto.SuitablePostingDTO;
 import com.codedecode.demo.entity.Address;
 import com.codedecode.demo.entity.Posting;
@@ -120,11 +121,15 @@ public class PostingService {
 		return postingRepository.findPostingByCategory(start, end, postingCategoryId);
 	}
 	
-	public List<PostingSearchCategoryResponse> convertSearchByCategoryResult(List<PostingSearchCategoryResponseInterface> postings) {
-		List<PostingSearchCategoryResponse> results = new ArrayList<PostingSearchCategoryResponse>();
+	public int countNumberOfRecordsByProvince(Long provinceId) {
+		return postingRepository.countNumberOfRecordsByProvince(provinceId);
+	}
+	
+	public List<PostingSearchCategory> convertSearchByCategoryResult(List<PostingSearchCategoryResponseInterface> postings) {
+		List<PostingSearchCategory> results = new ArrayList<PostingSearchCategory>();
 		
 		for(PostingSearchCategoryResponseInterface posting : postings ) {
-			PostingSearchCategoryResponse reponse = new PostingSearchCategoryResponse();
+			PostingSearchCategory reponse = new PostingSearchCategory();
 			reponse.setRowNumber(posting.getRowNumber());
 			reponse.setImages(posting.getImages());
 			reponse.setPosition(posting.getPosition());
@@ -142,13 +147,13 @@ public class PostingService {
 	}
 	
 	
-	public List<PostingSearchProvinceResponse> searchPostingByProvince(Integer pageOffSet, Long provinceId) {
+	public List<PostingSearchProvince> searchPostingByProvince(Integer pageOffSet, Long provinceId) {
 		int start = (pageOffSet - 1) * 30;
 		int end = pageOffSet * 30;
 		return postingRepository.findPostingByProvince(start, end, provinceId);
 	}
 	
-	public List<PostingSearchCityResponse> searchPostingByCity(Integer pageOffSet, Long cityId) {
+	public List<PostingSearchCity> searchPostingByCity(Integer pageOffSet, Long cityId) {
 		int start = (pageOffSet - 1) * 30;
 		int end = pageOffSet * 30;
 		return postingRepository.findPostingByCity(start, end, cityId);
@@ -229,5 +234,9 @@ public class PostingService {
 	public Posting findPostingById(Long postingId) {
 		
 		return postingRepository.findById(postingId).orElseThrow(() -> new PostingNotFoundException(ExceptionMessage.POSTING_NOT_FOUND.getErrorMessage()));
+	}
+	
+	public int countNumberOfRecordsByCity(Long cityId) {
+		return postingRepository.countNumberOfRecordsByCity(cityId);
 	}
 }

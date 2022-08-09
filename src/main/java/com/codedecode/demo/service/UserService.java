@@ -58,9 +58,7 @@ public class UserService {
 	}
 
 	public User findUserByEmail(String email) {
-		System.out.println("BEGIN findUserById");
 		User user = userRepository.findByEmail(email);
-		System.out.println("END findUserById");
 		return user;
 	}
 
@@ -135,7 +133,6 @@ public class UserService {
 
 		while (value.hasNext()) {
 			Role role = value.next();
-			System.out.println("role.getRoleName() : " + role.getRoleName());
 			if (!role.getRoleName().equals(ApplicationUserRole.ROLE_CANDIDATE.name()))
 				throw new UserNotFoundException(ExceptionMessage.USER_NOT_FOUND.getErrorMessage());
 		}

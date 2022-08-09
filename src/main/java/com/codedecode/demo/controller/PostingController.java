@@ -26,11 +26,14 @@ import com.codedecode.demo.dto.PageableSearchRequestDTO;
 import com.codedecode.demo.dto.PostingDetailResponse;
 import com.codedecode.demo.dto.PostingRelatedDTO;
 import com.codedecode.demo.dto.PostingRequestDTO;
+import com.codedecode.demo.dto.PostingSearchCategory;
 import com.codedecode.demo.dto.PostingSearchCategoryRequest;
 import com.codedecode.demo.dto.PostingSearchCategoryResponse;
 import com.codedecode.demo.dto.PostingSearchCategoryResponseInterface;
+import com.codedecode.demo.dto.PostingSearchCity;
 import com.codedecode.demo.dto.PostingSearchCityRequest;
 import com.codedecode.demo.dto.PostingSearchCityResponse;
+import com.codedecode.demo.dto.PostingSearchProvince;
 import com.codedecode.demo.dto.PostingSearchProvinceRequest;
 import com.codedecode.demo.dto.PostingSearchProvinceResponse;
 import com.codedecode.demo.dto.SuitableJobDTO;
@@ -142,6 +145,7 @@ public class PostingController {
 		// 3. set response
 		PostingDetailResponse response = PostingDetailResponse.builder()
 				.id(postingId)
+				.recruiterEmail(user.getEmail())
 				.benefits(posting.getBenefits())
 				.commission(posting.getCommission())
 				.deadlineForSubmission(posting.getDeadlineForSubmission())
@@ -166,6 +170,7 @@ public class PostingController {
 				.companyId(user.getId())
 				.companyName(user.getName())
 				.postingCategoryId(postingCategory.getId())
+				.postingCategoryName(postingCategory.getCategoryName())
 				.salary(salary == null ? null : salary.getName())
 				.province(provinces)
 				.cities(cities)
@@ -198,7 +203,7 @@ public class PostingController {
 	}
 
 	@PostMapping(path = "/category/{categoryId}")
-	public ResponseEntity<List<PostingSearchCategoryResponse>> searchPostingByCategory(
+	public ResponseEntity<PostingSearchCategoryResponse> searchPostingByCategory(
 			@RequestBody PostingSearchCategoryRequest request) {
 		Integer pageOffSet = request.getPageOffSet();
 		Long postingCategoryId = request.getPostingCategoryId();
@@ -208,32 +213,53 @@ public class PostingController {
 
 		List<PostingSearchCategoryResponseInterface> postings = postingService.searchPostingByCategory(pageOffSet,
 				postingCategoryId);
-		List<PostingSearchCategoryResponse> response = postingService.convertSearchByCategoryResult(postings);
-		return new ResponseEntity<List<PostingSearchCategoryResponse>>(response, HttpStatus.OK);
+		List<PostingSearchCategory> postingsSearch = postingService.convertSearchByCategoryResult(postings);
+		
+		PostingSearchCategoryResponse response = PostingSearchCategoryResponse.builder()
+				.response(postingsSearch)
+				.numberOfRecords(0)
+				.build();
+		
+		return new ResponseEntity<PostingSearchCategoryResponse>(response, HttpStatus.OK);
 	}
 
 	@PostMapping(path = "/province/{provinceId}")
-	public ResponseEntity<List<PostingSearchProvinceResponse>> searchPostingByProvince(
+	public ResponseEntity<PostingSearchProvinceResponse> searchPostingByProvince(
 			@RequestBody PostingSearchProvinceRequest request) {
 		Integer pageOffSet = request.getPageOffSet();
 		Long provinceId = request.getProvinceId();
 		if (pageOffSet == null) {
 			pageOffSet = 1;
 		}
-		List<PostingSearchProvinceResponse> postings = postingService.searchPostingByProvince(pageOffSet, provinceId);
-		return new ResponseEntity<List<PostingSearchProvinceResponse>>(postings, HttpStatus.OK);
+		
+		List<PostingSearchProvince> postings = postingService.searchPostingByProvince(pageOffSet, provinceId);
+		int numberOfRecords = postingService.countNumberOfRecordsByProvince(provinceId);
+		
+		PostingSearchProvinceResponse response = PostingSearchProvinceResponse.builder()
+				.postings(postings)
+				.numberOfRecords(numberOfRecords)
+				.build();
+		
+		return new ResponseEntity<PostingSearchProvinceResponse>(response, HttpStatus.OK);
 	}
 
 	@PostMapping(path = "/city/{cityId}")
-	public ResponseEntity<List<PostingSearchCityResponse>> searchPostingByCity(
+	public ResponseEntity<PostingSearchCityResponse> searchPostingByCity(
 			@RequestBody PostingSearchCityRequest request) {
 		Integer pageOffSet = request.getPageOffSet();
 		Long cityId = request.getCityId();
 		if (pageOffSet == null) {
 			pageOffSet = 1;
 		}
-		List<PostingSearchCityResponse> postings = postingService.searchPostingByCity(pageOffSet, cityId);
-		return new ResponseEntity<List<PostingSearchCityResponse>>(postings, HttpStatus.OK);
+		List<PostingSearchCity> postings = postingService.searchPostingByCity(pageOffSet, cityId);
+		int numberOfRecords = postingService.countNumberOfRecordsByCity(cityId);
+		
+		PostingSearchCityResponse response = PostingSearchCityResponse.builder()
+				.postings(postings)
+				.numberOfRecords(numberOfRecords)
+				.build();
+		
+		return new ResponseEntity<PostingSearchCityResponse>(response, HttpStatus.OK);
 	}
 
 	@PostMapping(path = "/suitable")
