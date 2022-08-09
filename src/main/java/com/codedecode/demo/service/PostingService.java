@@ -13,6 +13,7 @@ import com.codedecode.demo.dto.AddPostingRequestDTO;
 import com.codedecode.demo.dto.PageDTO;
 import com.codedecode.demo.dto.PostingDetailResponse;
 import com.codedecode.demo.dto.PostingRelatedDTO;
+import com.codedecode.demo.dto.PostingResponseDTO;
 import com.codedecode.demo.dto.PostingResponseInterfaceDTO;
 import com.codedecode.demo.dto.PostingSearchCategory;
 import com.codedecode.demo.dto.PostingSearchCategoryResponseInterface;
@@ -202,6 +203,7 @@ public class PostingService {
 		long workingForm = addPostingRequestDTO.getWorkingForm();
 		long salary = addPostingRequestDTO.getSalary();
 		int quantity = addPostingRequestDTO.getQuantity();
+		String description = addPostingRequestDTO.getDescription();
 		String degreeRequired = addPostingRequestDTO.getDegreeRequired();
 		String genderRequirement = addPostingRequestDTO.getGenderRequirement();
 		String benefits = addPostingRequestDTO.getBenefits();
@@ -210,6 +212,7 @@ public class PostingService {
 		User user = userService.getUserByEmail(email);
 		PostingCategory postingCategory = new PostingCategory();
 		PostingType postingType = new PostingType(); 
+		long view = 1;
 		
 		Posting posting = new Posting();
 		posting.setUser(user);
@@ -217,6 +220,7 @@ public class PostingService {
 		posting.setWorkingForm(null);
 		posting.setSalary(null);
 		posting.setQuantity(quantity);
+		posting.setDescription(description);
 		posting.setDegreeRequired(degreeRequired);
 		posting.setGenderRequirement(genderRequirement);
 		posting.setBenefits(benefits);
@@ -227,6 +231,7 @@ public class PostingService {
 		posting.setEmailContact(user.getEmail());
 		posting.setPostingCategory(postingCategory);
 		posting.setPostingType(postingType);
+		posting.setView(view);
 		return postingRepository.save(posting);
 	}
 	
@@ -243,11 +248,32 @@ public class PostingService {
 		return postingRepository.findById(postingId).orElseThrow(() -> new PostingNotFoundException(ExceptionMessage.POSTING_NOT_FOUND.getErrorMessage()));
 	}
 	
+	public Posting updatePostingByRecruiterId(long id, Posting posting) {
+		Posting rs = postingRepository.fingPostingById(id);
+		if(rs != null) {
+			rs.setPosition(posting.getPosition());
+			rs.setQuantity(posting.getQuantity());
+			rs.setDegreeRequired(posting.getDegreeRequired());
+			rs.setGenderRequirement(posting.getGenderRequirement());
+			rs.setBenefits(posting.getBenefits());
+			rs.setDescription(posting.getDescription());
+			rs.setFile(posting.getFile());
+			rs.setDeadlineForSubmission(posting.getDeadlineForSubmission());
+		}
+		return rs;
+	}
+	
+	public void recruiterDeletePostingById(long id) {
+		Posting rs = postingRepository.fingPostingById(id);
+		postingRepository.deletePostingById(rs.getId());
+	}
+	
 	public int countNumberOfRecordsByCity(Long cityId) {
 		return postingRepository.countNumberOfRecordsByCity(cityId);
 	}
 	
 	public int countNumberOfRecordsByCategory(Long categoryId) {
 		return postingRepository.countNumberOfRecordsByCategory(categoryId);
+
 	}
 }
