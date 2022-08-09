@@ -31,13 +31,23 @@ public class AppliedJob {
 	@EmbeddedId
 	private AppliedJobKey appliedJobKey;
 
+
 	@ManyToOne
-    @MapsId(value = "userId")
-	@JoinColumn(name = "user_id", referencedColumnName = "id")
+    @MapsId(value = "candidateId")
+	@JoinColumn(name = "candidate_id", referencedColumnName = "id")
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
 	@JsonIgnore
-    private User user;
+    private User candidate;
+	
+	@ManyToOne
+    @MapsId(value = "recruiterId")
+	@JoinColumn(name = "recruiter_id", referencedColumnName = "id")
+
+	@EqualsAndHashCode.Exclude
+	@ToString.Exclude
+	@JsonIgnore
+    private User recruiter;
 	
 	@ManyToOne
 	@MapsId(value = "postingId")
