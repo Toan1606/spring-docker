@@ -90,7 +90,7 @@ public class CandidateSavedJobController {
 		savedjob.setUser(user);
 		savedjob.setSavedDate(date);
 		
-		SavedJob result = savedJobService.addNewSavedJob(savedjob);
+		savedJobService.addNewSavedJob(savedjob);
 
 		// dto to return
 		SavedNewJobResponseDTO response = SavedNewJobResponseDTO.builder()

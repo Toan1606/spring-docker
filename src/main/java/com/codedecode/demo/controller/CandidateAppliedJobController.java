@@ -91,7 +91,7 @@ public class CandidateAppliedJobController {
 		// 3. set object
 		AppliedJob appliedJob = new AppliedJob();
 		appliedJob.setPosting(posting);
-		appliedJob.setUser(user);
+		appliedJob.setCandidate(user);
 		
 		Date date = new Date();
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");  

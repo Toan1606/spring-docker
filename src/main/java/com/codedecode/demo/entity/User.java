@@ -194,11 +194,17 @@ public class User implements Serializable {
 	@JsonIgnore
 	private Collection<SavedJob> savedJob;
 
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "recruiter", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
 	@JsonIgnore
-	private Collection<AppliedJob> appliedJob;
+	private Collection<AppliedJob> recruiterAppliedJob;
+	
+	@OneToMany(mappedBy = "candidate", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@EqualsAndHashCode.Exclude
+	@ToString.Exclude
+	@JsonIgnore
+	private Collection<AppliedJob> candidateAppliedJob;
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = UserContract.class)
 	@JoinColumn(name = "candidate_contract_id", referencedColumnName = "id")
