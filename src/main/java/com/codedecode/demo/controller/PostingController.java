@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -280,4 +281,21 @@ public class PostingController {
 	public ResponseEntity<List<Posting>> getPostingByUserId(@PathVariable("userId") long id){
 		return new ResponseEntity<List<Posting>>(postingService.getPostingByRecruiterId(id), HttpStatus.OK);
 	}
+	
+	@PutMapping(value = "/updatePosting/{userId}")
+	public ResponseEntity<Posting> updatePostingByUserId(@PathVariable("userId") long id, @RequestBody Posting posting){
+		return new ResponseEntity<Posting>(postingService.updatePostingByRecruiterId(id, posting), HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/updatePosting/{id}")
+	public ResponseEntity<Posting> getPostingById(@PathVariable("id") long id){
+		return new ResponseEntity<Posting>(postingService.findPostingById(id), HttpStatus.OK);
+	}
+	
+	@DeleteMapping(value = "/updatePosting/{id}")
+	public ResponseEntity<Posting> deletePostingById(@PathVariable("id") long id){
+		postingService.recruiterDeletePostingById(id);
+		return new ResponseEntity<Posting>(HttpStatus.OK);
+	}
+	
 }

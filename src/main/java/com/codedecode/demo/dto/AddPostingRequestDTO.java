@@ -28,6 +28,9 @@ public class AddPostingRequestDTO {
 	@JsonProperty("degreeRequired")
 	private String degreeRequired;
 	
+	@JsonProperty("description")
+	private String description;
+	
 	@JsonProperty("genderRequirement")
 	private String genderRequirement;
 	

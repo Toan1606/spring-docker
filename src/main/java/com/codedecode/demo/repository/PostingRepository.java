@@ -3,6 +3,7 @@ package com.codedecode.demo.repository;
 import java.util.List;
 import java.util.Set;
 
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -83,6 +84,13 @@ public interface PostingRepository extends SearchRepository<Posting, Long> {
 	
 	@Query(value = "select * from posting where posting.user_id = ?1", nativeQuery=true)
 	List<Posting> fingPostingByUserId(long userId);
+	
+	@Query(value = "select * from posting where posting.id = ?1", nativeQuery=true)
+	Posting fingPostingById(long id);
+	
+	@Query(value = "delete from posting where id = ?1", nativeQuery=true)
+	@Modifying
+	void deletePostingById(long id);
 	
 	Set<Posting> findByAddresss(Address addresss);
 }
