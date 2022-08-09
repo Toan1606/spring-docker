@@ -27,6 +27,7 @@ import com.codedecode.demo.entity.PostingCategory;
 import com.codedecode.demo.entity.PostingType;
 import com.codedecode.demo.entity.User;
 import com.codedecode.demo.exception.PostingNotFound;
+import com.codedecode.demo.exception.PostingNotFoundException;
 import com.codedecode.demo.repository.HomeAddressRepository;
 import com.codedecode.demo.repository.PostingRepository;
 import com.codedecode.demo.utils.ExceptionMessage;
@@ -223,5 +224,10 @@ public class PostingService {
 		posting.setPostingCategory(postingCategory);
 		posting.setPostingType(postingType);
 		return postingRepository.save(posting);
+	}
+
+	public Posting findPostingById(Long postingId) {
+		
+		return postingRepository.findById(postingId).orElseThrow(() -> new PostingNotFoundException(ExceptionMessage.POSTING_NOT_FOUND.getErrorMessage()));
 	}
 }

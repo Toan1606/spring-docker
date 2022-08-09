@@ -22,4 +22,8 @@ public class SavedJobService {
 	public SavedJob getSavedJobById(Long id) {
 		return savedJobRepository.getSavedJobById(id);
 	}
+	public SavedJob addNewSavedJob(SavedJob savedjob) {
+		SavedJob result = savedJobRepository.save(savedjob);
+		return result;
+	}
 }
