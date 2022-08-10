@@ -41,6 +41,9 @@ public class CV implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
+	
+	@Column(name = "images")
+	private String images;
 
 	@Lob
 	@Column(name = "career_job_objective")
