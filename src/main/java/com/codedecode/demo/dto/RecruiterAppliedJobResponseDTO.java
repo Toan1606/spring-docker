@@ -1,9 +1,6 @@
 package com.codedecode.demo.dto;
 
 import java.io.Serializable;
-import java.util.List;
-
-import com.codedecode.demo.entity.Posting;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,16 +13,18 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RecruiterMangementResponseDTO implements Serializable {/**
+public class RecruiterAppliedJobResponseDTO implements Serializable {/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
-	private int numberOfApplieds;
 	
-	private int numberOfPostings;
+	private Long candidateId;
 	
-	private List<AppliedCandidateDTO> appliedCandidate;
+	private String candidateName;
 	
-	private List<Posting> lastestPostings;
+	private Long postingId;
+	
+	private String postingPosition;
+	
+	private String appliedDate;
 }

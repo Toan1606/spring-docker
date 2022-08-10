@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.codedecode.demo.entity.AppliedJob;
+import com.codedecode.demo.entity.key.AppliedJobKey;
 import com.codedecode.demo.repository.AppliedJobRepository;
 
 @Service
@@ -21,8 +22,13 @@ public class AppliedJobService {
 	public AppliedJob getAppliedJobById(Long id) {
 		return appliedJobRepository.getAppliedJobById(id);
 	}
+	
 	public void deleteAppliedJob(Long id) {
 		appliedJobRepository.deleteAppliedJob(id);
+	}
+	
+	public void deleteAppliedJob(AppliedJobKey key) {
+		appliedJobRepository.deleteById(key);
 	}
 	
 	public int countNumberOfAppliedJob() {
