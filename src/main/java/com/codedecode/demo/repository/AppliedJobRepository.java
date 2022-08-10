@@ -7,8 +7,9 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import com.codedecode.demo.entity.AppliedJob;
+import com.codedecode.demo.entity.key.AppliedJobKey;
 
-public interface AppliedJobRepository extends JpaRepository<AppliedJob, Long>{
+public interface AppliedJobRepository extends JpaRepository<AppliedJob, AppliedJobKey>{
 
 	@Query(value="select * from applied_jobs where user_id = ?1", nativeQuery=true)
 	List<AppliedJob> getAllAppliedJobs(Long userId);
