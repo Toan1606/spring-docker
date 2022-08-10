@@ -3,8 +3,6 @@ package com.codedecode.demo.controller;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -12,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +20,7 @@ import com.codedecode.demo.dto.FindAllUserResponseDTO;
 import com.codedecode.demo.dto.PostingRecruiterResponseDTO;
 import com.codedecode.demo.dto.RecruiterAppliedJobRequestDTO;
 import com.codedecode.demo.dto.RecruiterAppliedJobResponseDTO;
+import com.codedecode.demo.dto.RecruiterDeleteAppliedJobRequestDTO;
 import com.codedecode.demo.dto.RecruiterMangementResponseDTO;
 import com.codedecode.demo.dto.RecrutierManagementRequestDTO;
 import com.codedecode.demo.dto.RegisterRequestDTO;
@@ -33,10 +33,12 @@ import com.codedecode.demo.entity.Posting;
 import com.codedecode.demo.entity.Province;
 import com.codedecode.demo.entity.Street;
 import com.codedecode.demo.entity.User;
+import com.codedecode.demo.entity.key.AppliedJobKey;
 import com.codedecode.demo.service.AppliedJobService;
 import com.codedecode.demo.service.AuthService;
 import com.codedecode.demo.service.PostingService;
 import com.codedecode.demo.service.UserService;
+import com.codedecode.demo.utils.ResponseMessage;
 
 @RestController
 @RequestMapping("/recruiter")
@@ -153,5 +155,18 @@ public class RecruiterLoginController {
 
 		
 		return new ResponseEntity<List<RecruiterAppliedJobResponseDTO>>(response, HttpStatus.OK);
+	}
+	
+	@DeleteMapping(value = "/delete-applied-candidate")
+	public ResponseEntity<String> deleteAppliedCandidate(
+			@RequestBody RecruiterDeleteAppliedJobRequestDTO request) {
+		AppliedJobKey key = AppliedJobKey.builder()
+				.candidateId(request.getCandidateId())
+				.recruiterId(request.getRecruiterId())
+				.postingId(request.getPostingId())
+				.build();
+		appliedJobService.deleteAppliedJob(key);
+		
+		return new ResponseEntity<String>(ResponseMessage.DELETE_SUCCESS.getMessage(), HttpStatus.OK);
 	}
 }
