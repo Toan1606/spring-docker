@@ -21,4 +21,6 @@ public interface UserRepository extends JpaRepository<User, Long>{
 	User updateRecruiterById(Long id, User user, MultipartFile file);
 
 	List<User> findByRoles_RoleName(String roleName);
+	
+	
 }

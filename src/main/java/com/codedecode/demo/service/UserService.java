@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
@@ -30,6 +31,7 @@ import com.codedecode.demo.repository.SearchCandidateRepository;
 import com.codedecode.demo.dto.PostingRecruiterResponseDTO;
 import com.codedecode.demo.entity.Address;
 import com.codedecode.demo.entity.ApplicationUserRole;
+import com.codedecode.demo.entity.AppliedJob;
 import com.codedecode.demo.entity.CV;
 import com.codedecode.demo.entity.City;
 import com.codedecode.demo.entity.Degree;
@@ -259,5 +261,15 @@ public class UserService {
 			addressStr.append(address.getProvince().getName());
 		}
 		return addressStr.toString();
+	}
+	
+	public Set<User> getCandidateFromAppliedJob(List<AppliedJob> appliedJobs) {
+		Set<User> candidates = new HashSet<User>();
+		for (AppliedJob appliedJob : appliedJobs) {
+			User candidate = appliedJob.getCandidate();
+			candidates.add(candidate);
+		}
+		
+		return candidates;
 	}
 }

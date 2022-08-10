@@ -98,4 +98,9 @@ public interface PostingRepository extends SearchRepository<Posting, Long> {
 	@Query(value = "select count(*) from posting p where p.posting_category_id = :category_id", nativeQuery = true)
 	int countNumberOfRecordsByCategory(@Param("category_id") Long categoryId);
 	
+	int countByUser_Id(Long id);
+	
+	List<Posting> findByUser_IdOrderByIdDesc(Long id);
+	
+	
 }

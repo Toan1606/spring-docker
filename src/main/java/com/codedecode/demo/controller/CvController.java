@@ -1,5 +1,7 @@
 package com.codedecode.demo.controller;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codedecode.demo.dto.CVRequestDTO;
 import com.codedecode.demo.dto.CvResponseDTO;
-import com.codedecode.demo.entity.Activity;
 import com.codedecode.demo.entity.Address;
 import com.codedecode.demo.entity.CV;
 import com.codedecode.demo.entity.City;
 import com.codedecode.demo.entity.Degree;
+import com.codedecode.demo.entity.DesiredJob;
 import com.codedecode.demo.entity.Education;
 import com.codedecode.demo.entity.InvolvedProject;
 import com.codedecode.demo.entity.Province;
@@ -46,10 +48,17 @@ public class CvController {
 		City city = address.getCity();
 		Street street = address.getStreet();
 		String facebook = new StringBuilder("https://www.facebook.com/").append(candidate.getEmail().split("@")[0]).toString();
+		DesiredJob desiredJob = candidate.getDesiredJob();
+		cv.getDegrees();
+		
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");  
+
 		
 		CvResponseDTO response = CvResponseDTO.builder()
 				.images(cv.getImages())
-				.dateOfBirth(String.valueOf(candidate.getBirthDate()))
+				.name(candidate.getName())
+				.position(desiredJob.getName())
+				.dateOfBirth(dateFormat.format(candidate.getBirthDate()))
 				.gender(candidate.getGender())
 				.phone(candidate.getPhone())
 				.email(candidate.getEmail())
@@ -64,7 +73,7 @@ public class CvController {
 				.hobbies(cv.getHobbies())
 				.educations(new ArrayList<Education>(cv.getEducations()))
 				.workExperiences(new ArrayList<WorkExperiences>(cv.getWorkExperiences()))
-				.activities(new ArrayList<Activity>(cv.getActivities()))
+				.activities(cv.getActivities())
 				.involvedProjects(new ArrayList<InvolvedProject>(cv.getInvolvedProject()))
 				.build();
 		return new ResponseEntity<CvResponseDTO>(response, HttpStatus.OK);

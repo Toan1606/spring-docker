@@ -1,6 +1,7 @@
 package com.codedecode.demo.dto;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 
 import com.codedecode.demo.entity.Activity;
@@ -27,6 +28,10 @@ public class CvResponseDTO implements Serializable {/**
 	private static final long serialVersionUID = 1L;
 
 	private String images;
+	
+	private String position;
+	
+	private String name;
 	
 	private String dateOfBirth;
 	
@@ -58,7 +63,7 @@ public class CvResponseDTO implements Serializable {/**
 	
 	private List<WorkExperiences> workExperiences;
 	
-	private List<Activity> activities;
+	private Collection<Activity> activities;
 	
 	private List<InvolvedProject> involvedProjects;
 }
