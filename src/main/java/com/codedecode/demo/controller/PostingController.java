@@ -207,6 +207,7 @@ public class PostingController {
 			@RequestBody PostingSearchCategoryRequest request) {
 		Integer pageOffSet = request.getPageOffSet();
 		Long postingCategoryId = request.getPostingCategoryId();
+		System.out.println("pageOffSet : " + pageOffSet);
 		if (pageOffSet == null) {
 			pageOffSet = 1;
 		}
@@ -215,9 +216,12 @@ public class PostingController {
 				postingCategoryId);
 		List<PostingSearchCategory> postingsSearch = postingService.convertSearchByCategoryResult(postings);
 		
+		int numberOfRecords = postingService.countNumberOfRecordsByCategory(postingCategoryId);
+		
 		PostingSearchCategoryResponse response = PostingSearchCategoryResponse.builder()
 				.response(postingsSearch)
-				.numberOfRecords(0)
+				.numberOfRecords(numberOfRecords)
+				.postingCategoryId(postingCategoryId)
 				.build();
 		
 		return new ResponseEntity<PostingSearchCategoryResponse>(response, HttpStatus.OK);
@@ -228,6 +232,8 @@ public class PostingController {
 			@RequestBody PostingSearchProvinceRequest request) {
 		Integer pageOffSet = request.getPageOffSet();
 		Long provinceId = request.getProvinceId();
+		
+		System.out.println("pageOffSet : " + pageOffSet);
 		if (pageOffSet == null) {
 			pageOffSet = 1;
 		}
@@ -238,6 +244,7 @@ public class PostingController {
 		PostingSearchProvinceResponse response = PostingSearchProvinceResponse.builder()
 				.postings(postings)
 				.numberOfRecords(numberOfRecords)
+				.provinceId(provinceId)
 				.build();
 		
 		return new ResponseEntity<PostingSearchProvinceResponse>(response, HttpStatus.OK);
@@ -248,6 +255,8 @@ public class PostingController {
 			@RequestBody PostingSearchCityRequest request) {
 		Integer pageOffSet = request.getPageOffSet();
 		Long cityId = request.getCityId();
+		
+		System.out.println("pageOffSet : " + pageOffSet);
 		if (pageOffSet == null) {
 			pageOffSet = 1;
 		}
@@ -257,6 +266,7 @@ public class PostingController {
 		PostingSearchCityResponse response = PostingSearchCityResponse.builder()
 				.postings(postings)
 				.numberOfRecords(numberOfRecords)
+				.cityId(cityId)
 				.build();
 		
 		return new ResponseEntity<PostingSearchCityResponse>(response, HttpStatus.OK);

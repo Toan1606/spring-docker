@@ -24,4 +24,6 @@ public class PostingSearchCityResponse implements Serializable {
 	private List<PostingSearchCity> postings;
 	
 	private int numberOfRecords;
+	
+	private Long cityId;
 }

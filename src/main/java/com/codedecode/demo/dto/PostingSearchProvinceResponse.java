@@ -24,4 +24,5 @@ public class PostingSearchProvinceResponse implements Serializable {/**
 	
 	private int numberOfRecords;
 
+	private Long provinceId;
 }

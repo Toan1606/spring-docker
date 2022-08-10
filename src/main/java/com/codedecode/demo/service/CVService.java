@@ -1,5 +1,7 @@
 package com.codedecode.demo.service;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -7,6 +9,7 @@ import com.codedecode.demo.entity.CV;
 import com.codedecode.demo.repository.CVRepository;
 
 @Service
+@Transactional
 public class CVService {
 	@Autowired
 	private CVRepository cvRepository;
@@ -35,5 +38,9 @@ public class CVService {
 	 * */
 	public void updateCareerJobObjective(CV cv) {
 		cvRepository.save(cv);
+	}
+	
+	public CV findCvByCandidateId(Long candidateId) {
+		return cvRepository.findByUser_Id(candidateId);
 	}
 }
