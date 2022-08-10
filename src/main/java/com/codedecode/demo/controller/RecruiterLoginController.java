@@ -3,8 +3,8 @@ package com.codedecode.demo.controller;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.codedecode.demo.dto.AppliedCandidateDTO;
 import com.codedecode.demo.dto.FindAllUserResponseDTO;
 import com.codedecode.demo.dto.PostingRecruiterResponseDTO;
 import com.codedecode.demo.dto.RecruiterAppliedJobRequestDTO;
@@ -113,15 +114,29 @@ public class RecruiterLoginController {
 
 		// 3. list of candidate who applied job's recruiter
 		List<AppliedJob> appliedJobs = appliedJobService.findAppliedJobByRecruiterId(recruiterId);
-		// 3.1 get candidate who applied job
-		Set<User> candidates = userService.getCandidateFromAppliedJob(appliedJobs);
+
+		// 4. get applied candidate information
+		List<AppliedCandidateDTO> candidates = new ArrayList<AppliedCandidateDTO>();
+		// format date
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		for (AppliedJob appliedJob : appliedJobs) {
+			User candidate = appliedJob.getCandidate();
+			Date dateSubmission = appliedJob.getDateSubmission();
+
+			AppliedCandidateDTO appliedCandidate = AppliedCandidateDTO.builder().candidateId(candidate.getId())
+					.candidateName(candidate.getName())
+					.university(candidate.getUniversity())
+					.dateSubmission(dateFormat.format(dateSubmission))
+					.build();
+			candidates.add(appliedCandidate);
+		}
 
 		// 4. list of lastest posting
 		List<Posting> postings = postingService.findLastestPostingByRecruiterId(recruiterId);
 
 		// 5. dto to return
 		RecruiterMangementResponseDTO response = RecruiterMangementResponseDTO.builder()
-				.numberOfApplieds(numberOfApplieds).numberOfPostings(numberOfPostings).candidates(candidates)
+				.numberOfApplieds(numberOfApplieds).numberOfPostings(numberOfPostings).appliedCandidate(candidates)
 				.lastestPostings(postings).build();
 		return new ResponseEntity<RecruiterMangementResponseDTO>(response, HttpStatus.OK);
 	}
@@ -133,40 +148,32 @@ public class RecruiterLoginController {
 
 		// 1. list of candidate who applied job's recruiter
 		List<AppliedJob> appliedJobs = appliedJobService.findAppliedJobByRecruiterId(recruiterId);
-		
+
 		// format date
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-		
-		List<RecruiterAppliedJobResponseDTO> response = new  ArrayList<RecruiterAppliedJobResponseDTO>();
+
+		List<RecruiterAppliedJobResponseDTO> response = new ArrayList<RecruiterAppliedJobResponseDTO>();
 		// 2. convert to dto
 		for (AppliedJob appliedJob : appliedJobs) {
 			User candidate = appliedJob.getCandidate();
 			Posting posting = appliedJob.getPosting();
-			
+
 			RecruiterAppliedJobResponseDTO candidatePosting = RecruiterAppliedJobResponseDTO.builder()
-					.candidateId(candidate.getId())
-					.candidateName(candidate.getName())
-					.postingId(posting.getId())
+					.candidateId(candidate.getId()).candidateName(candidate.getName()).postingId(posting.getId())
 					.postingPosition(posting.getPosition())
-					.appliedDate(dateFormat.format(appliedJob.getDateSubmission()))
-					.build();
+					.appliedDate(dateFormat.format(appliedJob.getDateSubmission())).build();
 			response.add(candidatePosting);
 		}
 
-		
 		return new ResponseEntity<List<RecruiterAppliedJobResponseDTO>>(response, HttpStatus.OK);
 	}
-	
+
 	@DeleteMapping(value = "/delete-applied-candidate")
-	public ResponseEntity<String> deleteAppliedCandidate(
-			@RequestBody RecruiterDeleteAppliedJobRequestDTO request) {
-		AppliedJobKey key = AppliedJobKey.builder()
-				.candidateId(request.getCandidateId())
-				.recruiterId(request.getRecruiterId())
-				.postingId(request.getPostingId())
-				.build();
+	public ResponseEntity<String> deleteAppliedCandidate(@RequestBody RecruiterDeleteAppliedJobRequestDTO request) {
+		AppliedJobKey key = AppliedJobKey.builder().candidateId(request.getCandidateId())
+				.recruiterId(request.getRecruiterId()).postingId(request.getPostingId()).build();
 		appliedJobService.deleteAppliedJob(key);
-		
+
 		return new ResponseEntity<String>(ResponseMessage.DELETE_SUCCESS.getMessage(), HttpStatus.OK);
 	}
 }
