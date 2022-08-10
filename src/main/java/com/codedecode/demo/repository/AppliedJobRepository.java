@@ -22,4 +22,6 @@ public interface AppliedJobRepository extends JpaRepository<AppliedJob, Long>{
 	
 	@Query(value = "SELECT COUNT(*) AS NumberOfAppliedJob FROM applied_jobs", nativeQuery = true) 
 	int countNumberOfAppliedJob();
+	
+	List<AppliedJob> findByRecruiter_Id(Long id);
 }

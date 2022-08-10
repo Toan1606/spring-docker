@@ -276,4 +276,12 @@ public class PostingService {
 		return postingRepository.countNumberOfRecordsByCategory(categoryId);
 
 	}
+	
+	public int countNumberOfPostingsByRecruiter(Long recruiterId) {
+		return postingRepository.countByUser_Id(recruiterId);
+	}
+	
+	public List<Posting> findLastestPostingByRecruiterId(Long recruiterId) {
+		return postingRepository.findByUser_IdOrderByIdDesc(recruiterId);
+	}
 }

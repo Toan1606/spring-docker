@@ -3,6 +3,7 @@ package com.codedecode.demo.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,16 +16,21 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codedecode.demo.dto.FindAllUserResponseDTO;
 import com.codedecode.demo.dto.PostingRecruiterResponseDTO;
+import com.codedecode.demo.dto.RecruiterMangementResponseDTO;
+import com.codedecode.demo.dto.RecrutierManagementRequestDTO;
 import com.codedecode.demo.dto.RegisterRequestDTO;
 import com.codedecode.demo.dto.UserRequestIdDTO;
 import com.codedecode.demo.dto.UserResponseIdDTO;
 import com.codedecode.demo.entity.Address;
+import com.codedecode.demo.entity.AppliedJob;
 import com.codedecode.demo.entity.City;
 import com.codedecode.demo.entity.Posting;
 import com.codedecode.demo.entity.Province;
 import com.codedecode.demo.entity.Street;
 import com.codedecode.demo.entity.User;
+import com.codedecode.demo.service.AppliedJobService;
 import com.codedecode.demo.service.AuthService;
+import com.codedecode.demo.service.PostingService;
 import com.codedecode.demo.service.UserService;
 
 
@@ -38,6 +44,12 @@ public class RecruiterLoginController {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private AppliedJobService appliedJobService;
+	
+	@Autowired
+	private PostingService postingService;
 	
 	@PostMapping
 	public ResponseEntity<UserResponseIdDTO> findUserById(@RequestBody UserRequestIdDTO request) {
@@ -90,4 +102,32 @@ public class RecruiterLoginController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(usersDto);
 	}
 	
+	@PostMapping(value = "/recruiter-management")
+	public ResponseEntity<RecruiterMangementResponseDTO> findRecuiterManagement(@RequestBody RecrutierManagementRequestDTO request) {
+		Long recruiterId = request.getUserId();
+		
+		
+		// 1. number of candidate who applied job
+		int numberOfApplieds = appliedJobService.countNumberOfAppliedJob();
+		
+		// 2. number of posting which is posted by recruiter
+		int numberOfPostings = postingService.countNumberOfPostingsByRecruiter(recruiterId);
+		
+		// 3. list of candidate who applied job's recruiter
+		List<AppliedJob> appliedJobs = appliedJobService.findAppliedJobByRecruiterId(recruiterId);
+		// 3.1 get candidate who applied job
+		Set<User> candidates = userService.getCandidateFromAppliedJob(appliedJobs);
+		
+		// 4. list of lastest posting
+		List<Posting> postings = postingService.findLastestPostingByRecruiterId(recruiterId);
+		
+		// 5. dto to return
+		RecruiterMangementResponseDTO response = RecruiterMangementResponseDTO.builder()
+				.numberOfApplieds(numberOfApplieds)
+				.numberOfPostings(numberOfPostings)
+				.candidates(candidates)
+				.lastestPostings(postings)
+				.build();
+		return new ResponseEntity<RecruiterMangementResponseDTO>(response, HttpStatus.OK);
+	}
 }

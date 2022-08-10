@@ -33,5 +33,10 @@ public class AppliedJobService {
 		AppliedJob returnObject = appliedJobRepository.save(appliedJob);
 		return returnObject;
 	}
+	
+	public List<AppliedJob> findAppliedJobByRecruiterId(Long recruiterId) {
+		return appliedJobRepository.findByRecruiter_Id(recruiterId);
+	}
+	
 }
 
