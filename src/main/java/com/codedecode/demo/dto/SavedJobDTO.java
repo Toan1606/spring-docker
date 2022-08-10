@@ -13,5 +13,6 @@ public class SavedJobDTO {
 	private String postingJobname;
 	private String postingPosition;
 	private String deadlineForSubmission;
+	private Long postingId;
 	
 }

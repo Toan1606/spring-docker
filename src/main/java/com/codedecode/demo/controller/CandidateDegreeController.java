@@ -41,15 +41,29 @@ public class CandidateDegreeController {
 		}
 		return new ResponseEntity<List<Degree>>(list, HttpStatus.OK);
 	}
+	@GetMapping("/edit/{id}")
+	public ResponseEntity<?> getDegreeById(@PathVariable Long id){
+		Degree degree = degreeService.getDegreeById(id);
+		EducationDegreeDTO degreeDTO = new EducationDegreeDTO();
+		degreeDTO.setId(id);
+		degreeDTO.setCertificateName(degree.getCertificateName());
+		degreeDTO.setStartTime(degree.getStartTime());
+		degreeDTO.setEndTime(degree.getEndTime());
+		degreeDTO.setMajor(degree.getMajor());
+		degreeDTO.setRank(degree.getRank());
+		degreeDTO.setSupplementaryInformation(degree.getSupplementaryInformation());
+		degreeDTO.setTeachingUnit(degree.getTeachingUnit());
+		return new ResponseEntity<EducationDegreeDTO>(degreeDTO, HttpStatus.OK);
+	}
 	
 	@PostMapping("/add")
 	public ResponseEntity<?> addDegree(@RequestBody EducationDegreeDTO educationDegreeDTO){
 		Degree degree = new Degree();
-//		degree.setDegreeName(educationDegreeDTO.getDegreeName());
+		degree.setCertificateName(educationDegreeDTO.getCertificateName());
 		degree.setStartTime(educationDegreeDTO.getStartTime());
-//		degree.setEndTime(educationDegreeDTO.getEndTime());
+		degree.setEndTime(educationDegreeDTO.getEndTime());
 		degree.setMajor(educationDegreeDTO.getMajor());
-//		degree.setRank(educationDegreeDTO.getRank());
+		degree.setRank(educationDegreeDTO.getRank());
 		degree.setTeachingUnit(educationDegreeDTO.getTeachingUnit());
 		degree.setSupplementaryInformation(educationDegreeDTO.getSupplementaryInformation());
 		List<Degree> list = degreeService.getAllDegreeByUserId(educationDegreeDTO.getUserId());
@@ -65,11 +79,11 @@ public class CandidateDegreeController {
 		List<Degree> list = degreeService.getAllDegreeByUserId(educationDegreeDTO.getUserId());
 		for (Degree degree : list) {
 			if(degree.getId() == educationDegreeDTO.getId()) {
-//				degree.setDegreeName(educationDegreeDTO.getDegreeName());
+				degree.setCertificateName(educationDegreeDTO.getCertificateName());
 				degree.setStartTime(educationDegreeDTO.getStartTime());
-//				degree.setEndTime(educationDegreeDTO.getEndTime());
+				degree.setEndTime(educationDegreeDTO.getEndTime());
 				degree.setMajor(educationDegreeDTO.getMajor());
-//				degree.setRank(educationDegreeDTO.getRank());
+				degree.setRank(educationDegreeDTO.getRank());
 				degree.setTeachingUnit(educationDegreeDTO.getTeachingUnit());
 				degree.setSupplementaryInformation(educationDegreeDTO.getSupplementaryInformation());
 				break;
@@ -80,8 +94,19 @@ public class CandidateDegreeController {
 		cvService.update(cv);
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 	}
-//	@DeleteMapping("/delete/{id}")
-//	public ResponseEntity<?> deleteDegree(@PathVariable Long id){
-//		
-//	}
+	@DeleteMapping("/delete/{id}/{userId}")
+	public ResponseEntity<?> deleteDegree(@PathVariable Long id, @PathVariable Long userId){
+		List<Degree> list = degreeService.getAllDegreeByUserId(userId);
+		for (Degree degree : list) {
+			if(degree.getId() == id) {
+				list.remove(degree);
+				CV cv = cvService.getCVsByUserId(userId);
+				cv.setDegrees(list);
+				cvService.update(cv);
+				degreeService.deleteDegree(id);
+				break;
+			}
+		}
+		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+	}
 }

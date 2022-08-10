@@ -16,4 +16,6 @@ public class AppliedJobDTO {
 	private Date dateSubmission;
 	private String deadlineForSubmission;
 	private String commentFromEmployer;
+	private Long postingId;
+	private Long recruiterId;
 }

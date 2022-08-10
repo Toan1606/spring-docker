@@ -18,4 +18,11 @@ public class DegreeService {
 	public List<Degree> getAllDegreeByUserId(Long userId) {
 		return degreeRepository.findAll();
 	}
+	
+	public void deleteDegree(Long id) {
+		degreeRepository.deleteDegree(id);
+	}
+	public Degree getDegreeById(Long id) {
+		return degreeRepository.getOne(id);
+	}
 }

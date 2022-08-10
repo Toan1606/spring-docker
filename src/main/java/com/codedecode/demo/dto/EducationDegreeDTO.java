@@ -10,7 +10,7 @@ import lombok.Setter;
 
 public class EducationDegreeDTO {
 	private Long id;
-	private String degreeName;
+	private String certificateName;
 	private String teachingUnit;
 	private Date startTime;
 	private Date endTime;

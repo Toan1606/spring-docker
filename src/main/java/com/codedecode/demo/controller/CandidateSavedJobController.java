@@ -21,11 +21,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codedecode.demo.dto.SavedJobDTO;
+import com.codedecode.demo.dto.SavedJobKeyDTO;
 import com.codedecode.demo.dto.SavedNewJobDTO;
 import com.codedecode.demo.dto.SavedNewJobResponseDTO;
 import com.codedecode.demo.entity.Posting;
 import com.codedecode.demo.entity.SavedJob;
 import com.codedecode.demo.entity.User;
+import com.codedecode.demo.entity.key.SavedJobKey;
 import com.codedecode.demo.service.PostingService;
 import com.codedecode.demo.service.SavedJobService;
 import com.codedecode.demo.service.UserService;
@@ -58,18 +60,23 @@ public class CandidateSavedJobController {
 				sDTO.setPostingJobname(p.getJobName());
 				sDTO.setDeadlineForSubmission(p.getDeadlineForSubmission());
 				sDTO.setPostingPosition(p.getPosition());
+				sDTO.setPostingId(p.getId());
 				listSavedJobRequestDTOs.add(sDTO);
 			}
 			return new ResponseEntity<List<SavedJobDTO>>(listSavedJobRequestDTOs,HttpStatus.OK);
 		}
 	}
-	@DeleteMapping("/delete/{id}")
-	public ResponseEntity<?> deleteSavedJob(@PathVariable Long id){
-		SavedJob savejob = savedJobService.getSavedJobById(id);
+	@PostMapping("/remove")
+	public ResponseEntity<?> deleteSavedJob(@RequestBody SavedJobKeyDTO savedJobKeyDTO){
+		SavedJobKey savedJobKey = new SavedJobKey();
+		savedJobKey.setUserId(savedJobKeyDTO.getUserId());
+		savedJobKey.setPostingId(savedJobKeyDTO.getPostingId());
+		
+		SavedJob savejob = savedJobService.getSavedJobById(savedJobKey);
 		if(savejob == null) {
 			return new ResponseEntity<HttpStatus>(HttpStatus.BAD_REQUEST);
 		}else {
-			savedJobService.deleteSavedJob(id);
+			savedJobService.deleteSavedJob(savedJobKey);
 			return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 		}
 	}
