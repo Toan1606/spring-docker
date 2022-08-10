@@ -22,5 +22,7 @@ public class PostingSearchCategoryResponse implements Serializable {/**
 	private List<PostingSearchCategory> response;
 	
 	private int numberOfRecords;
+	
+	private Long postingCategoryId;
 
 }
