@@ -80,6 +80,9 @@ public interface PostingRepository extends SearchRepository<Posting, Long> {
 			+ "WHERE t.rowNumber BETWEEN :start and :end and t.cityId = :city_id", nativeQuery = true)
 	List<PostingSearchCity> findPostingByCity(@Param("start") int start, @Param("end") int end, @Param("city_id") Long cityId);
 
+	@Query(value = "select * from posting where posting.user_id = ?1", nativeQuery=true)
+	List<Posting> fingPostingByUserId(long userId);
+
 	Set<Posting> findByAddresss(Address addresss);
 
 	@Query(value = "select count(*) as numberOfRecords from posting p join posting_address pa on pa.posting_id = p.id\r\n"
