@@ -34,7 +34,7 @@ import com.codedecode.demo.entity.WorkExperiences;
 import com.codedecode.demo.service.CVService;
 import com.codedecode.demo.service.ProvinceService;
 
-@CrossOrigin(origins = "http://localhost:8080")
+@CrossOrigin(origins = "http://localhost:8080", allowCredentials = "true")
 @RestController
 @RequestMapping("/cv")
 public class CvController {
@@ -91,11 +91,9 @@ public class CvController {
 		return new ResponseEntity<CvResponseDTO>(response, HttpStatus.OK);
 	}
 	
-	@PutMapping("/update")
-	public ResponseEntity<Integer> updateCv(@RequestBody CVRequest request) {
+	@PostMapping("/update/xxx")
+	public ResponseEntity<String> updateCv() {
 		System.out.println("update cv function");
-		String base64 = request.getImages();
-		System.out.println(request);
-		return new ResponseEntity<Integer>(cvService.updateCv(base64), HttpStatus.OK);
+		return new ResponseEntity<String>("Put Mapping Update CV", HttpStatus.OK);
 	}
 }
