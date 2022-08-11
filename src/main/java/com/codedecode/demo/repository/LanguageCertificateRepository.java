@@ -36,11 +36,4 @@ public interface LanguageCertificateRepository extends JpaRepository<Language, L
 	@Modifying
 	void deleteLanguageCertificateById(Long languageId);
 	
-	/*
-	 * 
-	 *	@author: Nguyễn Văn Tuấn 
-	 * 
-	 */
-//	Language findLanguage()
-	
 }

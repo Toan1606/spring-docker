@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,11 +28,14 @@ import com.codedecode.demo.dto.PageableSearchRequestDTO;
 import com.codedecode.demo.dto.PostingDetailResponse;
 import com.codedecode.demo.dto.PostingRelatedDTO;
 import com.codedecode.demo.dto.PostingRequestDTO;
+import com.codedecode.demo.dto.PostingSearchCategory;
 import com.codedecode.demo.dto.PostingSearchCategoryRequest;
 import com.codedecode.demo.dto.PostingSearchCategoryResponse;
 import com.codedecode.demo.dto.PostingSearchCategoryResponseInterface;
+import com.codedecode.demo.dto.PostingSearchCity;
 import com.codedecode.demo.dto.PostingSearchCityRequest;
 import com.codedecode.demo.dto.PostingSearchCityResponse;
+import com.codedecode.demo.dto.PostingSearchProvince;
 import com.codedecode.demo.dto.PostingSearchProvinceRequest;
 import com.codedecode.demo.dto.PostingSearchProvinceResponse;
 import com.codedecode.demo.dto.SuitableJobDTO;
@@ -143,6 +147,7 @@ public class PostingController {
 		// 3. set response
 		PostingDetailResponse response = PostingDetailResponse.builder()
 				.id(postingId)
+				.recruiterEmail(user.getEmail())
 				.benefits(posting.getBenefits())
 				.commission(posting.getCommission())
 				.deadlineForSubmission(posting.getDeadlineForSubmission())
@@ -167,6 +172,7 @@ public class PostingController {
 				.companyId(user.getId())
 				.companyName(user.getName())
 				.postingCategoryId(postingCategory.getId())
+				.postingCategoryName(postingCategory.getCategoryName())
 				.salary(salary == null ? null : salary.getName())
 				.province(provinces)
 				.cities(cities)
@@ -199,42 +205,73 @@ public class PostingController {
 	}
 
 	@PostMapping(path = "/category/{categoryId}")
-	public ResponseEntity<List<PostingSearchCategoryResponse>> searchPostingByCategory(
+	public ResponseEntity<PostingSearchCategoryResponse> searchPostingByCategory(
 			@RequestBody PostingSearchCategoryRequest request) {
 		Integer pageOffSet = request.getPageOffSet();
 		Long postingCategoryId = request.getPostingCategoryId();
+		System.out.println("pageOffSet : " + pageOffSet);
 		if (pageOffSet == null) {
 			pageOffSet = 1;
 		}
 
 		List<PostingSearchCategoryResponseInterface> postings = postingService.searchPostingByCategory(pageOffSet,
 				postingCategoryId);
-		List<PostingSearchCategoryResponse> response = postingService.convertSearchByCategoryResult(postings);
-		return new ResponseEntity<List<PostingSearchCategoryResponse>>(response, HttpStatus.OK);
+		List<PostingSearchCategory> postingsSearch = postingService.convertSearchByCategoryResult(postings);
+		
+		int numberOfRecords = postingService.countNumberOfRecordsByCategory(postingCategoryId);
+		
+		PostingSearchCategoryResponse response = PostingSearchCategoryResponse.builder()
+				.response(postingsSearch)
+				.numberOfRecords(numberOfRecords)
+				.postingCategoryId(postingCategoryId)
+				.build();
+		
+		return new ResponseEntity<PostingSearchCategoryResponse>(response, HttpStatus.OK);
 	}
 
 	@PostMapping(path = "/province/{provinceId}")
-	public ResponseEntity<List<PostingSearchProvinceResponse>> searchPostingByProvince(
+	public ResponseEntity<PostingSearchProvinceResponse> searchPostingByProvince(
 			@RequestBody PostingSearchProvinceRequest request) {
 		Integer pageOffSet = request.getPageOffSet();
 		Long provinceId = request.getProvinceId();
+		
+		System.out.println("pageOffSet : " + pageOffSet);
 		if (pageOffSet == null) {
 			pageOffSet = 1;
 		}
-		List<PostingSearchProvinceResponse> postings = postingService.searchPostingByProvince(pageOffSet, provinceId);
-		return new ResponseEntity<List<PostingSearchProvinceResponse>>(postings, HttpStatus.OK);
+		
+		List<PostingSearchProvince> postings = postingService.searchPostingByProvince(pageOffSet, provinceId);
+		int numberOfRecords = postingService.countNumberOfRecordsByProvince(provinceId);
+		
+		PostingSearchProvinceResponse response = PostingSearchProvinceResponse.builder()
+				.postings(postings)
+				.numberOfRecords(numberOfRecords)
+				.provinceId(provinceId)
+				.build();
+		
+		return new ResponseEntity<PostingSearchProvinceResponse>(response, HttpStatus.OK);
 	}
 
 	@PostMapping(path = "/city/{cityId}")
-	public ResponseEntity<List<PostingSearchCityResponse>> searchPostingByCity(
+	public ResponseEntity<PostingSearchCityResponse> searchPostingByCity(
 			@RequestBody PostingSearchCityRequest request) {
 		Integer pageOffSet = request.getPageOffSet();
 		Long cityId = request.getCityId();
+		
+		System.out.println("pageOffSet : " + pageOffSet);
 		if (pageOffSet == null) {
 			pageOffSet = 1;
 		}
-		List<PostingSearchCityResponse> postings = postingService.searchPostingByCity(pageOffSet, cityId);
-		return new ResponseEntity<List<PostingSearchCityResponse>>(postings, HttpStatus.OK);
+		List<PostingSearchCity> postings = postingService.searchPostingByCity(pageOffSet, cityId);
+		int numberOfRecords = postingService.countNumberOfRecordsByCity(cityId);
+		
+		PostingSearchCityResponse response = PostingSearchCityResponse.builder()
+				.postings(postings)
+				.numberOfRecords(numberOfRecords)
+				.cityId(cityId)
+				.build();
+		
+		return new ResponseEntity<PostingSearchCityResponse>(response, HttpStatus.OK);
 	}
 
 	@PostMapping(path = "/suitable")
@@ -280,4 +317,21 @@ public class PostingController {
 	public ResponseEntity<List<Posting>> getPostingByUserId(@PathVariable("userId") long id){
 		return new ResponseEntity<List<Posting>>(postingService.getPostingByRecruiterId(id), HttpStatus.OK);
 	}
+	
+	@PutMapping(value = "/updatePosting/{userId}")
+	public ResponseEntity<Posting> updatePostingByUserId(@PathVariable("userId") long id, @RequestBody Posting posting){
+		return new ResponseEntity<Posting>(postingService.updatePostingByRecruiterId(id, posting), HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/updatePosting/{id}")
+	public ResponseEntity<Posting> getPostingById(@PathVariable("id") long id){
+		return new ResponseEntity<Posting>(postingService.findPostingById(id), HttpStatus.OK);
+	}
+	
+	@DeleteMapping(value = "/updatePosting/{id}")
+	public ResponseEntity<Posting> deletePostingById(@PathVariable("id") long id){
+		postingService.recruiterDeletePostingById(id);
+		return new ResponseEntity<Posting>(HttpStatus.OK);
+	}
+	
 }

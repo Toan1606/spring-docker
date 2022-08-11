@@ -1,39 +1,28 @@
 package com.codedecode.demo.dto;
 
 import java.io.Serializable;
+import java.util.List;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class PostingSearchCategoryResponse implements Serializable {
-	
-	/**
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class PostingSearchCategoryResponse implements Serializable {/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	private List<PostingSearchCategory> response;
+	
+	private int numberOfRecords;
+	
+	private Long postingCategoryId;
 
-	private Integer rowNumber;
-	
-	private String images;
-	
-	private String position;
-	
-	private Long postingId;
-	
-	private String jobName;
-	
-	private String deadlineForSubmission;
-	
-	private String companyId;
-	
-	private String companyName;
-	
-	private String salary;
-	
-	private String province;
-	
-	private Integer postingCategoryId;
-	
 }

@@ -39,10 +39,10 @@ public class CandidateAppliedJobController {
 
 	@Autowired
 	private AppliedJobService appliedJobService;
-	
+
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private PostingService postingService;
 
@@ -51,11 +51,11 @@ public class CandidateAppliedJobController {
 		List<AppliedJob> listAppliedJob = appliedJobService.getAllAppliedJobs(userId);
 		if (listAppliedJob.size() == 0) {
 			return new ResponseEntity<HttpStatus>(HttpStatus.NOT_FOUND);
-		}else {
+		} else {
 			List<AppliedJobDTO> listAppliedJobDTOs = new ArrayList<>();
 			for (AppliedJob appliedJob : listAppliedJob) {
 				Posting p = appliedJob.getPosting();
-				AppliedJobDTO aDTO = new AppliedJobDTO(); 
+				AppliedJobDTO aDTO = new AppliedJobDTO();
 				aDTO.setPositionJobname(p.getJobName());
 				aDTO.setPostingPosition(p.getPosition());
 				aDTO.setDateSubmission(appliedJob.getDateSubmission());
@@ -84,41 +84,44 @@ public class CandidateAppliedJobController {
 			return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 		}
 	}
-	
+
 	@PostMapping("/add")
 	public ResponseEntity<AppliedJobDTOResponse> appliedNewJob(@RequestBody AppliedNewJobDTO request) {
 		// 1. get request information
-		System.out.println("request : " + request);
-		String email = request.getEmail();
+		String candidateEmail = request.getCandidateEmail();
+		String recruiterEmail = request.getRecruiterEmail();
 		Long postingId = request.getPostingId();
-		System.out.println("email : " + email + ", posting id : " + postingId);
 		
 		// 2. query
-		User user = userService.findUserByEmail(email);
+		User candidate = userService.findUserByEmail(candidateEmail);
+		User recruiter = userService.findUserByEmail(recruiterEmail);
 		Posting posting = postingService.findPostingById(postingId);
-		
+
 		// 3. set object
 		AppliedJob appliedJob = new AppliedJob();
+		AppliedJobKey appliedJobKey = AppliedJobKey.builder().candidateId(candidate.getId())
+				.recruiterId(recruiter.getId()).postingId(postingId).build();
+		appliedJob.setAppliedJobKey(appliedJobKey);
 		appliedJob.setPosting(posting);
-
-		appliedJob.setCandidate(user);
-    
-		Date date = new Date();
-		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");  
 		
+		appliedJob.setCandidate(candidate);
+		appliedJob.setRecruiter(recruiter);
+
+		Date date = new Date();
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
 		appliedJob.setDeadlineForSubmission(date);
 		appliedJob.setDateSubmission(date);
-		// 4. save to db
-		AppliedJob result = appliedJobService.addAppliedJob(appliedJob);
 		
+		// 4. save to db
+		
+		AppliedJob result = appliedJobService.addAppliedJob(appliedJob);
 		// 5. set dto to return
 		AppliedJobDTOResponse response = AppliedJobDTOResponse.builder()
 				.deadlineForSubmission(dateFormat.format(result.getDeadlineForSubmission()))
 				.dateSubmission(dateFormat.format(result.getDateSubmission()))
-				.commentFromEmployer(result.getCommentFromEmployer())
-				.build();
-		
-		
-		return new ResponseEntity<AppliedJobDTOResponse>(response,HttpStatus.OK);
+				.commentFromEmployer(result.getCommentFromEmployer()).build();
+
+		return new ResponseEntity<AppliedJobDTOResponse>(response, HttpStatus.OK);
 	}
 }

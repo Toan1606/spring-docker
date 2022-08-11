@@ -22,8 +22,12 @@ public class AppliedJobService {
 	public AppliedJob getAppliedJobById(AppliedJobKey key) {
 		return appliedJobRepository.findByAppliedJobKey(key);
 	}
-	public void deleteAppliedJob(AppliedJobKey key) {
+	public void deleteAppliedJobByAppliedJobKey(AppliedJobKey key) {
 		appliedJobRepository.deleteByAppliedJobKey(key);
+	}
+	
+	public void deleteAppliedJob(AppliedJobKey key) {
+		appliedJobRepository.deleteById(key);
 	}
 	
 	public int countNumberOfAppliedJob() {
@@ -34,5 +38,10 @@ public class AppliedJobService {
 		AppliedJob returnObject = appliedJobRepository.save(appliedJob);
 		return returnObject;
 	}
+	
+	public List<AppliedJob> findAppliedJobByRecruiterId(Long recruiterId) {
+		return appliedJobRepository.findByRecruiter_Id(recruiterId);
+	}
+	
 }
 

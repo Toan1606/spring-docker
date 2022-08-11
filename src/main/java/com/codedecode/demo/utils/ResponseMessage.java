@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum ResponseMessage {
-	LOGOUT_SUCCESS("Logout Successfuly");
+	LOGOUT_SUCCESS("Logout Successfuly"), DELETE_SUCCESS("Delete Applied Job Successfully");
 	
 	private final String message;
 	

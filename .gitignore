@@ -33,22 +33,9 @@ build/
 .vscode/
 
 ### Indexer ###
-*.dvd
-*.dvm
-*.doc
-*.pos
-*.tim
-*.tip
-*.tmd
-*.fdm
-*.fdt
-*.fdx
-*.fnm
-*.nvd
-*.nvm
-*.si
-segments_po
-*.lock
+Posting/
+PostingCategory/
+PostingType/
 
 ## application.properties
 application.properties

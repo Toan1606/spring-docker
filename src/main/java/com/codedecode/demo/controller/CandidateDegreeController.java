@@ -109,4 +109,18 @@ public class CandidateDegreeController {
 		}
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 	}
+	@PostMapping("/isDuplicate")
+	public ResponseEntity<?> isDuplicate(@RequestBody EducationDegreeDTO degreeDTO){
+//		Degree degree = new Degree();
+		CV cv = cvService.getCVsByUserId(degreeDTO.getUserId());
+//		degree.setCertificateName(degreeDTO.getCertificateName());
+//		degree.setTeachingUnit(degreeDTO.getTeachingUnit());
+//		degree.setStartTime(degreeDTO.getStartTime());
+//		degree.setEndTime(degreeDTO.getEndTime());
+//		degree.setMajor(degreeDTO.getMajor());
+//		degree.setRank(degreeDTO.getRank());
+//		degree.setSupplementaryInformation(degreeDTO.getSupplementaryInformation());
+		boolean isDuplicate = degreeService.isDuplicate(degreeDTO, cv);
+		return new ResponseEntity<Boolean>(isDuplicate, HttpStatus.OK);
+	}
 }

@@ -13,11 +13,12 @@ import com.codedecode.demo.dto.AddPostingRequestDTO;
 import com.codedecode.demo.dto.PageDTO;
 import com.codedecode.demo.dto.PostingDetailResponse;
 import com.codedecode.demo.dto.PostingRelatedDTO;
+import com.codedecode.demo.dto.PostingResponseDTO;
 import com.codedecode.demo.dto.PostingResponseInterfaceDTO;
-import com.codedecode.demo.dto.PostingSearchCategoryResponse;
+import com.codedecode.demo.dto.PostingSearchCategory;
 import com.codedecode.demo.dto.PostingSearchCategoryResponseInterface;
-import com.codedecode.demo.dto.PostingSearchCityResponse;
-import com.codedecode.demo.dto.PostingSearchProvinceResponse;
+import com.codedecode.demo.dto.PostingSearchCity;
+import com.codedecode.demo.dto.PostingSearchProvince;
 import com.codedecode.demo.dto.SuitablePostingDTO;
 import com.codedecode.demo.entity.Address;
 import com.codedecode.demo.entity.Posting;
@@ -120,11 +121,15 @@ public class PostingService {
 		return postingRepository.findPostingByCategory(start, end, postingCategoryId);
 	}
 	
-	public List<PostingSearchCategoryResponse> convertSearchByCategoryResult(List<PostingSearchCategoryResponseInterface> postings) {
-		List<PostingSearchCategoryResponse> results = new ArrayList<PostingSearchCategoryResponse>();
+	public int countNumberOfRecordsByProvince(Long provinceId) {
+		return postingRepository.countNumberOfRecordsByProvince(provinceId);
+	}
+	
+	public List<PostingSearchCategory> convertSearchByCategoryResult(List<PostingSearchCategoryResponseInterface> postings) {
+		List<PostingSearchCategory> results = new ArrayList<PostingSearchCategory>();
 		
 		for(PostingSearchCategoryResponseInterface posting : postings ) {
-			PostingSearchCategoryResponse reponse = new PostingSearchCategoryResponse();
+			PostingSearchCategory reponse = new PostingSearchCategory();
 			reponse.setRowNumber(posting.getRowNumber());
 			reponse.setImages(posting.getImages());
 			reponse.setPosition(posting.getPosition());
@@ -142,13 +147,13 @@ public class PostingService {
 	}
 	
 	
-	public List<PostingSearchProvinceResponse> searchPostingByProvince(Integer pageOffSet, Long provinceId) {
+	public List<PostingSearchProvince> searchPostingByProvince(Integer pageOffSet, Long provinceId) {
 		int start = (pageOffSet - 1) * 30;
 		int end = pageOffSet * 30;
 		return postingRepository.findPostingByProvince(start, end, provinceId);
 	}
 	
-	public List<PostingSearchCityResponse> searchPostingByCity(Integer pageOffSet, Long cityId) {
+	public List<PostingSearchCity> searchPostingByCity(Integer pageOffSet, Long cityId) {
 		int start = (pageOffSet - 1) * 30;
 		int end = pageOffSet * 30;
 		return postingRepository.findPostingByCity(start, end, cityId);
@@ -198,6 +203,7 @@ public class PostingService {
 		long workingForm = addPostingRequestDTO.getWorkingForm();
 		long salary = addPostingRequestDTO.getSalary();
 		int quantity = addPostingRequestDTO.getQuantity();
+		String description = addPostingRequestDTO.getDescription();
 		String degreeRequired = addPostingRequestDTO.getDegreeRequired();
 		String genderRequirement = addPostingRequestDTO.getGenderRequirement();
 		String benefits = addPostingRequestDTO.getBenefits();
@@ -206,6 +212,7 @@ public class PostingService {
 		User user = userService.getUserByEmail(email);
 		PostingCategory postingCategory = new PostingCategory();
 		PostingType postingType = new PostingType(); 
+		long view = 1;
 		
 		Posting posting = new Posting();
 		posting.setUser(user);
@@ -213,6 +220,7 @@ public class PostingService {
 		posting.setWorkingForm(null);
 		posting.setSalary(null);
 		posting.setQuantity(quantity);
+		posting.setDescription(description);
 		posting.setDegreeRequired(degreeRequired);
 		posting.setGenderRequirement(genderRequirement);
 		posting.setBenefits(benefits);
@@ -223,6 +231,7 @@ public class PostingService {
 		posting.setEmailContact(user.getEmail());
 		posting.setPostingCategory(postingCategory);
 		posting.setPostingType(postingType);
+		posting.setView(view);
 		return postingRepository.save(posting);
 	}
 	
@@ -237,5 +246,42 @@ public class PostingService {
 	public Posting findPostingById(Long postingId) {
 		
 		return postingRepository.findById(postingId).orElseThrow(() -> new PostingNotFoundException(ExceptionMessage.POSTING_NOT_FOUND.getErrorMessage()));
+	}
+	
+	public Posting updatePostingByRecruiterId(long id, Posting posting) {
+		Posting rs = postingRepository.fingPostingById(id);
+		if(rs != null) {
+			rs.setPosition(posting.getPosition());
+			rs.setQuantity(posting.getQuantity());
+			rs.setDegreeRequired(posting.getDegreeRequired());
+			rs.setGenderRequirement(posting.getGenderRequirement());
+			rs.setBenefits(posting.getBenefits());
+			rs.setDescription(posting.getDescription());
+			rs.setFile(posting.getFile());
+			rs.setDeadlineForSubmission(posting.getDeadlineForSubmission());
+		}
+		return rs;
+	}
+	
+	public void recruiterDeletePostingById(long id) {
+		Posting rs = postingRepository.fingPostingById(id);
+		postingRepository.deletePostingById(rs.getId());
+	}
+	
+	public int countNumberOfRecordsByCity(Long cityId) {
+		return postingRepository.countNumberOfRecordsByCity(cityId);
+	}
+	
+	public int countNumberOfRecordsByCategory(Long categoryId) {
+		return postingRepository.countNumberOfRecordsByCategory(categoryId);
+
+	}
+	
+	public int countNumberOfPostingsByRecruiter(Long recruiterId) {
+		return postingRepository.countByUser_Id(recruiterId);
+	}
+	
+	public List<Posting> findLastestPostingByRecruiterId(Long recruiterId) {
+		return postingRepository.findByUser_IdOrderByIdDesc(recruiterId);
 	}
 }

@@ -1,21 +1,27 @@
 package com.codedecode.demo.dto;
 
-import java.util.Arrays;
-import java.util.List;
 
-import javax.validation.constraints.NotBlank;
+public interface PostingSearchProvince {
 
-import lombok.Getter;
-import lombok.Setter;
-
-@Getter
-@Setter
-public class PostingSearchProvince {
-	@NotBlank
-	private String text;
+	Integer getRowNumber();
 	
-	private List<String> fields = Arrays.asList("jobRequirement", "genderRequirement",
-			"position", "jobName", "description");
-		
-	    private int limit = 10;
+	String getImages();
+	
+	String getPosition();
+	
+	Long getPostingId();
+	
+	String getJobName();
+	
+	String getDeadlineForSubmission();
+	
+	String getCompanyId();
+	
+	String getcompanyName();
+	
+	String getSalary();
+	
+	String getProvinceName();
+	
+	Integer getProvinceId();
 }

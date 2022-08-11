@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +23,6 @@ import com.codedecode.demo.service.WorkExperienceService;
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
 @RequestMapping("/workexp")
-@Transactional
 public class CandidateWorkExperienceController {
 
 	@Autowired
@@ -68,4 +66,17 @@ public class CandidateWorkExperienceController {
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 
 	}
+//	@PostMapping("/isDuplicate")
+//	public ResponseEntity<?> isDuplicate(@RequestBody WorkExperienceDTO workExperienceDTO){
+//		CV cv = cvService.getCVsByUserId(workExperienceDTO.getUserId());
+//		WorkExperiences workExperiences = new WorkExperiences();
+//		workExperiences.setCompanyName(workExperienceDTO.getCompanyName());
+//		workExperiences.setPosition(workExperienceDTO.getPosition());
+//		workExperiences.setStartDate(workExperienceDTO.getStartDate());
+//		workExperiences.setEndDate(workExperienceDTO.getEndDate());
+//		workExperiences.setDescription(workExperienceDTO.getDescription());
+//		workExperiences.setCv(cv);
+//		boolean isDuplicate = workExperienceService.isDuplicate(workExperiences);
+//		return new ResponseEntity<Boolean>(isDuplicate, HttpStatus.OK);
+//	}
 }

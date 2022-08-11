@@ -19,8 +19,11 @@ public class AppliedNewJobDTO implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@JsonProperty("email")
-	private String email;
+	@JsonProperty("candidte_email")
+	private String candidateEmail;
+	
+	@JsonProperty("recruiter_email")
+	private String recruiterEmail;
 	
 	@JsonProperty("posting_id")
 	private Long postingId;
