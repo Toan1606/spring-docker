@@ -28,8 +28,17 @@ public class LanguageCertificateService{
 	 *	@author: Nguyễn Văn Tuấn 
 	 * 
 	 */
-	public Language findLanguage(Language language) {
-		return languageCertificateRepository.saveAndFlush(language);
+	public boolean findLanguage(Language language) {
+		List<Language> list = languageCertificateRepository.findAllLanguageCertificatesByUserId(language.getUser().getId());
+		for (Language l : list) {
+			if(l.getCertificateName().equalsIgnoreCase(language.getCertificateName()) 
+					&& l.getName().equalsIgnoreCase(language.getName()) 
+					&& l.getGrade() == language.getGrade()
+					&& l.getUser().equals(language.getUser())) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	

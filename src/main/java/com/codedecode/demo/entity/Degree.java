@@ -10,6 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -39,15 +41,20 @@ public class Degree implements Serializable {
 
 	@Column(name = "teaching_unit")
 	private String teachingUnit;
-
+	
+	@Temporal(TemporalType.DATE)
 	@Column(name = "start_time")
 	private Date startTime;
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name = "end_time")
+	private Date endTime;
 
 	@Column(name = "major")
 	private String major;
 
-	@Column(name = "grade")
-	private float grade;
+	@Column(name = "rank")
+	private String rank;
 
 	@Column(name = "supplementary_information")
 	private String supplementaryInformation;

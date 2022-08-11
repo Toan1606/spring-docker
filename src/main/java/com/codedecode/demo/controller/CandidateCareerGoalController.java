@@ -39,7 +39,7 @@ public class CandidateCareerGoalController {
 	public ResponseEntity<?> updateCareerGoal(@RequestBody CareerGoalDTO careerGoalDTO) {
 		CV cv = cvService.getCVsByUserId(careerGoalDTO.getId());
 		cv.setCareerJobObjective(careerGoalDTO.getCareerGoal());
-		cvService.updateCareerJobObjective(cv);
+		cvService.update(cv);
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 	}
 }

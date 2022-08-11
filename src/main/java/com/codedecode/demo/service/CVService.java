@@ -36,7 +36,7 @@ public class CVService {
 	 * @author: TuanNV
 	 * 
 	 * */
-	public void updateCareerJobObjective(CV cv) {
+	public void update(CV cv) {
 		cvRepository.save(cv);
 	}
 	

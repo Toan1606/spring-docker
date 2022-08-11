@@ -35,4 +35,5 @@ public interface LanguageCertificateRepository extends JpaRepository<Language, L
 	@Query(value="delete from languages where id = ?1", nativeQuery=true)
 	@Modifying
 	void deleteLanguageCertificateById(Long languageId);
+	
 }

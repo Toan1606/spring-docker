@@ -70,8 +70,26 @@ public class CandidateLanguageCertificateController {
 	 * @author: Nguyễn Văn Tuấn
 	 * 
 	 */
+	@PostMapping("/isDuplicate")
+	public ResponseEntity<?> isDuplicateLanguage(@RequestBody LanguageDTO languageDTO){
+		Language language = new Language();
+		User user = userService.findUserById(languageDTO.getUserId());
+		language.setCertificateName(languageDTO.getCertificate_name());
+		language.setName(languageDTO.getName());
+		language.setGrade(languageDTO.getMark());
+		language.setUser(user);
+		boolean isDuplicate = languageService.findLanguage(language);
+		return new ResponseEntity<Boolean>(isDuplicate, HttpStatus.OK);
+	}
+
+	/*
+	 * 
+	 * @author: Nguyễn Văn Tuấn
+	 * 
+	 */
 	@PostMapping("/add")
 	public ResponseEntity<?> addLanguageCertificate(@RequestBody LanguageDTO languageDTO){
+//		Language language = languageService.findLanguage(languageDTO);
 		User user = userService.findUserById(languageDTO.getUserId());
 		Language l = new Language();
 		l.setName(languageDTO.getName());

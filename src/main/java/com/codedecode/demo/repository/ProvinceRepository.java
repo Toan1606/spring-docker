@@ -1,5 +1,6 @@
 package com.codedecode.demo.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,5 +17,4 @@ public interface ProvinceRepository extends JpaRepository<Province, Long>{
 
 	@Query(value = "select * from province p join address a on p.id =a.province_id where a.id = :addressId", nativeQuery = true)
 	Province findByAddressId(@Param("addressId") Long addressId);
-
 }

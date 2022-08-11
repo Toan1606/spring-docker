@@ -19,12 +19,11 @@ public class AppliedJobService {
 	public List<AppliedJob> getAllAppliedJobs(Long userId) {
 		return appliedJobRepository.getAllAppliedJobs(userId);
 	}
-	public AppliedJob getAppliedJobById(Long id) {
-		return appliedJobRepository.getAppliedJobById(id);
+	public AppliedJob getAppliedJobById(AppliedJobKey key) {
+		return appliedJobRepository.findByAppliedJobKey(key);
 	}
-	
-	public void deleteAppliedJob(Long id) {
-		appliedJobRepository.deleteAppliedJob(id);
+	public void deleteAppliedJobByAppliedJobKey(AppliedJobKey key) {
+		appliedJobRepository.deleteByAppliedJobKey(key);
 	}
 	
 	public void deleteAppliedJob(AppliedJobKey key) {

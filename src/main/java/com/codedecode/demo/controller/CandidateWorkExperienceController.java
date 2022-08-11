@@ -66,4 +66,17 @@ public class CandidateWorkExperienceController {
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 
 	}
+//	@PostMapping("/isDuplicate")
+//	public ResponseEntity<?> isDuplicate(@RequestBody WorkExperienceDTO workExperienceDTO){
+//		CV cv = cvService.getCVsByUserId(workExperienceDTO.getUserId());
+//		WorkExperiences workExperiences = new WorkExperiences();
+//		workExperiences.setCompanyName(workExperienceDTO.getCompanyName());
+//		workExperiences.setPosition(workExperienceDTO.getPosition());
+//		workExperiences.setStartDate(workExperienceDTO.getStartDate());
+//		workExperiences.setEndDate(workExperienceDTO.getEndDate());
+//		workExperiences.setDescription(workExperienceDTO.getDescription());
+//		workExperiences.setCv(cv);
+//		boolean isDuplicate = workExperienceService.isDuplicate(workExperiences);
+//		return new ResponseEntity<Boolean>(isDuplicate, HttpStatus.OK);
+//	}
 }

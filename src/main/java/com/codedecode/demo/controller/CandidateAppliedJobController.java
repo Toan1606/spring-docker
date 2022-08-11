@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codedecode.demo.dto.AppliedJobDTO;
 import com.codedecode.demo.dto.AppliedJobDTOResponse;
+import com.codedecode.demo.dto.AppliedJobKeyDTO;
 import com.codedecode.demo.dto.AppliedNewJobDTO;
 import com.codedecode.demo.entity.AppliedJob;
 import com.codedecode.demo.entity.Posting;
@@ -60,19 +61,26 @@ public class CandidateAppliedJobController {
 				aDTO.setDateSubmission(appliedJob.getDateSubmission());
 				aDTO.setDeadlineForSubmission(p.getDeadlineForSubmission());
 				aDTO.setCommentFromEmployer(appliedJob.getCommentFromEmployer());
+				aDTO.setPostingId(p.getId());
+				aDTO.setRecruiterId(p.getUser().getId());
 				listAppliedJobDTOs.add(aDTO);
 			}
 			return new ResponseEntity<List<AppliedJobDTO>>(listAppliedJobDTOs, HttpStatus.OK);
 		}
 	}
 
-	@DeleteMapping("/delete/{id}")
-	public ResponseEntity<?> deleteAppliedJob(@PathVariable Long id) {
-		AppliedJob a = appliedJobService.getAppliedJobById(id);
+	@PostMapping("/remove")
+	public ResponseEntity<?> deleteAppliedJob(@RequestBody AppliedJobKeyDTO key) {
+		AppliedJobKey appliedJobKey = new AppliedJobKey();
+		appliedJobKey.setCandidateId(key.getCandidateId());
+		appliedJobKey.setRecruiterId(key.getRecruiterId());
+		appliedJobKey.setPostingId(key.getPostingId());
+		
+		AppliedJob a = appliedJobService.getAppliedJobById(appliedJobKey);
 		if (a == null) {
 			return new ResponseEntity<HttpStatus>(HttpStatus.NOT_FOUND);
 		} else {
-			appliedJobService.deleteAppliedJob(id);
+			appliedJobService.deleteAppliedJob(appliedJobKey);
 			return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 		}
 	}

@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import com.codedecode.demo.dto.WorkExperienceDTO;
 import com.codedecode.demo.entity.WorkExperiences;
 
 public interface WorkExperienceRepository extends JpaRepository<WorkExperiences, Long>{
