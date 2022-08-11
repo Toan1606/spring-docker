@@ -2,6 +2,7 @@ package com.codedecode.demo.service;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -21,6 +22,7 @@ import com.codedecode.demo.dto.PostingSearchCity;
 import com.codedecode.demo.dto.PostingSearchProvince;
 import com.codedecode.demo.dto.SuitablePostingDTO;
 import com.codedecode.demo.entity.Address;
+import com.codedecode.demo.entity.AppliedJob;
 import com.codedecode.demo.entity.Posting;
 import com.codedecode.demo.entity.Province;
 import com.codedecode.demo.entity.Salary;
@@ -29,6 +31,7 @@ import com.codedecode.demo.entity.PostingType;
 import com.codedecode.demo.entity.User;
 import com.codedecode.demo.exception.PostingNotFound;
 import com.codedecode.demo.exception.PostingNotFoundException;
+import com.codedecode.demo.repository.AppliedJobRepository;
 import com.codedecode.demo.repository.HomeAddressRepository;
 import com.codedecode.demo.repository.PostingRepository;
 import com.codedecode.demo.utils.ExceptionMessage;
@@ -45,6 +48,9 @@ public class PostingService {
 
 	@Autowired
 	private HomeAddressRepository addressRepository;
+	
+	@Autowired
+	private AppliedJobRepository appliedJobRepository;
 
 	public Iterable<Posting> getAttractiveJob() {
 		System.out.println("findPosting function");
@@ -264,7 +270,15 @@ public class PostingService {
 	}
 	
 	public void recruiterDeletePostingById(long id) {
+		List<AppliedJob> appliedJobs = appliedJobRepository.getPostingById(id);
 		Posting rs = postingRepository.fingPostingById(id);
+		
+		if(appliedJobs.size() > 0) {
+			for(int i=0; i<appliedJobs.size(); i++) {
+				appliedJobRepository.deleteAppliedJobByPostingId(id);
+			}
+		}
+		
 		postingRepository.deletePostingById(rs.getId());
 	}
 	

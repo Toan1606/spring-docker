@@ -27,4 +27,6 @@ public class RecruiterAppliedJobResponseDTO implements Serializable {/**
 	private String postingPosition;
 	
 	private String appliedDate;
+	
+	private String commentFromEmployer;
 }

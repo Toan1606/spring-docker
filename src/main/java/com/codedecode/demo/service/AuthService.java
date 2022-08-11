@@ -93,13 +93,11 @@ public class AuthService {
 		Set<Role> roles = new HashSet<Role>();
 		roles.add(role);
 		
-		CV cv = new CV();
 		User user = new User();
 		user.setRoles(roles);
 		user.setName(fullName);
 		user.setEmail(email);
 		user.setPassword(encodePassword);
-		user.setCv(cv);
 		
 		return userRepository.save(user);
 	}

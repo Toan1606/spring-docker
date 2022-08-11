@@ -161,7 +161,8 @@ public class RecruiterLoginController {
 			RecruiterAppliedJobResponseDTO candidatePosting = RecruiterAppliedJobResponseDTO.builder()
 					.candidateId(candidate.getId()).candidateName(candidate.getName()).postingId(posting.getId())
 					.postingPosition(posting.getPosition())
-					.appliedDate(dateFormat.format(appliedJob.getDateSubmission())).build();
+					.appliedDate(dateFormat.format(appliedJob.getDateSubmission()))
+					.commentFromEmployer(appliedJob.getCommentFromEmployer()).build();
 			response.add(candidatePosting);
 		}
 
