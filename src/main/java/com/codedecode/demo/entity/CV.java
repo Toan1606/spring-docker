@@ -42,6 +42,7 @@ public class CV implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
+	@Lob
 	@Column(name = "images")
 	private String images;
 

@@ -172,6 +172,9 @@ public class User implements Serializable {
 	
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "desired_job_id", referencedColumnName = "id")
+	@EqualsAndHashCode.Exclude
+	@ToString.Exclude
+	@JsonIgnore
 	private DesiredJob desiredJob;
 
 	@OneToMany(mappedBy = "candidate", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
