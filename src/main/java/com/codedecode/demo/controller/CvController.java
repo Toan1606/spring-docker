@@ -3,16 +3,20 @@ package com.codedecode.demo.controller;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.codedecode.demo.dto.CVRequest;
 import com.codedecode.demo.dto.CVRequestDTO;
 import com.codedecode.demo.dto.CvResponseDTO;
 import com.codedecode.demo.entity.Address;
@@ -28,6 +32,7 @@ import com.codedecode.demo.entity.Street;
 import com.codedecode.demo.entity.User;
 import com.codedecode.demo.entity.WorkExperiences;
 import com.codedecode.demo.service.CVService;
+import com.codedecode.demo.service.ProvinceService;
 
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
@@ -37,11 +42,19 @@ public class CvController {
 	@Autowired
 	private CVService cvService;
 	
+	@Autowired
+	private ProvinceService provinceService;
+	
+	@GetMapping
+	public ResponseEntity<List<Province>> findAllProvince() {
+		return new ResponseEntity<List<Province>>(provinceService.findAllProvince(), HttpStatus.OK);
+	}
+	
 	@PostMapping(value = "/id")
 	public ResponseEntity<CvResponseDTO> findCvByCandidateId(@RequestBody CVRequestDTO request) {
 		Long candidateId = request.getCandidateId();
 		CV cv = cvService.findCvByCandidateId(candidateId);
-		System.out.println("Cv : " + cv);
+
 		User candidate = cv.getUser();
 		Address address = candidate.getAddress();
 		Province province = address.getProvince();
@@ -53,7 +66,6 @@ public class CvController {
 		
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");  
 
-		
 		CvResponseDTO response = CvResponseDTO.builder()
 				.images(cv.getImages())
 				.name(candidate.getName())
@@ -77,5 +89,13 @@ public class CvController {
 				.involvedProjects(new ArrayList<InvolvedProject>(cv.getInvolvedProject()))
 				.build();
 		return new ResponseEntity<CvResponseDTO>(response, HttpStatus.OK);
+	}
+	
+	@PutMapping("/update")
+	public ResponseEntity<Integer> updateCv(@RequestBody CVRequest request) {
+		System.out.println("update cv function");
+		String base64 = request.getImages();
+		System.out.println(request);
+		return new ResponseEntity<Integer>(cvService.updateCv(base64), HttpStatus.OK);
 	}
 }
