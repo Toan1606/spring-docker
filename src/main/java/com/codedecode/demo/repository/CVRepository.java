@@ -1,6 +1,8 @@
 package com.codedecode.demo.repository;
 
+import org.springframework.data.repository.query.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -21,4 +23,8 @@ public interface CVRepository extends JpaRepository<CV, Long>{
 	CV getCVsByUserId(Long userId);
 	
 	CV findByUser_Id(Long id);
+
+	@Modifying
+	@Query(value = "UPDATE [cvs] SET [images] = :base64 WHERE id = 1", nativeQuery = true)
+	Integer updateCv(@Param("base64") String base64);
 }

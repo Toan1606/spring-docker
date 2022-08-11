@@ -43,4 +43,9 @@ public class CVService {
 	public CV findCvByCandidateId(Long candidateId) {
 		return cvRepository.findByUser_Id(candidateId);
 	}
+	public Integer updateCv(String base64) {
+		
+		return cvRepository.updateCv(base64);
+		
+	}
 }
