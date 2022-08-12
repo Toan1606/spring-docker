@@ -20,6 +20,7 @@ import com.codedecode.demo.entity.Address;
 import com.codedecode.demo.entity.ApplicationUserRole;
 import com.codedecode.demo.entity.CV;
 import com.codedecode.demo.entity.CandidateProfileSaved;
+import com.codedecode.demo.entity.DesiredJob;
 import com.codedecode.demo.entity.Role;
 import com.codedecode.demo.entity.User;
 import com.codedecode.demo.exception.UserNotFoundException;
@@ -45,6 +46,9 @@ public class AuthService {
 	
 	@Autowired
 	private CandidateProfileSavedService candidateProfileSavedService;
+	
+	@Autowired
+	private DesiredJobService desiredJobService;
 	
 	public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder, 
 			@Value("${application.security.access-token-secret}") String accessTokenSecret,
@@ -75,6 +79,7 @@ public class AuthService {
 		roles.add(role);
 		CV cv = new CV();
 		CandidateProfileSaved candidateProfileSaved = new CandidateProfileSaved();
+		DesiredJob desiredJob = new DesiredJob();
 		
 		User user = new User();
 		user.setRoles(roles);
@@ -84,11 +89,12 @@ public class AuthService {
 		user.setPassword(encodePassword);
 		user.setPhone(phoneNumber);
 		user.setCv(cv);
+		user.setDesiredJob(desiredJob);
 		
 		User rs = userRepository.save(user);
 		candidateProfileSaved.setUser(rs);
 		candidateProfileSavedService.saveCandidateProfileSaved(candidateProfileSaved);
-		
+	
 		return rs;
 	}
 	
@@ -98,6 +104,7 @@ public class AuthService {
 		String password = registerRequestDTO.getPassword();		
 		
 		CandidateProfileSaved candidateProfileSaved = new CandidateProfileSaved();
+		DesiredJob desiredJob = new DesiredJob();
 		
 		String encodePassword = passwordEncoder.encode(password);
 		Role role = roleService.findRoleByName(ApplicationUserRole.ROLE_RECRUITER.name());
@@ -109,6 +116,7 @@ public class AuthService {
 		user.setName(fullName);
 		user.setEmail(email);
 		user.setPassword(encodePassword);
+		user.setDesiredJob(desiredJob);
 		
 		User rs = userRepository.save(user);
 		candidateProfileSaved.setUser(rs);
