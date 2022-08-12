@@ -19,6 +19,7 @@ import com.codedecode.demo.dto.RegisterRequestDTO;
 import com.codedecode.demo.entity.Address;
 import com.codedecode.demo.entity.ApplicationUserRole;
 import com.codedecode.demo.entity.CV;
+import com.codedecode.demo.entity.CandidateProfileSaved;
 import com.codedecode.demo.entity.Role;
 import com.codedecode.demo.entity.User;
 import com.codedecode.demo.exception.UserNotFoundException;
@@ -41,6 +42,9 @@ public class AuthService {
 	
 	@Autowired
 	private RoleService roleService;
+	
+	@Autowired
+	private CandidateProfileSavedService candidateProfileSavedService;
 	
 	public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder, 
 			@Value("${application.security.access-token-secret}") String accessTokenSecret,
@@ -70,6 +74,7 @@ public class AuthService {
 		Set<Role> roles = new HashSet<Role>();
 		roles.add(role);
 		CV cv = new CV();
+		CandidateProfileSaved candidateProfileSaved = new CandidateProfileSaved();
 		
 		User user = new User();
 		user.setRoles(roles);
@@ -80,13 +85,19 @@ public class AuthService {
 		user.setPhone(phoneNumber);
 		user.setCv(cv);
 		
-		return userRepository.save(user);
+		User rs = userRepository.save(user);
+		candidateProfileSaved.setUser(rs);
+		candidateProfileSavedService.saveCandidateProfileSaved(candidateProfileSaved);
+		
+		return rs;
 	}
 	
 	public User recruiterRegister(RecruiterRegisterDTO registerRequestDTO) {
 		String fullName = registerRequestDTO.getFullName();
 		String email = registerRequestDTO.getEmail();
 		String password = registerRequestDTO.getPassword();		
+		
+		CandidateProfileSaved candidateProfileSaved = new CandidateProfileSaved();
 		
 		String encodePassword = passwordEncoder.encode(password);
 		Role role = roleService.findRoleByName(ApplicationUserRole.ROLE_RECRUITER.name());
@@ -99,7 +110,11 @@ public class AuthService {
 		user.setEmail(email);
 		user.setPassword(encodePassword);
 		
-		return userRepository.save(user);
+		User rs = userRepository.save(user);
+		candidateProfileSaved.setUser(rs);
+		candidateProfileSavedService.saveCandidateProfileSaved(candidateProfileSaved);
+		
+		return rs;
 	}
 	
 	public JwtUtil login(LoginRequestDTO loginResponse) {

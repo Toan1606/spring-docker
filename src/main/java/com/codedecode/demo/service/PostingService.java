@@ -238,6 +238,7 @@ public class PostingService {
 		posting.setPostingCategory(postingCategory);
 		posting.setPostingType(postingType);
 		posting.setView(view);
+		posting.setImages(user.getImages());
 		return postingRepository.save(posting);
 	}
 	

@@ -107,7 +107,7 @@ public class RecruiterLoginController {
 		Long recruiterId = request.getUserId();
 
 		// 1. number of candidate who applied job
-		int numberOfApplieds = appliedJobService.countNumberOfAppliedJob();
+		int numberOfApplieds = appliedJobService.countNumberOfAppliedJobByRecruiter(recruiterId);
 
 		// 2. number of posting which is posted by recruiter
 		int numberOfPostings = postingService.countNumberOfPostingsByRecruiter(recruiterId);
