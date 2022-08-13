@@ -96,8 +96,12 @@ public class CandidateLanguageCertificateController {
 		l.setCertificateName(languageDTO.getCertificate_name());
 		l.setGrade(languageDTO.getMark());
 		l.setUser(user);
-		languageService.addLanguageCertificate(l);
-		return new ResponseEntity<>(HttpStatus.OK);
+		if(!languageService.findLanguage(l)) {
+			languageService.addLanguageCertificate(l);
+			return new ResponseEntity<>(HttpStatus.OK);
+		}else {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
 	}
 	/*
 	 * 

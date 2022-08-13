@@ -33,21 +33,21 @@ public class WorkExperienceService {
 		workExperienceRepository.deleteWorkExpById(id);
 	}
 
-//	public boolean isDuplicate(WorkExperiences workexp) {
-//		List<WorkExperiences> list = workExperienceRepository.getAllWorkExpByUserId(workexp.getCv().getUser().getId());
-//		
-//		for (WorkExperiences w : list) {
-//			if(w.getCompanyName().equalsIgnoreCase(workexp.getCompanyName()) 
-//					&& w.getPosition().equalsIgnoreCase(workexp.getPosition()) 
-//					&& w.getDescription().equalsIgnoreCase(workexp.getDescription()) 
-//					&& w.getCv().equals(workexp.getCv())
-//					&& (formatDate(w.getStartDate()).compareTo(formatDate(workexp.getStartDate())) == 0)
-//					&& (formatDate(w.getEndDate()).compareTo(formatDate(workexp.getEndDate())) == 0)) {
-//				return true;
-//			}
-//		}
-//		return false;
-//	}
+	public boolean isDuplicate(WorkExperiences workexp) {
+		List<WorkExperiences> list = workExperienceRepository.getAllWorkExpByUserId(workexp.getCv().getUser().getId());
+		
+		for (WorkExperiences w : list) {
+			if(w.getCompanyName().equalsIgnoreCase(workexp.getCompanyName()) 
+					&& w.getPosition().equalsIgnoreCase(workexp.getPosition()) 
+					&& w.getDescription().equalsIgnoreCase(workexp.getDescription()) 
+					&& w.getCv().equals(workexp.getCv())
+					&& (formatDate(w.getStartDate()).compareTo(formatDate(workexp.getStartDate())) == 0)
+					&& (formatDate(w.getEndDate()).compareTo(formatDate(workexp.getEndDate())) == 0)) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	public String formatDate(Date date) {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");

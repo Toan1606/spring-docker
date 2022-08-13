@@ -51,7 +51,7 @@ public class CandidateSavedJobController {
 	public ResponseEntity<?> showSavedJobsPage(@PathVariable Long userId) {
 		List<SavedJob> listSavedJob = savedJobService.getAllSavedJobs(userId);
 		if (listSavedJob.size() == 0) {
-			return new ResponseEntity<HttpStatus>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 		} else {
 			List<SavedJobDTO> listSavedJobRequestDTOs = new ArrayList<>();
 			for (SavedJob s : listSavedJob) {
@@ -61,6 +61,7 @@ public class CandidateSavedJobController {
 				sDTO.setDeadlineForSubmission(p.getDeadlineForSubmission());
 				sDTO.setPostingPosition(p.getPosition());
 				sDTO.setPostingId(p.getId());
+				sDTO.setUserId(userId);
 				listSavedJobRequestDTOs.add(sDTO);
 			}
 			return new ResponseEntity<List<SavedJobDTO>>(listSavedJobRequestDTOs, HttpStatus.OK);
@@ -74,7 +75,7 @@ public class CandidateSavedJobController {
 		
 		SavedJob savejob = savedJobService.getSavedJobById(savedJobKey);
 		if(savejob == null) {
-			return new ResponseEntity<HttpStatus>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<HttpStatus>(HttpStatus.NOT_FOUND);
 		}else {
 			savedJobService.deleteSavedJob(savedJobKey);
 			return new ResponseEntity<HttpStatus>(HttpStatus.OK);

@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -53,6 +54,12 @@ public class CandidateContactInfoController {
 		contactinfo.setDistrict(address.getCity().getName());
 		contactinfo.setDistrictId(address.getCity().getId());
 		contactinfo.setProvinceId(address.getProvince().getId());
+		contactinfo.setImageBase64(user.getImages());
 		return new ResponseEntity<CandidateContactInfoDTO>(contactinfo, HttpStatus.OK);
 	}
+	
+//	@PostMapping("/save")
+//	public ResponseEntity<?> saveContactInfo(CandidateContactInfoDTO contactinfoDTO){
+//		
+//	}
 }

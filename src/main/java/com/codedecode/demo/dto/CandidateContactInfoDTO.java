@@ -18,6 +18,7 @@ public class CandidateContactInfoDTO {
 	private String province;
 	private String district;
 	private String married;
+	private String imageBase64;
 	private Long provinceId;
 	private Long districtId;
 }
