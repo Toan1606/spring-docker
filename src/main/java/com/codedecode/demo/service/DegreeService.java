@@ -47,6 +47,24 @@ public class DegreeService {
 		return false;
 	}
 
+//	public boolean isDuplicateUpdate(EducationDegreeDTO degree) {
+//
+//		List<Degree> list = degreeRepository.getAllDegreeByUserId(degree.getUserId());
+//		for (Degree d : list) {
+//			if (d.getId() != degree.getId()) {
+//				if (d.getCertificateName().equals(degree.getCertificateName())
+//						&& d.getTeachingUnit().equals(degree.getTeachingUnit())
+//						&& formatDate(d.getStartTime()).compareTo(formatDate(degree.getStartTime())) == 0
+//						&& formatDate(d.getEndTime()).compareTo(formatDate(degree.getEndTime())) == 0
+//						&& d.getMajor().equals(degree.getMajor()) && d.getRank().equals(degree.getRank())
+//						&& d.getSupplementaryInformation().equals(degree.getSupplementaryInformation()))
+//					return true;
+//			}
+//
+//		}
+//		return false;
+//	}
+
 	public String formatDate(Date date) {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		return dateFormat.format(date);

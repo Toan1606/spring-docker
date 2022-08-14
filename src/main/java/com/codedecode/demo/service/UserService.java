@@ -272,4 +272,7 @@ public class UserService {
 		
 		return candidates;
 	}
+	public void updateUser(User user) {
+		userRepository.save(user);
+	}
 }
