@@ -30,8 +30,14 @@ public class AppliedJobService {
 		appliedJobRepository.deleteById(key);
 	}
 	
+	
+	
 	public int countNumberOfAppliedJob() {
 		return appliedJobRepository.countNumberOfAppliedJob();
+	}
+	
+	public int countNumberOfAppliedJobByRecruiter(Long recruiterId) {
+		return appliedJobRepository.countNumberOfAppliedJobByRecruiter(recruiterId);
 	}
 	
 	public AppliedJob addAppliedJob(AppliedJob appliedJob) {
