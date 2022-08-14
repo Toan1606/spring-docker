@@ -9,22 +9,23 @@ import org.springframework.stereotype.Repository;
 import com.codedecode.demo.entity.CV;
 
 @Repository
-public interface CVRepository extends JpaRepository<CV, Long>{
+public interface CVRepository extends JpaRepository<CV, Long> {
 
 	/*
 	 * 
 	 * @author: TuanNV
 	 * 
-	 * */
-	@Query(value="select * from cvs where id = ?1", nativeQuery=true)
+	 */
+	@Query(value = "select * from cvs where id = ?1", nativeQuery = true)
 	CV getCVById(Long id);
-	
-	@Query(value="select * from cvs as c join users as u on c.id = u.cv_id where u.id = ?1", nativeQuery = true)
+
+	@Query(value = "select * from cvs as c join users as u on c.id = u.cv_id where u.id = ?1", nativeQuery = true)
 	CV getCVsByUserId(Long userId);
-	
+
 	CV findByUser_Id(Long id);
 
 	@Modifying
-	@Query(value = "UPDATE [cvs] SET [images] = :base64 WHERE id = 1", nativeQuery = true)
-	Integer updateCv(@Param("base64") String base64);
+	@Query(value = "UPDATE [cvs] SET awards = :awards, career_job_objective = :careerJobObjective, hobbies = :hobbies, images = :images WHERE id = :id", nativeQuery = true)
+	Integer updateCv(@Param("id") Long id, @Param("awards") String awards, @Param("careerJobObjective") String careerJobObjective, @Param("hobbies") String hobbies,
+			@Param("images") String images);
 }

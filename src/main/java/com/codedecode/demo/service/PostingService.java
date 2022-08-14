@@ -2,7 +2,6 @@ package com.codedecode.demo.service;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -14,7 +13,6 @@ import com.codedecode.demo.dto.AddPostingRequestDTO;
 import com.codedecode.demo.dto.PageDTO;
 import com.codedecode.demo.dto.PostingDetailResponse;
 import com.codedecode.demo.dto.PostingRelatedDTO;
-import com.codedecode.demo.dto.PostingResponseDTO;
 import com.codedecode.demo.dto.PostingResponseInterfaceDTO;
 import com.codedecode.demo.dto.PostingSearchCategory;
 import com.codedecode.demo.dto.PostingSearchCategoryResponseInterface;
