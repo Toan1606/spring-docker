@@ -36,6 +36,7 @@ build/
 Posting/
 PostingCategory/
 PostingType/
+User/
 
 ## application.properties
 application.properties
