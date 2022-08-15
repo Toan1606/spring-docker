@@ -204,8 +204,6 @@ public class PostingService {
 	public Posting addPostingRecruiter(AddPostingRequestDTO addPostingRequestDTO) {
 		String email = addPostingRequestDTO.getEmail();
 		String position = addPostingRequestDTO.getPosition();
-		long workingForm = addPostingRequestDTO.getWorkingForm();
-		long salary = addPostingRequestDTO.getSalary();
 		int quantity = addPostingRequestDTO.getQuantity();
 		String description = addPostingRequestDTO.getDescription();
 		String degreeRequired = addPostingRequestDTO.getDegreeRequired();

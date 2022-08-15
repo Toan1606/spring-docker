@@ -86,4 +86,12 @@ public class DesiredJob implements Serializable {
 	@ToString.Exclude
 	@JsonIgnore
 	private Collection<Address> workPlaceDesired;
+	
+	
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "posting_category_id", referencedColumnName = "id")
+	@ToString.Exclude
+	@JsonIgnore
+	private PostingCategory postingCategory;
+	
 }
