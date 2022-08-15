@@ -10,7 +10,6 @@ import lombok.Setter;
 
 public class AppliedJobDTO {
 
-	private Long id;
 	private String positionJobname;
 	private String postingPosition;
 	private Date dateSubmission;
@@ -18,4 +17,5 @@ public class AppliedJobDTO {
 	private String commentFromEmployer;
 	private Long postingId;
 	private Long recruiterId;
+	private Long userId;
 }

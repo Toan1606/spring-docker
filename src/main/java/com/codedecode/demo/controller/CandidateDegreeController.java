@@ -1,5 +1,6 @@
 package com.codedecode.demo.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,20 +30,35 @@ public class CandidateDegreeController {
 
 	@Autowired
 	private DegreeService degreeService;
-	
+
 	@Autowired
 	private CVService cvService;
-	
+
 	@GetMapping("/{userId}")
-	public ResponseEntity<?> showDegreePage(@PathVariable Long userId){
+	public ResponseEntity<?> showDegreePage(@PathVariable Long userId) {
 		List<Degree> list = degreeService.getAllDegreeByUserId(userId);
-		if(list == null || list.size() == 0) {
+		if (list == null || list.size() == 0) {
 			return new ResponseEntity<HttpStatus>(HttpStatus.NOT_FOUND);
 		}
-		return new ResponseEntity<List<Degree>>(list, HttpStatus.OK);
+		List<EducationDegreeDTO> dDTO = new ArrayList<EducationDegreeDTO>();
+		for (Degree degree : list) {
+			EducationDegreeDTO degreeDTO = new EducationDegreeDTO();
+			degreeDTO.setId(degree.getId());
+			degreeDTO.setCertificateName(degree.getCertificateName());
+			degreeDTO.setStartTime(degree.getStartTime());
+			degreeDTO.setEndTime(degree.getEndTime());
+			degreeDTO.setMajor(degree.getMajor());
+			degreeDTO.setRank(degree.getRank());
+			degreeDTO.setSupplementaryInformation(degree.getSupplementaryInformation());
+			degreeDTO.setTeachingUnit(degree.getTeachingUnit());
+			degreeDTO.setUserId(userId);
+			dDTO.add(degreeDTO);
+		}
+		return new ResponseEntity<List<EducationDegreeDTO>>(dDTO, HttpStatus.OK);
 	}
+
 	@GetMapping("/edit/{id}")
-	public ResponseEntity<?> getDegreeById(@PathVariable Long id){
+	public ResponseEntity<?> getDegreeById(@PathVariable Long id) {
 		Degree degree = degreeService.getDegreeById(id);
 		EducationDegreeDTO degreeDTO = new EducationDegreeDTO();
 		degreeDTO.setId(id);
@@ -55,30 +71,37 @@ public class CandidateDegreeController {
 		degreeDTO.setTeachingUnit(degree.getTeachingUnit());
 		return new ResponseEntity<EducationDegreeDTO>(degreeDTO, HttpStatus.OK);
 	}
-	
+
 	@PostMapping("/add")
-	public ResponseEntity<?> addDegree(@RequestBody EducationDegreeDTO educationDegreeDTO){
-		Degree degree = new Degree();
-		degree.setCertificateName(educationDegreeDTO.getCertificateName());
-		degree.setStartTime(educationDegreeDTO.getStartTime());
-		degree.setEndTime(educationDegreeDTO.getEndTime());
-		degree.setMajor(educationDegreeDTO.getMajor());
-		degree.setRank(educationDegreeDTO.getRank());
-		degree.setTeachingUnit(educationDegreeDTO.getTeachingUnit());
-		degree.setSupplementaryInformation(educationDegreeDTO.getSupplementaryInformation());
-		List<Degree> list = degreeService.getAllDegreeByUserId(educationDegreeDTO.getUserId());
-		list.add(degree);
-		CV cv = cvService.getCVsByUserId(educationDegreeDTO.getUserId());
-		cv.setDegrees(list);
-		cvService.update(cv);
-		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+	public ResponseEntity<?> addDegree(@RequestBody EducationDegreeDTO educationDegreeDTO) {
+		if (!degreeService.isDuplicate(educationDegreeDTO)) {
+			Degree degree = new Degree();
+			degree.setCertificateName(educationDegreeDTO.getCertificateName());
+			degree.setStartTime(educationDegreeDTO.getStartTime());
+			degree.setEndTime(educationDegreeDTO.getEndTime());
+			degree.setMajor(educationDegreeDTO.getMajor());
+			degree.setRank(educationDegreeDTO.getRank());
+			degree.setTeachingUnit(educationDegreeDTO.getTeachingUnit());
+			degree.setSupplementaryInformation(educationDegreeDTO.getSupplementaryInformation());
+			List<Degree> list = degreeService.getAllDegreeByUserId(educationDegreeDTO.getUserId());
+			list.add(degree);
+			CV cv = cvService.getCVsByUserId(educationDegreeDTO.getUserId());
+			cv.setDegrees(list);
+			cvService.update(cv);
+			return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+		} else {
+			return new ResponseEntity<HttpStatus>(HttpStatus.BAD_REQUEST);
+		}
 	}
-	
+
 	@PostMapping("/update")
-	public ResponseEntity<?> updateDegree(@RequestBody EducationDegreeDTO educationDegreeDTO){
+	public ResponseEntity<?> updateDegree(@RequestBody EducationDegreeDTO educationDegreeDTO) {
 		List<Degree> list = degreeService.getAllDegreeByUserId(educationDegreeDTO.getUserId());
+		CV cv = cvService.getCVsByUserId(educationDegreeDTO.getUserId());
+//		boolean isDuplicate = degreeService.isDuplicateUpdate(educationDegreeDTO);
+//		if (!isDuplicate) {
 		for (Degree degree : list) {
-			if(degree.getId() == educationDegreeDTO.getId()) {
+			if (degree.getId() == educationDegreeDTO.getId()) {
 				degree.setCertificateName(educationDegreeDTO.getCertificateName());
 				degree.setStartTime(educationDegreeDTO.getStartTime());
 				degree.setEndTime(educationDegreeDTO.getEndTime());
@@ -89,16 +112,21 @@ public class CandidateDegreeController {
 				break;
 			}
 		}
-		CV cv = cvService.getCVsByUserId(educationDegreeDTO.getUserId());
+
 		cv.setDegrees(list);
 		cvService.update(cv);
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+//		} else {
+//			return new ResponseEntity<HttpStatus>(HttpStatus.BAD_REQUEST);
+//		}
+
 	}
+
 	@DeleteMapping("/delete/{id}/{userId}")
-	public ResponseEntity<?> deleteDegree(@PathVariable Long id, @PathVariable Long userId){
+	public ResponseEntity<?> deleteDegree(@PathVariable Long id, @PathVariable Long userId) {
 		List<Degree> list = degreeService.getAllDegreeByUserId(userId);
 		for (Degree degree : list) {
-			if(degree.getId() == id) {
+			if (degree.getId() == id) {
 				list.remove(degree);
 				CV cv = cvService.getCVsByUserId(userId);
 				cv.setDegrees(list);
@@ -108,19 +136,5 @@ public class CandidateDegreeController {
 			}
 		}
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
-	}
-	@PostMapping("/isDuplicate")
-	public ResponseEntity<?> isDuplicate(@RequestBody EducationDegreeDTO degreeDTO){
-//		Degree degree = new Degree();
-		CV cv = cvService.getCVsByUserId(degreeDTO.getUserId());
-//		degree.setCertificateName(degreeDTO.getCertificateName());
-//		degree.setTeachingUnit(degreeDTO.getTeachingUnit());
-//		degree.setStartTime(degreeDTO.getStartTime());
-//		degree.setEndTime(degreeDTO.getEndTime());
-//		degree.setMajor(degreeDTO.getMajor());
-//		degree.setRank(degreeDTO.getRank());
-//		degree.setSupplementaryInformation(degreeDTO.getSupplementaryInformation());
-		boolean isDuplicate = degreeService.isDuplicate(degreeDTO, cv);
-		return new ResponseEntity<Boolean>(isDuplicate, HttpStatus.OK);
 	}
 }

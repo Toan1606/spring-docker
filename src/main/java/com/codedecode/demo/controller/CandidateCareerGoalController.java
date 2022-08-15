@@ -31,13 +31,12 @@ public class CandidateCareerGoalController {
 		CareerGoalDTO careerGoalDTO = new CareerGoalDTO();
 		careerGoalDTO.setCareerGoal(cv.getCareerJobObjective());
 		careerGoalDTO.setUserId(userId);
-		careerGoalDTO.setId(cv.getId());
 		return new ResponseEntity<CareerGoalDTO>(careerGoalDTO, HttpStatus.OK);
 	}
 
 	@PostMapping("/update")
 	public ResponseEntity<?> updateCareerGoal(@RequestBody CareerGoalDTO careerGoalDTO) {
-		CV cv = cvService.getCVsByUserId(careerGoalDTO.getId());
+		CV cv = cvService.getCVsByUserId(careerGoalDTO.getUserId());
 		cv.setCareerJobObjective(careerGoalDTO.getCareerGoal());
 		cvService.update(cv);
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);

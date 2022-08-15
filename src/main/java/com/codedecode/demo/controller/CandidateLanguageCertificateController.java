@@ -43,24 +43,25 @@ public class CandidateLanguageCertificateController {
 	@GetMapping("/{userId}")
 	public ResponseEntity<?> showAllLanguageCertitficates(@PathVariable Long userId) {
 		List<Language> list = languageService.findAllLanguageCertificatesByUserId(userId);
-		if(list == null || list.size() == 0) {
+		if (list == null || list.size() == 0) {
 			return new ResponseEntity<HttpStatus>(HttpStatus.NO_CONTENT);
-		}else {
+		} else {
 			List<LanguageDTO> lists = new ArrayList<LanguageDTO>();
 			for (Language language : list) {
-				LanguageDTO l = new LanguageDTO(language.getId(),language.getCertificateName(), language.getName(), language.getGrade(), userId);
+				LanguageDTO l = new LanguageDTO(language.getId(), language.getCertificateName(), language.getName(),
+						language.getGrade(), userId);
 				lists.add(l);
 			}
 			return new ResponseEntity<List<LanguageDTO>>(lists, HttpStatus.OK);
-		}		
+		}
 	}
 
 	@GetMapping("/editlanguage/{id}")
-	public ResponseEntity<?> getLanguageCertificateById(@PathVariable Long id){
+	public ResponseEntity<?> getLanguageCertificateById(@PathVariable Long id) {
 		Language language = languageService.findLanguageCertificateById(id);
-		if(language != null) {
+		if (language != null) {
 			return new ResponseEntity<Language>(language, HttpStatus.OK);
-		}else {
+		} else {
 			return new ResponseEntity<HttpStatus>(HttpStatus.NOT_FOUND);
 		}
 	}
@@ -70,17 +71,17 @@ public class CandidateLanguageCertificateController {
 	 * @author: Nguyễn Văn Tuấn
 	 * 
 	 */
-	@PostMapping("/isDuplicate")
-	public ResponseEntity<?> isDuplicateLanguage(@RequestBody LanguageDTO languageDTO){
-		Language language = new Language();
-		User user = userService.findUserById(languageDTO.getUserId());
-		language.setCertificateName(languageDTO.getCertificate_name());
-		language.setName(languageDTO.getName());
-		language.setGrade(languageDTO.getMark());
-		language.setUser(user);
-		boolean isDuplicate = languageService.findLanguage(language);
-		return new ResponseEntity<Boolean>(isDuplicate, HttpStatus.OK);
-	}
+//	@PostMapping("/isDuplicate")
+//	public ResponseEntity<?> isDuplicateLanguage(@RequestBody LanguageDTO languageDTO){
+//		Language language = new Language();
+//		User user = userService.findUserById(languageDTO.getUserId());
+//		language.setCertificateName(languageDTO.getCertificate_name());
+//		language.setName(languageDTO.getName());
+//		language.setGrade(languageDTO.getMark());
+//		language.setUser(user);
+//		boolean isDuplicate = languageService.findLanguage(language);
+//		return new ResponseEntity<Boolean>(isDuplicate, HttpStatus.OK);
+//	}
 
 	/*
 	 * 
@@ -88,7 +89,7 @@ public class CandidateLanguageCertificateController {
 	 * 
 	 */
 	@PostMapping("/add")
-	public ResponseEntity<?> addLanguageCertificate(@RequestBody LanguageDTO languageDTO){
+	public ResponseEntity<?> addLanguageCertificate(@RequestBody LanguageDTO languageDTO) {
 //		Language language = languageService.findLanguage(languageDTO);
 		User user = userService.findUserById(languageDTO.getUserId());
 		Language l = new Language();
@@ -96,31 +97,37 @@ public class CandidateLanguageCertificateController {
 		l.setCertificateName(languageDTO.getCertificate_name());
 		l.setGrade(languageDTO.getMark());
 		l.setUser(user);
-		languageService.addLanguageCertificate(l);
-		return new ResponseEntity<>(HttpStatus.OK);
+		if (!languageService.findLanguage(l)) {
+			languageService.addLanguageCertificate(l);
+			return new ResponseEntity<>(HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
 	}
+
 	/*
 	 * 
-	 *	@author: Nguyễn Văn Tuấn 
+	 * @author: Nguyễn Văn Tuấn
 	 * 
 	 */
 	@DeleteMapping("/delete/{languageId}")
-	public ResponseEntity<?> deleteLanguageCertificate(@PathVariable("languageId") Long languageId){
+	public ResponseEntity<?> deleteLanguageCertificate(@PathVariable("languageId") Long languageId) {
 		Language language = languageService.findLanguageCertificateById(languageId);
-		if(language == null) {
+		if (language == null) {
 			return new ResponseEntity<HttpStatus>(HttpStatus.NOT_FOUND);
-		}else {
+		} else {
 			languageService.deleteLanguageCertificate(languageId);
 			return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 		}
 	}
+
 	/*
 	 * 
-	 *	@author: Nguyễn Văn Tuấn 
+	 * @author: Nguyễn Văn Tuấn
 	 * 
 	 */
 	@PostMapping("/update")
-	public ResponseEntity<?> updateLanguageCertificateById(@RequestBody LanguageDTO languageDTO){
+	public ResponseEntity<?> updateLanguageCertificateById(@RequestBody LanguageDTO languageDTO) {
 		User user = userService.findUserById(languageDTO.getUserId());
 		Language l = new Language();
 		l.setName(languageDTO.getName());
@@ -128,7 +135,15 @@ public class CandidateLanguageCertificateController {
 		l.setGrade(languageDTO.getMark());
 		l.setUser(user);
 		l.setId(languageDTO.getId());
-		languageService.updateLanguageCertificate(l);
-		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+		List<Language> list = languageService.findAllLanguageCertificatesByUserId(languageDTO.getUserId());
+		for (Language language : list) {
+			if (language.getId() != l.getId() && l.getCertificateName().equalsIgnoreCase(language.getCertificateName())
+					&& l.getName().equalsIgnoreCase(language.getName()) && l.getGrade() == language.getGrade()
+					&& l.getUser().equals(language.getUser()))
+				languageService.updateLanguageCertificate(l);
+			return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+		}
+		return new ResponseEntity<HttpStatus>(HttpStatus.BAD_REQUEST);
+
 	}
 }

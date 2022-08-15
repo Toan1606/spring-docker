@@ -15,9 +15,10 @@ public class CandidateContactInfoDTO {
 	private String dateOfBirth;
 	private String address;
 	private String gender;
-	private String province;
-	private String district;
 	private String married;
+	private String imageBase64;
 	private Long provinceId;
 	private Long districtId;
+	private String province;
+	private String district;
 }

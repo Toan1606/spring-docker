@@ -25,4 +25,12 @@ public class ProvinceDistrictService {
 	public List<City> getAllDistrict(Long provinceId) {
 		return districtRepository.getAllDistrict(provinceId);
 	}
+	
+	public Province findProvinceById(Long id) {
+		return provinceRepository.getOne(id);
+	}
+	
+	public City findDistrictById(Long id) {
+		return districtRepository.getOne(id);
+	}
 }

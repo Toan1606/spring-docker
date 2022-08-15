@@ -1,7 +1,9 @@
 package com.codedecode.demo.service;
 
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,7 +81,7 @@ public class AuthService {
 		roles.add(role);
 		CV cv = new CV();
 		CandidateProfileSaved candidateProfileSaved = new CandidateProfileSaved();
-		DesiredJob desiredJob = new DesiredJob();
+		List<DesiredJob> desiredJobs = new ArrayList<DesiredJob>();
 		
 		User user = new User();
 		user.setRoles(roles);
@@ -89,7 +91,7 @@ public class AuthService {
 		user.setPassword(encodePassword);
 		user.setPhone(phoneNumber);
 		user.setCv(cv);
-		user.setDesiredJob(desiredJob);
+		user.setDesiredJobs(desiredJobs);
 		
 		User rs = userRepository.save(user);
 		candidateProfileSaved.setUser(rs);
@@ -104,7 +106,7 @@ public class AuthService {
 		String password = registerRequestDTO.getPassword();		
 		
 		CandidateProfileSaved candidateProfileSaved = new CandidateProfileSaved();
-		DesiredJob desiredJob = new DesiredJob();
+		List<DesiredJob> desiredJobs = new ArrayList<DesiredJob>();
 		
 		String encodePassword = passwordEncoder.encode(password);
 		Role role = roleService.findRoleByName(ApplicationUserRole.ROLE_RECRUITER.name());
@@ -116,7 +118,7 @@ public class AuthService {
 		user.setName(fullName);
 		user.setEmail(email);
 		user.setPassword(encodePassword);
-		user.setDesiredJob(desiredJob);
+		user.setDesiredJobs(desiredJobs);
 		
 		User rs = userRepository.save(user);
 		candidateProfileSaved.setUser(rs);

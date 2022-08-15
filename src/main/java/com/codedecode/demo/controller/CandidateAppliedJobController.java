@@ -49,7 +49,7 @@ public class CandidateAppliedJobController {
 	public ResponseEntity<?> showAppliedJobsPage(@PathVariable Long userId) {
 		List<AppliedJob> listAppliedJob = appliedJobService.getAllAppliedJobs(userId);
 		if (listAppliedJob.size() == 0) {
-			return new ResponseEntity<HttpStatus>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 		} else {
 			List<AppliedJobDTO> listAppliedJobDTOs = new ArrayList<>();
 			for (AppliedJob appliedJob : listAppliedJob) {
@@ -62,6 +62,7 @@ public class CandidateAppliedJobController {
 				aDTO.setCommentFromEmployer(appliedJob.getCommentFromEmployer());
 				aDTO.setPostingId(p.getId());
 				aDTO.setRecruiterId(p.getUser().getId());
+				aDTO.setUserId(userId);
 				listAppliedJobDTOs.add(aDTO);
 			}
 			return new ResponseEntity<List<AppliedJobDTO>>(listAppliedJobDTOs, HttpStatus.OK);

@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -80,7 +81,7 @@ public class CvController {
 
 	@GetMapping
 	public ResponseEntity<List<Province>> findAllProvince() {
-		return new ResponseEntity<List<Province>>(provinceService.findAllProvince(), HttpStatus.OK);
+		return new ResponseEntity<List<Province>>(provinceService.findAll(), HttpStatus.OK);
 	}
 
 	@PostMapping(value = "/id")
@@ -93,19 +94,32 @@ public class CvController {
 		Province province = address.getProvince();
 		City city = address.getCity();
 		Street street = address.getStreet();
-		String facebook = new StringBuilder("https://www.facebook.com/").append(candidate.getEmail().split("@")[0])
-				.toString();
-		DesiredJob desiredJob = candidate.getDesiredJob();
+		String facebook = new StringBuilder("https://www.facebook.com/").append(candidate.getEmail().split("@")[0]).toString();
+		List<DesiredJob> desiredJobs = candidate.getDesiredJobs();
+		// get list desired job name
+		StringBuilder desiredJobName = new StringBuilder();
+		desiredJobs.stream().map(desiredJob -> desiredJobName.append(desiredJob.getName())).collect(Collectors.toList());
 		cv.getDegrees();
+		
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");  
 
-		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-
-		CvResponseDTO response = CvResponseDTO.builder().images(cv.getImages()).name(candidate.getName())
-				.position(desiredJob.getName()).dateOfBirth(dateFormat.format(candidate.getBirthDate()))
-				.gender(candidate.getGender()).phone(candidate.getPhone()).email(candidate.getEmail())
-				.province(province.getName()).city(city.getName()).street(street.getName()).facebook(facebook)
-				.careerGoal(cv.getCareerJobObjective()).skills(new ArrayList<Skill>(cv.getSkills()))
-				.awards(cv.getAward()).degrees(new ArrayList<Degree>(cv.getDegrees())).hobbies(cv.getHobbies())
+		CvResponseDTO response = CvResponseDTO.builder()
+				.images(cv.getImages())
+				.name(candidate.getName())
+				.position(desiredJobName.toString())
+				.dateOfBirth(dateFormat.format(candidate.getBirthDate()))
+				.gender(candidate.getGender())
+				.phone(candidate.getPhone())
+				.email(candidate.getEmail())
+				.province(province.getName())
+				.city(city.getName())
+				.street(street.getName())
+				.facebook(facebook)
+				.careerGoal(cv.getCareerJobObjective())
+				.skills(new ArrayList<Skill>(cv.getSkills()))
+				.awards(cv.getAward())
+				.degrees(new ArrayList<Degree>(cv.getDegrees()))
+				.hobbies(cv.getHobbies())
 				.educations(new ArrayList<Education>(cv.getEducations()))
 				.workExperiences(new ArrayList<WorkExperiences>(cv.getWorkExperiences())).activities(cv.getActivities())
 				.involvedProjects(new ArrayList<InvolvedProject>(cv.getInvolvedProject())).build();
