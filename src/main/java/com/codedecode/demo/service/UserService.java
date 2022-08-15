@@ -202,52 +202,52 @@ public class UserService {
 		return candidateDto;
 	}
 
-	public List<Address> getAddressFromDesiredJob(List<DesiredJob> desiredJobs) {
+	public List<Address> getAddressFromDesiredJob(DesiredJob desiredJob) {
 		List<Address> addresss = new ArrayList<Address>();
-		for (DesiredJob desiredJob : desiredJobs) {
-			Collection<Address> collectionAddresss = desiredJob.getAddresss();
-			Iterator<Address> iteratorAddress = collectionAddresss.iterator();
-			while (iteratorAddress.hasNext()) {
-				addresss.add(iteratorAddress.next());
-			}
+
+		Collection<Address> collectionAddresss = desiredJob.getAddresss();
+		Iterator<Address> iteratorAddress = collectionAddresss.iterator();
+		while (iteratorAddress.hasNext()) {
+			addresss.add(iteratorAddress.next());
 		}
+
 		return addresss;
 	}
 
-	public Salary getSalariesFromDesiredJob(List<DesiredJob> desiredJobs) {
-		// default value
-		Salary salary = new Salary();
-		salary.setName("Lương Thỏa Thuận");
-		for (DesiredJob desiredJob : desiredJobs) {
-			salary = desiredJob.getSalary();
-			if (salary != null)	return salary;
+	public Salary getSalariesFromDesiredJob(DesiredJob desiredJob) {
+		Salary salary = desiredJob.getSalary();
+		if (salary == null) {
+			// default value
+			salary = new Salary();
+			salary.setName("Lương Thỏa Thuận");
 		}
 		return salary;
 	}
-	
-	public WorkingForm getWorkingFormFromDesiredJob(List<DesiredJob> desiredJobs) {
+
+	public WorkingForm getWorkingFormFromDesiredJob(DesiredJob desiredJob) {
 		// default value
-		WorkingForm workingForm = new WorkingForm();
-		workingForm.setName("Toàn thời gian cố định");
-		
-		for (DesiredJob desiredJob : desiredJobs) {
-			workingForm = desiredJob.getWorkingForm();
-			if (workingForm != null)	return workingForm;
+
+		WorkingForm workingForm = desiredJob.getWorkingForm();
+		if (workingForm == null) {
+			// default value
+			workingForm = new WorkingForm();
+			workingForm.setName("Toàn thời gian cố định");
 		}
 		return workingForm;
 	}
-	
-	public Rank getRankFromDesiredJob(List<DesiredJob> desiredJobs) {
-		Rank rank = new Rank();
-		rank.setName("Nhân viên");
-		
-		for (DesiredJob desiredJob : desiredJobs) {
-			rank = desiredJob.getRank();
-			if (rank != null)	return rank;
+
+	public Rank getRankFromDesiredJob(DesiredJob desiredJob) {
+
+		Rank rank = desiredJob.getRank();
+		if (rank != null) {
+			// default value
+			rank = new Rank();
+			rank.setName("Nhân viên");
 		}
+
 		return rank;
 	}
-	
+
 	public String getDesiredJobName(List<DesiredJob> desiredJobs) {
 		StringBuilder desiredJobNames = new StringBuilder();
 		for (DesiredJob desiredJob : desiredJobs) {
@@ -265,7 +265,7 @@ public class UserService {
 		// 1.2 random Mã hồ sơ
 		Random rnd = new Random();
 		// 1.3
-		List<DesiredJob> desiredJobs = user.getDesiredJobs();
+		DesiredJob desiredJob = user.getDesiredJob();
 		// province
 		Address address = user.getAddress();
 		Province province = address.getProvince();
@@ -279,15 +279,15 @@ public class UserService {
 		Rank rank = null;
 		String desiredJobName = null;
 
-		if (desiredJobs != null) {
-			List<Address> addressWorkplaceDesireds = getAddressFromDesiredJob(desiredJobs);
+		if (desiredJob != null) {
+			List<Address> addressWorkplaceDesireds = getAddressFromDesiredJob(desiredJob);
 
 			workplaceDesired = getProvinceOfWorkplaceDesired(addressWorkplaceDesireds);
 
-			salary = getSalariesFromDesiredJob(desiredJobs);
-			workingForm = getWorkingFormFromDesiredJob(desiredJobs);
-			rank = getRankFromDesiredJob(desiredJobs);
-			desiredJobName = getDesiredJobName(desiredJobs);
+			salary = getSalariesFromDesiredJob(desiredJob);
+			workingForm = getWorkingFormFromDesiredJob(desiredJob);
+			rank = getRankFromDesiredJob(desiredJob);
+			desiredJobName = desiredJob.getName();
 		}
 
 		String yearOfExperience = getYearOfExperience(cv);
