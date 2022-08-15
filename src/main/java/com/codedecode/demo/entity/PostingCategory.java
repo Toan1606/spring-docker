@@ -47,4 +47,9 @@ public class PostingCategory implements Serializable {
 	@JsonIgnore
 	@ToString.Exclude
 	private List<Posting> postings;
+	
+	@OneToMany(mappedBy = "postingCategory", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JsonIgnore
+	@ToString.Exclude
+	private List<DesiredJob> desiredJobs;
 }
