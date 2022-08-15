@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.codedecode.demo.entity.Degree;
@@ -19,4 +20,7 @@ public interface DegreeRepository extends JpaRepository<Degree, Long>{
 	@Modifying
 	void deleteDegree(Long id);
 	
+	@Query(value="UPDATE degree SET name = :name , certificate_name = :certificateName WHERE id = :id", nativeQuery=true)
+	@Modifying
+	Integer updateDegree(@Param("id") Long id, @Param("name") String name, @Param("certificateName") String certificateName);
 }
