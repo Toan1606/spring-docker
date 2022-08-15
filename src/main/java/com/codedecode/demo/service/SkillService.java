@@ -17,17 +17,19 @@ public class SkillService {
 
 	@Autowired
 	private SkillRepository skillRepository;
-	
+
 	public Integer updateSkills(List<SkillRequestDTO> skills) {
 		if (skills == null)
 			return -1;
-		
+
 		int effectColumns = 0;
 		for (SkillRequestDTO skill : skills) {
 			int effect = skillRepository.updateSkills(skill.getId(), skill.getName());
+			System.out.println("id : " + skill.getId());
+			System.out.println("name : " + skill.getName());
 			effectColumns += effect;
 		}
-		
+
 		if (effectColumns != skills.size()) {
 			throw new NotUpdateException("Skill Is Not Update");
 		}

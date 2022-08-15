@@ -12,6 +12,6 @@ import com.codedecode.demo.entity.Skill;
 public interface SkillRepository extends JpaRepository<Skill, Long> {
 
 	@Modifying
-	@Query(value = "UPDATE Skills SET name = :name WHERE id = :id", nativeQuery = true)
+	@Query(value = "UPDATE skills SET name = :name WHERE id = :id", nativeQuery = true)
 	Integer updateSkills(@Param("id") Long id, @Param("name") String skillName);
 }
