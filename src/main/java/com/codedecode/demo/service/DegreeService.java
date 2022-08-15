@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.codedecode.demo.dto.DegreeUpdateRequestDTO;
 import com.codedecode.demo.dto.EducationDegreeDTO;
-import com.codedecode.demo.entity.CV;
 import com.codedecode.demo.entity.Degree;
 import com.codedecode.demo.exception.NotUpdateException;
 import com.codedecode.demo.repository.DegreeRepository;
@@ -34,20 +33,21 @@ public class DegreeService {
 		return degreeRepository.getOne(id);
 	}
 
-	public boolean isDuplicate(EducationDegreeDTO degree, CV cv) {
-//		List<Degree> list = degreeRepository.getAllDegreeByUserId(degree.getUserId());
-//		for (Degree d : list) {
-//			if(d.getCertificateName().equals(degree.getCertificateName())
-//					&& d.getTeachingUnit().equals(degree.getTeachingUnit())
-//					&& formatDate(d.getStartTime()).compareTo(formatDate(degree.getStartTime())) == 0
-//					&& formatDate(d.getEndTime()).compareTo(formatDate(degree.getEndTime())) == 0
-//					&& d.getMajor().equals(degree.getMajor())
-//					&& d.getRank().equals(degree.getRank())
-//					&& d.getSupplementaryInformation().equals(degree.getSupplementaryInformation())
-//					&& )
-//		}
+	public boolean isDuplicate(EducationDegreeDTO degree) {
+
+		List<Degree> list = degreeRepository.getAllDegreeByUserId(degree.getUserId());
+		for (Degree d : list) {
+			if (d.getCertificateName().equals(degree.getCertificateName())
+					&& d.getTeachingUnit().equals(degree.getTeachingUnit())
+					&& formatDate(d.getStartTime()).compareTo(formatDate(degree.getStartTime())) == 0
+					&& formatDate(d.getEndTime()).compareTo(formatDate(degree.getEndTime())) == 0
+					&& d.getMajor().equals(degree.getMajor()) && d.getRank().equals(degree.getRank())
+					&& d.getSupplementaryInformation().equals(degree.getSupplementaryInformation()))
+				return true;
+		}
 		return false;
 	}
+
 
 	public String formatDate(Date date) {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
