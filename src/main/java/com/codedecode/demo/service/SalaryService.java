@@ -1,5 +1,7 @@
 package com.codedecode.demo.service;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,5 +21,9 @@ public class SalaryService {
 	
 	public Salary findSalaryById(Long salaryId) {
 		return salaryRepository.findById(salaryId).orElseThrow(() -> new SalaryException(ExceptionMessage.SALARY_EXCEPTION.getErrorMessage()));
+	}
+
+	public List<Salary> findAll() {
+		return salaryRepository.findAll();
 	}
 }

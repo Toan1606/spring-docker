@@ -1,6 +1,7 @@
 package com.codedecode.demo.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -9,7 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
@@ -42,8 +43,8 @@ public class PostingCategory implements Serializable {
 	@Column(name = "category_name")
 	private String categoryName;
 	
-	@OneToOne(mappedBy = "postingCategory", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "postingCategory", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JsonIgnore
 	@ToString.Exclude
-	private Posting posting;
+	private List<Posting> postings;
 }

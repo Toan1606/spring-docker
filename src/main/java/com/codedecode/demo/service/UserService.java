@@ -3,6 +3,7 @@ package com.codedecode.demo.service;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -53,9 +54,10 @@ public class UserService {
 	public User addNewUser(User user) {
 		return userRepository.save(user);
 	}
-	
+
 	public User findUserById(Long id) {
-		User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(ExceptionMessage.USER_NOT_FOUND.getErrorMessage()));
+		User user = userRepository.findById(id)
+				.orElseThrow(() -> new UserNotFoundException(ExceptionMessage.USER_NOT_FOUND.getErrorMessage()));
 		return user;
 	}
 
@@ -129,7 +131,7 @@ public class UserService {
 	public CandidateByIdResponseDTO findCandidateById(Long candidateId) {
 		User user = userRepository.findById(candidateId)
 				.orElseThrow(() -> new UserNotFoundException(ExceptionMessage.USER_NOT_FOUND.getErrorMessage()));
-		
+
 		Set<Role> roles = user.getRoles();
 		Iterator<Role> value = roles.iterator();
 
@@ -172,8 +174,8 @@ public class UserService {
 	public CandidateByIdResponseDTO setCandidateByIdResponseDTO(Long userId, String userName, String gender,
 			String birthDate, Random rnd, String desiredJobName, String mariaStatus, String phone, String email,
 			String provinceName, String cityName, String workplaceDesired, String yearOfExperience, String salaryName,
-			String workingFormName, String rankName, String careerGoal, String skillName, List<WorkExperiences> workExperiences,
-			List<Degree>  degrees) {
+			String workingFormName, String rankName, String careerGoal, String skillName,
+			List<WorkExperiences> workExperiences, List<Degree> degrees) {
 		CandidateByIdResponseDTO candidateDto = new CandidateByIdResponseDTO();
 		candidateDto.setId(userId);
 		candidateDto.setName(userName);
@@ -200,16 +202,70 @@ public class UserService {
 		return candidateDto;
 	}
 
-	public CandidateByIdResponseDTO convertToCandidateResposeDTO(User user)  {
+	public List<Address> getAddressFromDesiredJob(List<DesiredJob> desiredJobs) {
+		List<Address> addresss = new ArrayList<Address>();
+		for (DesiredJob desiredJob : desiredJobs) {
+			Collection<Address> collectionAddresss = desiredJob.getAddresss();
+			Iterator<Address> iteratorAddress = collectionAddresss.iterator();
+			while (iteratorAddress.hasNext()) {
+				addresss.add(iteratorAddress.next());
+			}
+		}
+		return addresss;
+	}
+
+	public Salary getSalariesFromDesiredJob(List<DesiredJob> desiredJobs) {
+		// default value
+		Salary salary = new Salary();
+		salary.setName("Lương Thỏa Thuận");
+		for (DesiredJob desiredJob : desiredJobs) {
+			salary = desiredJob.getSalary();
+			if (salary != null)	return salary;
+		}
+		return salary;
+	}
+	
+	public WorkingForm getWorkingFormFromDesiredJob(List<DesiredJob> desiredJobs) {
+		// default value
+		WorkingForm workingForm = new WorkingForm();
+		workingForm.setName("Toàn thời gian cố định");
+		
+		for (DesiredJob desiredJob : desiredJobs) {
+			workingForm = desiredJob.getWorkingForm();
+			if (workingForm != null)	return workingForm;
+		}
+		return workingForm;
+	}
+	
+	public Rank getRankFromDesiredJob(List<DesiredJob> desiredJobs) {
+		Rank rank = new Rank();
+		rank.setName("Nhân viên");
+		
+		for (DesiredJob desiredJob : desiredJobs) {
+			rank = desiredJob.getRank();
+			if (rank != null)	return rank;
+		}
+		return rank;
+	}
+	
+	public String getDesiredJobName(List<DesiredJob> desiredJobs) {
+		StringBuilder desiredJobNames = new StringBuilder();
+		for (DesiredJob desiredJob : desiredJobs) {
+			desiredJobNames.append(desiredJob.getName()).append(", ");
+		}
+		return desiredJobNames.toString();
+	}
+
+	public CandidateByIdResponseDTO convertToCandidateResposeDTO(User user) {
 		// 1. get object related
 		// 1.1 birth date
 		Date birthDate = user.getBirthDate();
-		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");  
-		String strDate = dateFormat.format(birthDate);  
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		String strDate = dateFormat.format(birthDate);
 		// 1.2 random Mã hồ sơ
 		Random rnd = new Random();
 		// 1.3
-		DesiredJob desiredJob = user.getDesiredJob();
+		List<DesiredJob> desiredJobs = user.getDesiredJobs();
 		// province
 		Address address = user.getAddress();
 		Province province = address.getProvince();
@@ -219,41 +275,41 @@ public class UserService {
 		// 2. generate object
 		String workplaceDesired = null;
 		Salary salary = null;
-		WorkingForm workingForm =  null;
+		WorkingForm workingForm = null;
 		Rank rank = null;
 		String desiredJobName = null;
 
-		if (desiredJob != null) {
-			List<Address> addressWorkplaceDesireds = new ArrayList<Address>(desiredJob.getAddresss());
+		if (desiredJobs != null) {
+			List<Address> addressWorkplaceDesireds = getAddressFromDesiredJob(desiredJobs);
+
 			workplaceDesired = getProvinceOfWorkplaceDesired(addressWorkplaceDesireds);
-			salary = desiredJob.getSalary();
-			workingForm = desiredJob.getWorkingForm();
-			rank = desiredJob.getRank();
-			desiredJobName = desiredJob.getName();
+
+			salary = getSalariesFromDesiredJob(desiredJobs);
+			workingForm = getWorkingFormFromDesiredJob(desiredJobs);
+			rank = getRankFromDesiredJob(desiredJobs);
+			desiredJobName = getDesiredJobName(desiredJobs);
 		}
 
 		String yearOfExperience = getYearOfExperience(cv);
 		String careerGoal = cv.getCareerJobObjective();
 		String skillName = getSkill(cv);
 		List<WorkExperiences> workExperiences = new ArrayList<WorkExperiences>(cv.getWorkExperiences());
-		
+
 		List<Degree> degrees = new ArrayList<Degree>(cv.getDegrees());
-		
+
 		salary = salary == null ? new Salary() : salary;
 		workingForm = workingForm == null ? new WorkingForm() : workingForm;
 		rank = rank == null ? new Rank() : rank;
 
 		// 3. set
 		CandidateByIdResponseDTO candidateDto = setCandidateByIdResponseDTO(user.getId(), user.getName(),
-				user.getGender(), strDate, rnd, desiredJobName, user.getMariaStatus(), user.getPhone(),
-				user.getEmail(), province.getName(), city.getName(), workplaceDesired, yearOfExperience,
-				salary.getName(), workingForm.getName(), rank.getName(), careerGoal, skillName, workExperiences, degrees);
+				user.getGender(), strDate, rnd, desiredJobName, user.getMariaStatus(), user.getPhone(), user.getEmail(),
+				province.getName(), city.getName(), workplaceDesired, yearOfExperience, salary.getName(),
+				workingForm.getName(), rank.getName(), careerGoal, skillName, workExperiences, degrees);
 
 		// 4. return
 		return candidateDto;
 	}
-	
-	
 
 	public String convertWorkPlaceDesired(List<Address> addresss) {
 		StringBuilder addressStr = new StringBuilder();
@@ -262,16 +318,17 @@ public class UserService {
 		}
 		return addressStr.toString();
 	}
-	
+
 	public Set<User> getCandidateFromAppliedJob(List<AppliedJob> appliedJobs) {
 		Set<User> candidates = new HashSet<User>();
 		for (AppliedJob appliedJob : appliedJobs) {
 			User candidate = appliedJob.getCandidate();
 			candidates.add(candidate);
 		}
-		
+
 		return candidates;
 	}
+
 	public void updateUser(User user) {
 		userRepository.save(user);
 	}

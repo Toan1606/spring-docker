@@ -10,10 +10,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-
-public class DesiredJobDTO implements Serializable{
-
-	
+public class DesiredJobDTO implements Serializable {	
 	
 	/**
 	 * 

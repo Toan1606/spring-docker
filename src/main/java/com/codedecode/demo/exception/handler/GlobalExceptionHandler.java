@@ -155,4 +155,12 @@ public class GlobalExceptionHandler {
 				.details(ExceptionMessage.WORKING_FORM_EXCEPTION.getErrorMessage()).build();
 		return new ResponseEntity<ErrorDetails>(error, HttpStatus.BAD_REQUEST);
 	}
+	
+//	@ExceptionHandler(NotUpdateException.class)
+//	public ResponseEntity<ErrorDetails> handleNotUpdateException() {
+//		ErrorDetails error = ErrorDetails.builder().timestamp(new Date())
+//				.message(ExceptionMessage.WORKING_FORM_EXCEPTION.getErrorMessage())
+//				.details(ExceptionMessage.WORKING_FORM_EXCEPTION.getErrorMessage()).build();
+//		return new ResponseEntity<ErrorDetails>(error, HttpStatus.BAD_REQUEST);
+//	}
 }

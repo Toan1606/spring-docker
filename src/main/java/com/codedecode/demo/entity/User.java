@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -89,7 +90,7 @@ public class User implements Serializable {
 	@ToString.Exclude
 	@JsonIgnore
 	private Address address;
-	
+
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "users_address_desired", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "address_id"))
 	@ToString.Exclude
@@ -98,7 +99,7 @@ public class User implements Serializable {
 
 	@Column(name = "password")
 	private String password;
-	
+
 	@FullTextField
 	@Column(name = "career_goals")
 	private String careerGoals;
@@ -144,7 +145,7 @@ public class User implements Serializable {
 
 	@Column(name = "gender")
 	private String gender;
-	
+
 	@Lob
 	@Column(name = "recruiter_description")
 	private String recruiterDescription;
@@ -163,19 +164,18 @@ public class User implements Serializable {
 
 	@Column(name = "taxt_number")
 	private String taxtNumber;
-	
+
 	@Column(name = "images", columnDefinition = "NVARCHAR(MAX)")
 	private String images;
 
 	@Column(name = "candidate_cv", columnDefinition = "NVARCHAR(MAX)")
 	private String candidateCV;
-	
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "desired_job_id", referencedColumnName = "id")
+
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
 	@JsonIgnore
-	private DesiredJob desiredJob;
+	private List<DesiredJob> desiredJobs;
 
 	@OneToMany(mappedBy = "candidate", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@EqualsAndHashCode.Exclude
@@ -188,7 +188,7 @@ public class User implements Serializable {
 	@ToString.Exclude
 	@JsonIgnore
 	private Collection<Message> recruiterMessage;
-	
+
 	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@ToString.Exclude
 	@EqualsAndHashCode.Exclude
@@ -205,17 +205,17 @@ public class User implements Serializable {
 	@ToString.Exclude
 	@JsonIgnore
 	private Collection<AppliedJob> recruiterAppliedJob;
-	
+
 	@OneToMany(mappedBy = "candidate", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
 	@JsonIgnore
 	private Collection<AppliedJob> candidateAppliedJob;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = UserContract.class)
 	@JoinColumn(name = "candidate_contract_id", referencedColumnName = "id")
 	private UserContract candidateContract;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = UserContract.class)
 	@JoinColumn(name = "recruiter_contract_id", referencedColumnName = "id")
 	private UserContract recruiterContract;
