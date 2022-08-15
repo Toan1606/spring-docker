@@ -15,7 +15,7 @@ import com.codedecode.demo.entity.Activity;
 public interface ActivityRepository extends JpaRepository<Activity, Long> {
 
 	@Modifying
-	@Query(value = "UPDATE activities SET name = :name, position = :position, description = :description WHERE id = :id", nativeQuery = true)
+	@Query(value = "UPDATE activities SET acitvity_name = :name, position = :position, description = :description WHERE id = :id", nativeQuery = true)
 	Integer updateActivity(@Param("id") Long id, @Param("name") String name, @Param("position") String position,
 			@Param("description") String description);
 }

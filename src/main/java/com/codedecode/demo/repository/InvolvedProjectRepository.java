@@ -12,6 +12,6 @@ import com.codedecode.demo.entity.InvolvedProject;
 public interface InvolvedProjectRepository extends JpaRepository<InvolvedProject, Long>{
 
 	@Modifying
-	@Query(value = "UPDATE involved_projects SET description = :description, project_description = :projectDescription, project_name = :name, description = :description WHERE id = :id", nativeQuery = true)
+	@Query(value = "UPDATE involved_projects SET description = :description, project_description = :projectDescription, project_name = :name WHERE id = :id", nativeQuery = true)
 	Integer updateInvolvedProject(@Param("id") Long id, @Param("name") String name,  @Param("description") String description,  @Param("projectDescription") String projectDescription );
 }
