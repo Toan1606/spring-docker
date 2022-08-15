@@ -4,7 +4,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -95,18 +94,15 @@ public class CvController {
 		City city = address.getCity();
 		Street street = address.getStreet();
 		String facebook = new StringBuilder("https://www.facebook.com/").append(candidate.getEmail().split("@")[0]).toString();
-		List<DesiredJob> desiredJobs = candidate.getDesiredJobs();
+		DesiredJob desiredJob = candidate.getDesiredJob();
 		// get list desired job name
-		StringBuilder desiredJobName = new StringBuilder();
-		desiredJobs.stream().map(desiredJob -> desiredJobName.append(desiredJob.getName())).collect(Collectors.toList());
-		cv.getDegrees();
 		
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");  
 
 		CvResponseDTO response = CvResponseDTO.builder()
 				.images(cv.getImages())
 				.name(candidate.getName())
-				.position(desiredJobName.toString())
+				.position(desiredJob.getName())
 				.dateOfBirth(dateFormat.format(candidate.getBirthDate()))
 				.gender(candidate.getGender())
 				.phone(candidate.getPhone())
