@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.codedecode.demo.entity.PostingCategory;
+import com.codedecode.demo.exception.PostingCategoryNotFound;
 import com.codedecode.demo.repository.PostingCategoryRepository;
 
 @Service
@@ -19,5 +20,9 @@ public class PostingCategoryService {
 	
 	public List<PostingCategory> findAll() {
 		return postingCategoryRepository.findAll();
+	}
+	
+	public PostingCategory findById(Long postingCategoryId) {
+		return postingCategoryRepository.findById(postingCategoryId).orElseThrow(() -> new PostingCategoryNotFound("Posting Category Not Found"));
 	}
 }

@@ -1,5 +1,6 @@
 package com.codedecode.demo.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,11 +10,15 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codedecode.demo.dto.DesiredJobRequestDTO;
+import com.codedecode.demo.dto.UpdateDesireJobRequestDTO;
+import com.codedecode.demo.entity.Address;
 import com.codedecode.demo.entity.City;
+import com.codedecode.demo.entity.DesiredJob;
 import com.codedecode.demo.entity.PostingCategory;
 import com.codedecode.demo.entity.Province;
 import com.codedecode.demo.entity.Rank;
@@ -21,6 +26,8 @@ import com.codedecode.demo.entity.Salary;
 import com.codedecode.demo.entity.WorkExperiences;
 import com.codedecode.demo.entity.WorkingForm;
 import com.codedecode.demo.entity.YearOfExperience;
+import com.codedecode.demo.service.AddressService;
+import com.codedecode.demo.service.DesiredJobService;
 import com.codedecode.demo.service.PostingCategoryService;
 import com.codedecode.demo.service.ProvinceDistrictService;
 import com.codedecode.demo.service.ProvinceService;
@@ -60,6 +67,7 @@ public class ProvinceDistrictController {
 	@Autowired
 	private YearOfExperienceService yearOfExperienceService;
 	
+	
 	@GetMapping("/province")
 	public ResponseEntity<DesiredJobRequestDTO> getAllProvince() {
 		
@@ -90,4 +98,5 @@ public class ProvinceDistrictController {
 		List<City> list = provinceDistrictService.getAllDistrict(provinceId);
 		return new ResponseEntity<List<City>>(list, HttpStatus.OK);
 	}
+	
 }
