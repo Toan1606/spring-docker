@@ -50,7 +50,7 @@ public class DesiredJob implements Serializable {
 	@JsonIgnore
 	private WorkingForm workingForm;
 
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "year_of_experience_id", referencedColumnName = "id")
 	@ToString.Exclude
 	@JsonIgnore
@@ -68,7 +68,7 @@ public class DesiredJob implements Serializable {
 	@JsonIgnore
 	private Salary salary;
 
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
@@ -86,4 +86,12 @@ public class DesiredJob implements Serializable {
 	@ToString.Exclude
 	@JsonIgnore
 	private Collection<Address> workPlaceDesired;
+	
+	
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "posting_category_id", referencedColumnName = "id")
+	@ToString.Exclude
+	@JsonIgnore
+	private PostingCategory postingCategory;
+	
 }

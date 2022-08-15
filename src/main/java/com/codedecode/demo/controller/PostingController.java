@@ -67,10 +67,10 @@ public class PostingController {
 
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private AppliedJobService appliedJobService;
-	
+
 	@Autowired
 	private CityService cityService;
 
@@ -93,7 +93,6 @@ public class PostingController {
 		// 4. convert to dto
 		// 5. return
 
-
 		// 1. get response
 		Salary salary = posting.getSalary();
 
@@ -101,85 +100,66 @@ public class PostingController {
 
 		// 2. query
 		List<Address> addresss = new ArrayList<Address>(posting.getAddresss());
-		
+
 		// province
 		List<Map<String, String>> provinces = new ArrayList<Map<String, String>>();
 		// city
 		List<Map<String, String>> cities = new ArrayList<Map<String, String>>();
-		
+
 		List<CityResponseDTO> citiesDto = cityService.findAllCityDto();
-		//street
+		// street
 		List<String> streets = new ArrayList<String>();
-		
+
 		for (Address address : addresss) {
-			
+
 			// province
 			Map<String, String> provinceMap = new HashMap<String, String>();
 			Province province = address.getProvince();
 			provinceMap.put("id", String.valueOf(province.getId()));
 			provinceMap.put("name", String.valueOf(province.getName()));
-			
+
 			provinces.add(provinceMap);
-			
+
 			// city
 			Map<String, String> cityMap = new HashMap<String, String>();
 			City city = address.getCity();
 			cityMap.put("id", String.valueOf(city.getId()));
 			cityMap.put("name", String.valueOf(city.getName()));
-			
+
 			// city dto
 			citiesDto.add(new CityResponseDTO(city.getId(), city.getName()));
-			
+
 			cities.add(cityMap);
-			
+
 			// street
 			Street street = address.getStreet();
 			streets.add(street.getName());
 		}
-		
-		PostingCategory postingCategory =posting.getPostingCategory();
+
+		PostingCategory postingCategory = posting.getPostingCategory();
 
 		List<PostingRelatedDTO> relatedPosting = postingService.findTop10RelatedPosting(postingCategory.getId());
 
 		Rank rank = posting.getRank();
-		
+
 		User user = posting.getUser();
-				
+
 		// 3. set response
-		PostingDetailResponse response = PostingDetailResponse.builder()
-				.id(postingId)
-				.recruiterEmail(user.getEmail())
-				.benefits(posting.getBenefits())
-				.commission(posting.getCommission())
-				.deadlineForSubmission(posting.getDeadlineForSubmission())
-				.degreeRequired(posting.getDegreeRequired())
-				.description(posting.getDescription())
-				.emailContact(posting.getEmailContact())
-				.file(posting.getFile())
-				.genderRequirement(posting.getGenderRequirement())
-				.images(posting.getImages())
-				.jobName(posting.getJobName())
-				.jobRequirement(posting.getJobRequirement())
-				.phoneNumber(posting.getPhoneNumber())
-				.position(posting.getPosition())
-				.profileIncluded(posting.getProfileIncluded())
-				.quantity(posting.getQuantity())
-				.quantityNeeded(posting.getQuantityNeeded())
-				.view(posting.getView())
-				.rankId(rank == null ? null : rank.getId())
-				.salaryId(salary == null ? null : salary.getId())
+		PostingDetailResponse response = PostingDetailResponse.builder().id(postingId).recruiterEmail(user.getEmail())
+				.benefits(posting.getBenefits()).commission(posting.getCommission())
+				.deadlineForSubmission(posting.getDeadlineForSubmission()).degreeRequired(posting.getDegreeRequired())
+				.description(posting.getDescription()).emailContact(posting.getEmailContact()).file(posting.getFile())
+				.genderRequirement(posting.getGenderRequirement()).images(posting.getImages())
+				.jobName(posting.getJobName()).jobRequirement(posting.getJobRequirement())
+				.phoneNumber(posting.getPhoneNumber()).position(posting.getPosition())
+				.profileIncluded(posting.getProfileIncluded()).quantity(posting.getQuantity())
+				.quantityNeeded(posting.getQuantityNeeded()).view(posting.getView())
+				.rankId(rank == null ? null : rank.getId()).salaryId(salary == null ? null : salary.getId())
 				.workingFormId(workingForm == null ? null : workingForm.getId())
-				.workingForm(workingForm == null ? null : workingForm.getName())
-				.companyId(user.getId())
-				.companyName(user.getName())
-				.postingCategoryId(postingCategory.getId())
-				.postingCategoryName(postingCategory.getCategoryName())
-				.salary(salary == null ? null : salary.getName())
-				.province(provinces)
-				.cities(cities)
-				.street(streets)
-				.citiesDto(citiesDto)
-				.relatedPosting(relatedPosting)
+				.workingForm(workingForm == null ? null : workingForm.getName()).companyId(user.getId())
+				.companyName(user.getName()).postingCategoryId(postingCategory.getId())
+				.postingCategoryName(postingCategory.getCategoryName()).salary(salary == null ? null : salary.getName())
+				.province(provinces).cities(cities).street(streets).citiesDto(citiesDto).relatedPosting(relatedPosting)
 				.build();
 
 		return new ResponseEntity<PostingDetailResponse>(response, HttpStatus.OK);
@@ -218,15 +198,12 @@ public class PostingController {
 		List<PostingSearchCategoryResponseInterface> postings = postingService.searchPostingByCategory(pageOffSet,
 				postingCategoryId);
 		List<PostingSearchCategory> postingsSearch = postingService.convertSearchByCategoryResult(postings);
-		
+
 		int numberOfRecords = postingService.countNumberOfRecordsByCategory(postingCategoryId);
-		
-		PostingSearchCategoryResponse response = PostingSearchCategoryResponse.builder()
-				.response(postingsSearch)
-				.numberOfRecords(numberOfRecords)
-				.postingCategoryId(postingCategoryId)
-				.build();
-		
+
+		PostingSearchCategoryResponse response = PostingSearchCategoryResponse.builder().response(postingsSearch)
+				.numberOfRecords(numberOfRecords).postingCategoryId(postingCategoryId).build();
+
 		return new ResponseEntity<PostingSearchCategoryResponse>(response, HttpStatus.OK);
 	}
 
@@ -235,21 +212,18 @@ public class PostingController {
 			@RequestBody PostingSearchProvinceRequest request) {
 		Integer pageOffSet = request.getPageOffSet();
 		Long provinceId = request.getProvinceId();
-		
+
 		System.out.println("pageOffSet : " + pageOffSet);
 		if (pageOffSet == null) {
 			pageOffSet = 1;
 		}
-		
+
 		List<PostingSearchProvince> postings = postingService.searchPostingByProvince(pageOffSet, provinceId);
 		int numberOfRecords = postingService.countNumberOfRecordsByProvince(provinceId);
-		
-		PostingSearchProvinceResponse response = PostingSearchProvinceResponse.builder()
-				.postings(postings)
-				.numberOfRecords(numberOfRecords)
-				.provinceId(provinceId)
-				.build();
-		
+
+		PostingSearchProvinceResponse response = PostingSearchProvinceResponse.builder().postings(postings)
+				.numberOfRecords(numberOfRecords).provinceId(provinceId).build();
+
 		return new ResponseEntity<PostingSearchProvinceResponse>(response, HttpStatus.OK);
 	}
 
@@ -258,20 +232,17 @@ public class PostingController {
 			@RequestBody PostingSearchCityRequest request) {
 		Integer pageOffSet = request.getPageOffSet();
 		Long cityId = request.getCityId();
-		
+
 		System.out.println("pageOffSet : " + pageOffSet);
 		if (pageOffSet == null) {
 			pageOffSet = 1;
 		}
 		List<PostingSearchCity> postings = postingService.searchPostingByCity(pageOffSet, cityId);
 		int numberOfRecords = postingService.countNumberOfRecordsByCity(cityId);
-		
-		PostingSearchCityResponse response = PostingSearchCityResponse.builder()
-				.postings(postings)
-				.numberOfRecords(numberOfRecords)
-				.cityId(cityId)
-				.build();
-		
+
+		PostingSearchCityResponse response = PostingSearchCityResponse.builder().postings(postings)
+				.numberOfRecords(numberOfRecords).cityId(cityId).build();
+
 		return new ResponseEntity<PostingSearchCityResponse>(response, HttpStatus.OK);
 	}
 
@@ -283,62 +254,60 @@ public class PostingController {
 		// case 1 : address of desired job
 		// case 2 : address of posting
 		// step 1. find user
-		
+
 		User user = userService.findUserByEmail(email);
 		// step 2. get desired job
-		List<DesiredJob> desiredJobs = user.getDesiredJobs();
-		
+		DesiredJob desiredJob = user.getDesiredJob();
+
 		Set<SuitablePostingDTO> postings = null;
 		List<Address> addresss = new ArrayList<Address>();
-		if (desiredJobs == null) {
+		if (desiredJob == null) {
 			addresss = new ArrayList<Address>();
 			addresss.add(user.getAddress());
 		} else {
-			for (DesiredJob desiredJob : desiredJobs) {
-				Collection<Address> collectionAddresss = desiredJob.getAddresss();
-				Iterator<Address> iteratorAddress = collectionAddresss.iterator();
-				while (iteratorAddress.hasNext()) {
-					addresss.add(iteratorAddress.next());
-				}
+			Collection<Address> collectionAddresss = desiredJob.getAddresss();
+			Iterator<Address> iteratorAddress = collectionAddresss.iterator();
+			while (iteratorAddress.hasNext()) {
+				addresss.add(iteratorAddress.next());
 			}
 		}
 		postings = postingService.findPostingByAddress(addresss);
-		
+
 		int numberOfAppliedJob = appliedJobService.countNumberOfAppliedJob();
 		int numberOfSuitableJob = postings.size() * 3;
 		generalManagementDTO.setSuitableJob(postings);
 		generalManagementDTO.setNumberOfAppliedJob(numberOfAppliedJob);
 		generalManagementDTO.setNumberOfSuitableJob(numberOfSuitableJob);
-	
+
 		return new ResponseEntity<GeneralManagementDTO>(generalManagementDTO, HttpStatus.OK);
 	}
 
-	
 	@PostMapping(value = "/addPosting")
 	public ResponseEntity<Posting> addPosting(@RequestBody AddPostingRequestDTO addPostingRequestDTO) {
 		return ResponseEntity.status(HttpStatus.CREATED).body(postingService.addPostingRecruiter(addPostingRequestDTO));
 
 	}
-	
+
 	@GetMapping(value = "/getPosting/{userId}")
-	public ResponseEntity<List<Posting>> getPostingByUserId(@PathVariable("userId") long id){
+	public ResponseEntity<List<Posting>> getPostingByUserId(@PathVariable("userId") long id) {
 		return new ResponseEntity<List<Posting>>(postingService.getPostingByRecruiterId(id), HttpStatus.OK);
 	}
-	
+
 	@PutMapping(value = "/updatePosting/{userId}")
-	public ResponseEntity<Posting> updatePostingByUserId(@PathVariable("userId") long id, @RequestBody Posting posting){
+	public ResponseEntity<Posting> updatePostingByUserId(@PathVariable("userId") long id,
+			@RequestBody Posting posting) {
 		return new ResponseEntity<Posting>(postingService.updatePostingByRecruiterId(id, posting), HttpStatus.OK);
 	}
-	
+
 	@GetMapping(value = "/updatePosting/{id}")
-	public ResponseEntity<Posting> getPostingById(@PathVariable("id") long id){
+	public ResponseEntity<Posting> getPostingById(@PathVariable("id") long id) {
 		return new ResponseEntity<Posting>(postingService.findPostingById(id), HttpStatus.OK);
 	}
-	
+
 	@DeleteMapping(value = "/updatePosting/{id}")
-	public ResponseEntity<Posting> deletePostingById(@PathVariable("id") long id){
+	public ResponseEntity<Posting> deletePostingById(@PathVariable("id") long id) {
 		postingService.recruiterDeletePostingById(id);
 		return new ResponseEntity<Posting>(HttpStatus.OK);
 	}
-	
+
 }

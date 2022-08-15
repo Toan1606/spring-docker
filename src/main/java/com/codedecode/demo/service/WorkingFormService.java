@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.codedecode.demo.entity.WorkingForm;
 import com.codedecode.demo.exception.WorkingFormException;
+import com.codedecode.demo.exception.WorkingFormNotFoundException;
 import com.codedecode.demo.repository.WorkingFormRepository;
 import com.codedecode.demo.utils.ExceptionMessage;
 
@@ -26,5 +27,9 @@ public class WorkingFormService {
 	
 	public List<WorkingForm> findAll() {
 		return workingFormRepository.findAll();
+	}
+
+	public WorkingForm findById(Long workingFormId) {
+		return workingFormRepository.findById(workingFormId).orElseThrow(() -> new WorkingFormNotFoundException("Working Form Not Found"));
 	}
 }
