@@ -17,4 +17,7 @@ public interface ProvinceRepository extends JpaRepository<Province, Long>{
 
 	@Query(value = "select * from province p join address a on p.id =a.province_id where a.id = :addressId", nativeQuery = true)
 	Province findByAddressId(@Param("addressId") Long addressId);
+	
+	@Query(value= "select * from province where name = ?1", nativeQuery = true)
+	Province findProvinceByName(String name);
 }

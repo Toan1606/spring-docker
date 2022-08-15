@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.codedecode.demo.dto.DesiredJobDTO;
 import com.codedecode.demo.entity.DesiredJob;
 import com.codedecode.demo.entity.User;
+import com.codedecode.demo.entity.WorkingForm;
 import com.codedecode.demo.service.UserService;
 
 @CrossOrigin(origins = "http://localhost:8080")
@@ -28,10 +29,11 @@ public class CandidateDesiredJobController {
 	public ResponseEntity<?> showDesiredJob(@PathVariable Long userId){
 		User user = userService.findUserById(userId);
 		DesiredJob desiredJob = user.getDesiredJob();
+		WorkingForm w = desiredJob.getWorkingForm();
 		DesiredJobDTO dDTO = new DesiredJobDTO();
 		dDTO.setId(desiredJob.getId());
 		dDTO.setMajor(desiredJob.getName());
-		dDTO.setWorkingForm(desiredJob.getWorkingForm().getName());
+		dDTO.setWorkingForm(w.getName());
 		dDTO.setYearOfExp(desiredJob.getYearOfExperience().getName());
 		dDTO.setRank(desiredJob.getRank().getName());
 		dDTO.setSalary(desiredJob.getSalary().getName());
