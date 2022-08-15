@@ -62,7 +62,7 @@ public class ProvinceDistrictController {
 		List<WorkingForm> workingForms = workingFormService.findAll();
 		List<WorkExperiences> workExperiences = workExperienceService.findAll();
 		List<Salary> salaries = salaryService.findAll();
-		List<Province> provinces = provinceService.findAllProvince();
+		List<Province> provinces = provinceService.findAll();
 		List<PostingCategory> postingCategories = postingCategoryService.findAll();
 		
 		DesiredJobRequestDTO response = DesiredJobRequestDTO.builder()

@@ -46,7 +46,7 @@ public class CvController {
 	
 	@GetMapping
 	public ResponseEntity<List<Province>> findAllProvince() {
-		return new ResponseEntity<List<Province>>(provinceService.findAllProvince(), HttpStatus.OK);
+		return new ResponseEntity<List<Province>>(provinceService.findAll(), HttpStatus.OK);
 	}
 	
 	@PostMapping(value = "/id")

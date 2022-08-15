@@ -33,7 +33,7 @@ public class ProvinceService {
 		return province;
 	}
 	
-	public List<Province> findAllProvince() {
+	public List<Province> findAll() {
 		return provinceRepository.findAll();
 	}
 	

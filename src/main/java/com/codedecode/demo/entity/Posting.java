@@ -95,7 +95,7 @@ public class Posting implements Serializable {
 	@Column(name = "deadline_for_submission")
 	private String deadlineForSubmission;
 	
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "posting_category_id", referencedColumnName = "id")
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude

@@ -11,7 +11,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -40,10 +39,10 @@ public class WorkingForm implements Serializable {
 	@Column(name = "name")
 	private String name;
 
-	@OneToOne(mappedBy = "workingForm", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "workingForm", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@ToString.Exclude
 	@JsonIgnore
-	private DesiredJob desiredJob;
+	private List<DesiredJob> desiredJobs;
 
 	@OneToMany(mappedBy = "workingForm", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@ToString.Exclude
