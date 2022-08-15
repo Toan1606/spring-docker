@@ -20,6 +20,7 @@ import com.codedecode.demo.entity.Rank;
 import com.codedecode.demo.entity.Salary;
 import com.codedecode.demo.entity.WorkExperiences;
 import com.codedecode.demo.entity.WorkingForm;
+import com.codedecode.demo.entity.YearOfExperience;
 import com.codedecode.demo.service.PostingCategoryService;
 import com.codedecode.demo.service.ProvinceDistrictService;
 import com.codedecode.demo.service.ProvinceService;
@@ -27,6 +28,7 @@ import com.codedecode.demo.service.RankService;
 import com.codedecode.demo.service.SalaryService;
 import com.codedecode.demo.service.WorkExperienceService;
 import com.codedecode.demo.service.WorkingFormService;
+import com.codedecode.demo.service.YearOfExperienceService;
 
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
@@ -55,20 +57,26 @@ public class ProvinceDistrictController {
 	@Autowired
 	private PostingCategoryService postingCategoryService;
 	
+	@Autowired
+	private YearOfExperienceService yearOfExperienceService;
+	
 	@GetMapping("/province")
 	public ResponseEntity<DesiredJobRequestDTO> getAllProvince() {
 		
 		List<Rank> ranks = rankService.findAll();
 		List<WorkingForm> workingForms = workingFormService.findAll();
 		List<WorkExperiences> workExperiences = workExperienceService.findAll();
+		List<YearOfExperience> yearOfExperiences = yearOfExperienceService.findAll();
 		List<Salary> salaries = salaryService.findAll();
 		List<Province> provinces = provinceService.findAll();
 		List<PostingCategory> postingCategories = postingCategoryService.findAll();
+		
 		
 		DesiredJobRequestDTO response = DesiredJobRequestDTO.builder()
 				.ranks(ranks)
 				.workingForms(workingForms)
 				.workExperiences(workExperiences)
+				.yearOfExperiences(yearOfExperiences)
 				.salaries(salaries)
 				.provinces(provinces)
 				.postingCategories(postingCategories)

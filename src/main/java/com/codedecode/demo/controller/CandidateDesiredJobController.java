@@ -35,10 +35,9 @@ public class CandidateDesiredJobController {
 
 	@GetMapping("/{userId}")
 	public ResponseEntity<DesiredJobDTO> showDesiredJob(@PathVariable Long userId) {
-		System.out.println("user id : " + userId);
+//		System.out.println("user id : " + userId);
 		User user = userService.findUserById(userId);
 		DesiredJob desiredJob = user.getDesiredJob();
-
 
 		DesiredJobDTO dDTO = new DesiredJobDTO();
 		String major = desiredJob.getName();
@@ -50,14 +49,17 @@ public class CandidateDesiredJobController {
 
 		dDTO.setId(desiredJob.getId());
 		dDTO.setMajor(major);
-		dDTO.setWorkingForm(workingForm.getName());
-		dDTO.setYearOfExp(yearOfExperience.getName());
-		dDTO.setRank(rank.getName());
-		dDTO.setSalary(salary.getName());
+		dDTO.setWorkingForm(workingForm);
+		dDTO.setYearOfExp(yearOfExperience);
+		dDTO.setRank(rank);
+		dDTO.setSalary(salary);
 		dDTO.setUserId(userId);
 		dDTO.setAddress(addresss);
 
-
 		return new ResponseEntity<DesiredJobDTO>(dDTO, HttpStatus.OK);
 	}
+//	@GetMapping("/edit")
+//	public ResponseEntity<DesiredJobDTO> getDesiredJobByUserId(@PathVariable Long userId) {
+//		
+//	}
 }

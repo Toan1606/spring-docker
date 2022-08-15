@@ -22,7 +22,8 @@ public class YearOfExperienceService {
 	public YearOfExperience findYearOfExperienceById(Long yearOfExperiencesId) {
 		return yearOfExperienceRepository.findById(yearOfExperiencesId).orElseThrow(() -> new YearOfExperienceException(ExceptionMessage.SALARY_EXCEPTION.getErrorMessage()));
 	}
-	public List<YearOfExperience> findAllYearOfExp() {
+	
+	public List<YearOfExperience> findAll() {
 		return yearOfExperienceRepository.findAll();
 	}
 }
