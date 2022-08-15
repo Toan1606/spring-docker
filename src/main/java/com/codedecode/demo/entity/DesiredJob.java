@@ -68,7 +68,7 @@ public class DesiredJob implements Serializable {
 	@JsonIgnore
 	private Salary salary;
 
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
