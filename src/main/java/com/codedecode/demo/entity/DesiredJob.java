@@ -44,7 +44,7 @@ public class DesiredJob implements Serializable {
 	@Column(name = "name")
 	private String name;
 
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "working_form_id", referencedColumnName = "id")
 	@ToString.Exclude
 	@JsonIgnore
@@ -56,7 +56,7 @@ public class DesiredJob implements Serializable {
 	@JsonIgnore
 	private YearOfExperience yearOfExperience;
 
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "rank_id", referencedColumnName = "id")
 	@ToString.Exclude
 	@JsonIgnore

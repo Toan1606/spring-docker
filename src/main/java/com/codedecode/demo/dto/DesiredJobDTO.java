@@ -1,5 +1,6 @@
 package com.codedecode.demo.dto;
 
+import java.io.Serializable;
 import java.util.Collection;
 
 import com.codedecode.demo.entity.Address;
@@ -9,9 +10,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
+public class DesiredJobDTO implements Serializable {
 
-public class DesiredJobDTO {
-
+	private static final long serialVersionUID = 1L;
 	private Long id;
 	private String major;
 	private String workingForm;

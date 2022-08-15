@@ -52,4 +52,8 @@ public class WorkExperienceService {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		return dateFormat.format(date);
 	}
+
+	public List<WorkExperiences> findAll() {
+		return workExperienceRepository.findAll();
+	}
 }
