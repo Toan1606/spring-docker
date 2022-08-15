@@ -67,11 +67,6 @@ public class ProvinceDistrictController {
 	@Autowired
 	private YearOfExperienceService yearOfExperienceService;
 	
-	@Autowired
-	private DesiredJobService desiredJobService;
-	
-	@Autowired
-	private AddressService addressService;
 	
 	@GetMapping("/province")
 	public ResponseEntity<DesiredJobRequestDTO> getAllProvince() {
@@ -104,36 +99,4 @@ public class ProvinceDistrictController {
 		return new ResponseEntity<List<City>>(list, HttpStatus.OK);
 	}
 	
-	
-	@GetMapping("/update")
-	public ResponseEntity<DesiredJob> updateDesiredJob(@RequestBody UpdateDesireJobRequestDTO request) {
-		// 1. get id
-		Long desiredJobId = request.getDesiredId();
-		Long rankId = request.getRankId();
-		Long workingFormId = request.getWorkingFormId();
-		Long yearOfExperienceId = request.getYearOfExperienceId();
-		Long salaryId = request.getSalaryId();
-		List<Long> addresssId = request.getAddresssId();
-		Long postingCategoryId = request.getPostingCategoryId();
-		
-		// 2. get object by id
-		DesiredJob desiredJob = desiredJobService.findById(desiredJobId);
-		Rank rank = rankService.findById(rankId);
-		WorkingForm workingForm = workingFormService.findById(workingFormId);
-		YearOfExperience yearOfExperience = yearOfExperienceService.findYearOfExperienceById(yearOfExperienceId);
-		Salary salary = salaryService.findSalaryById(salaryId);
-		
-		List<Address> addresss = new ArrayList<Address>();
-		Address address = null;
-		for (Long addressId : addresssId) {
-			address = addressService.findAddressById(addressId);
-			addresss.add(address);
-		}
-		
-		PostingCategory postingCategory = postingCategoryService.findById(postingCategoryId);
-	
-		// 3. update desired job
-		desiredJob = desiredJobService.update(desiredJob, rank, workingForm, yearOfExperience, salary, addresss, postingCategory);
-		return  new ResponseEntity<DesiredJob>(desiredJob, HttpStatus.OK);
-	}
 }

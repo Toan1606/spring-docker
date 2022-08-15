@@ -29,9 +29,10 @@ public class DesiredJobService {
 		return desiredJobRepository.save(desiredJob);
 	}
 
-	public DesiredJob update(DesiredJob desiredJob, Rank rank, WorkingForm workingForm, YearOfExperience yearOfExperience, Salary salary, List<Address> addresss,
+	public DesiredJob update(DesiredJob desiredJob, String jobName, Rank rank, WorkingForm workingForm, YearOfExperience yearOfExperience, Salary salary, List<Address> addresss,
 			PostingCategory postingCategory) {
 		desiredJob.setRank(rank);
+		desiredJob.setName(jobName);
 		desiredJob.setWorkingForm(workingForm);
 		desiredJob.setYearOfExperience(yearOfExperience);
 		desiredJob.setSalary(salary);

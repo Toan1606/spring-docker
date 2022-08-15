@@ -69,8 +69,15 @@ public class CandidateContactInfoController {
 		user.setGender(contactinfoDTO.getGender());
 		user.setMariaStatus(contactinfoDTO.getMarried());
 		user.setImages(contactinfoDTO.getImageBase64());
-		Province province = provinceDistrictService.findProvinceById(contactinfoDTO.getProvinceId());
-		City city = provinceDistrictService.findDistrictById(contactinfoDTO.getDistrictId());
+		Province province = provinceDistrictService.findProvinceByName(contactinfoDTO.getProvince());
+		City city = new City();
+		city = provinceDistrictService.findDistrictByName(contactinfoDTO.getDistrict());
+		if(city == null) {
+			City c = new City();
+			c.setName(contactinfoDTO.getDistrict());
+			c.setProvince(province);
+			city = c;
+		}
 		Address address = user.getAddress();
 		address.getStreet().setName(contactinfoDTO.getAddress());
 		address.setCity(city);

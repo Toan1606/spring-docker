@@ -25,7 +25,8 @@ import lombok.ToString;
 @NoArgsConstructor
 @Entity
 @Table(name = "WorkingForm")
-public class WorkingForm implements Serializable {
+public class WorkingForm implements Serializable{
+
 
 	/**
 	 * 
