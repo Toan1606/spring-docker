@@ -1,6 +1,7 @@
 package com.codedecode.demo.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -9,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -43,8 +45,8 @@ public class WorkingForm implements Serializable {
 	@JsonIgnore
 	private DesiredJob desiredJob;
 
-	@OneToOne(mappedBy = "workingForm", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "workingForm", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@ToString.Exclude
 	@JsonIgnore
-	private Posting posting;
+	private List<Posting> postings;
 }

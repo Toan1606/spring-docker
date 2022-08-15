@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.codedecode.demo.dto.EducationDegreeDTO;
-import com.codedecode.demo.entity.CV;
 import com.codedecode.demo.entity.Degree;
 import com.codedecode.demo.repository.DegreeRepository;
 

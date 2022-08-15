@@ -8,7 +8,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.codedecode.demo.dto.WorkExperienceDTO;
 import com.codedecode.demo.entity.WorkExperiences;
 import com.codedecode.demo.repository.WorkExperienceRepository;
 

@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,12 +12,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.codedecode.demo.dto.CVRequest;
 import com.codedecode.demo.dto.CVRequestDTO;
 import com.codedecode.demo.dto.CvResponseDTO;
 import com.codedecode.demo.entity.Address;
@@ -61,7 +60,10 @@ public class CvController {
 		City city = address.getCity();
 		Street street = address.getStreet();
 		String facebook = new StringBuilder("https://www.facebook.com/").append(candidate.getEmail().split("@")[0]).toString();
-		DesiredJob desiredJob = candidate.getDesiredJob();
+		List<DesiredJob> desiredJobs = candidate.getDesiredJobs();
+		// get list desired job name
+		StringBuilder desiredJobName = new StringBuilder();
+		desiredJobs.stream().map(desiredJob -> desiredJobName.append(desiredJob.getName())).collect(Collectors.toList());
 		cv.getDegrees();
 		
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");  
@@ -69,7 +71,7 @@ public class CvController {
 		CvResponseDTO response = CvResponseDTO.builder()
 				.images(cv.getImages())
 				.name(candidate.getName())
-				.position(desiredJob.getName())
+				.position(desiredJobName.toString())
 				.dateOfBirth(dateFormat.format(candidate.getBirthDate()))
 				.gender(candidate.getGender())
 				.phone(candidate.getPhone())

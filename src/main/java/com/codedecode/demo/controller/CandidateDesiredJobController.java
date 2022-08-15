@@ -1,5 +1,9 @@
 package com.codedecode.demo.controller;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,8 +15,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codedecode.demo.dto.DesiredJobDTO;
+import com.codedecode.demo.entity.Address;
 import com.codedecode.demo.entity.DesiredJob;
+import com.codedecode.demo.entity.Rank;
+import com.codedecode.demo.entity.Salary;
 import com.codedecode.demo.entity.User;
+import com.codedecode.demo.entity.WorkingForm;
+import com.codedecode.demo.entity.YearOfExperience;
 import com.codedecode.demo.service.UserService;
 
 @CrossOrigin(origins = "http://localhost:8080")
@@ -23,22 +32,36 @@ public class CandidateDesiredJobController {
 
 	@Autowired
 	private UserService userService;
-	
+
 	@GetMapping("/{userId}")
-	public ResponseEntity<?> showDesiredJob(@PathVariable Long userId){
+	public ResponseEntity<List<DesiredJobDTO>> showDesiredJob(@PathVariable Long userId) {
+		System.out.println("user id : " + userId);
 		User user = userService.findUserById(userId);
-		DesiredJob desiredJob = user.getDesiredJob();
-		DesiredJobDTO dDTO = new DesiredJobDTO();
-		dDTO.setId(desiredJob.getId());
-		dDTO.setMajor(desiredJob.getName());
-		dDTO.setWorkingForm(desiredJob.getWorkingForm().getName());
-		dDTO.setYearOfExp(desiredJob.getYearOfExperience().getName());
-		dDTO.setRank(desiredJob.getRank().getName());
-		dDTO.setSalary(desiredJob.getSalary().getName());
-		dDTO.setUserId(userId);
-//		List<Address> address = desiredJob.getAddresss();
-		dDTO.setAddress(desiredJob.getAddresss());
+		List<DesiredJob> desiredJobs = user.getDesiredJobs();
 		
-		return new ResponseEntity<>(dDTO, HttpStatus.OK);
+		List<DesiredJobDTO> desiredJobDtos = new ArrayList<DesiredJobDTO>();
+		
+		for (DesiredJob desiredJob : desiredJobs) {
+			DesiredJobDTO dDTO = new DesiredJobDTO();
+			String major = desiredJob.getName();
+			WorkingForm workingForm = desiredJob.getWorkingForm();
+			YearOfExperience yearOfExperience = desiredJob.getYearOfExperience();
+			Rank rank = desiredJob.getRank();
+			Salary salary = desiredJob.getSalary();
+			Collection<Address> addresss = desiredJob.getAddresss();
+			
+			dDTO.setId(desiredJob.getId());
+			dDTO.setMajor(major);
+			dDTO.setWorkingForm(workingForm.getName());
+			dDTO.setYearOfExp(yearOfExperience.getName());
+			dDTO.setRank(rank.getName());
+			dDTO.setSalary(salary.getName());
+			dDTO.setUserId(userId);
+			dDTO.setAddress(addresss);
+			
+			desiredJobDtos.add(dDTO);
+		}
+
+		return new ResponseEntity<List<DesiredJobDTO>>(desiredJobDtos, HttpStatus.OK);
 	}
 }

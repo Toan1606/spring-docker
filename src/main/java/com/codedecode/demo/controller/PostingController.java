@@ -1,7 +1,9 @@
 package com.codedecode.demo.controller;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -17,7 +19,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codedecode.demo.dto.AddPostingRequestDTO;
@@ -285,15 +286,21 @@ public class PostingController {
 		
 		User user = userService.findUserByEmail(email);
 		// step 2. get desired job
-		DesiredJob desiredJob = user.getDesiredJob();
+		List<DesiredJob> desiredJobs = user.getDesiredJobs();
 		
 		Set<SuitablePostingDTO> postings = null;
-		List<Address> addresss = null;
-		if (desiredJob == null) {
+		List<Address> addresss = new ArrayList<Address>();
+		if (desiredJobs == null) {
 			addresss = new ArrayList<Address>();
 			addresss.add(user.getAddress());
 		} else {
-			addresss = new ArrayList<Address>(desiredJob.getAddresss());
+			for (DesiredJob desiredJob : desiredJobs) {
+				Collection<Address> collectionAddresss = desiredJob.getAddresss();
+				Iterator<Address> iteratorAddress = collectionAddresss.iterator();
+				while (iteratorAddress.hasNext()) {
+					addresss.add(iteratorAddress.next());
+				}
+			}
 		}
 		postings = postingService.findPostingByAddress(addresss);
 		

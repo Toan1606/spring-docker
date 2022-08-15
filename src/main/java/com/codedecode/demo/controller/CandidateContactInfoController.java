@@ -3,10 +3,7 @@ package com.codedecode.demo.controller;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.DateTimeException;
-import java.time.format.DateTimeParseException;
 import java.util.Date;
-import java.util.Iterator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,9 +21,7 @@ import com.codedecode.demo.dto.CandidateContactInfoDTO;
 import com.codedecode.demo.entity.Address;
 import com.codedecode.demo.entity.City;
 import com.codedecode.demo.entity.Province;
-import com.codedecode.demo.entity.Street;
 import com.codedecode.demo.entity.User;
-import com.codedecode.demo.service.AddressService;
 import com.codedecode.demo.service.ProvinceDistrictService;
 import com.codedecode.demo.service.UserService;
 
@@ -37,9 +32,6 @@ import com.codedecode.demo.service.UserService;
 public class CandidateContactInfoController {
 	@Autowired
 	private UserService userService;
-	
-	@Autowired
-	private AddressService addressService;
 	
 	@Autowired
 	private ProvinceDistrictService provinceDistrictService;
