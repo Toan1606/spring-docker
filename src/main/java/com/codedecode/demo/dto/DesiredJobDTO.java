@@ -14,15 +14,15 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class DesiredJobDTO implements Serializable{	
-	
+public class DesiredJobDTO implements Serializable {	
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
 	private Long id;
-	private String major;
+	private String jobName;
 	private WorkingForm workingForm;
 	private YearOfExperience yearOfExp;
 	private Rank rank;
