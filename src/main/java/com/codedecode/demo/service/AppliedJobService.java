@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.codedecode.demo.dto.AppliedCandidateRequestDTO;
 import com.codedecode.demo.entity.AppliedJob;
 import com.codedecode.demo.entity.key.AppliedJobKey;
 import com.codedecode.demo.repository.AppliedJobRepository;
@@ -14,7 +15,6 @@ public class AppliedJobService {
 	
 	@Autowired
 	private AppliedJobRepository appliedJobRepository;
-	
 	
 	public List<AppliedJob> getAllAppliedJobs(Long userId) {
 		return appliedJobRepository.getAllAppliedJobs(userId);
@@ -29,8 +29,6 @@ public class AppliedJobService {
 	public void deleteAppliedJob(AppliedJobKey key) {
 		appliedJobRepository.deleteById(key);
 	}
-	
-	
 	
 	public int countNumberOfAppliedJob() {
 		return appliedJobRepository.countNumberOfAppliedJob();
@@ -49,5 +47,16 @@ public class AppliedJobService {
 		return appliedJobRepository.findByRecruiter_Id(recruiterId);
 	}
 	
+	public AppliedJob updateStatus(AppliedCandidateRequestDTO appliedCandidateRequestDTO) {
+		Long candidateId = appliedCandidateRequestDTO.getCandidateId();
+		Long postingId = appliedCandidateRequestDTO.getPostingId();
+		Long recruiterId = appliedCandidateRequestDTO.getRecruiterId();
+		String status = appliedCandidateRequestDTO.getStatus();
+		AppliedJob appliedJob = appliedJobRepository.getAppliedJobByAllId(candidateId, postingId, recruiterId);
+		appliedJob.setCommentFromEmployer(status);
+		
+		return appliedJob;
+		
+	}
 }
 
