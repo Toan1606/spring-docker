@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -40,9 +41,11 @@ public class InvolvedProject implements Serializable {
 	@Column(name = "project_name")
 	private String projectName;
 
+	@Lob
 	@Column(name = "project_description")
 	private String projectDescription;
 
+	@Lob
 	@Column(name = "description")
 	private String description;
 

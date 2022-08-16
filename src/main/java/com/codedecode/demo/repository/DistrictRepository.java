@@ -13,4 +13,7 @@ public interface DistrictRepository extends JpaRepository<City, Long>{
 
 	@Query(value="select * from city where province_id = ?1", nativeQuery=true)
 	List<City> getAllDistrict(Long id);
+	
+	@Query(value="select * from city where name = ?1", nativeQuery = true)
+	City findDistrictByName(String name);
 }

@@ -33,4 +33,11 @@ public class ProvinceDistrictService {
 	public City findDistrictById(Long id) {
 		return districtRepository.getOne(id);
 	}
+	public Province findProvinceByName(String name) {
+		return provinceRepository.findProvinceByName(name);
+	}
+	
+	public City findDistrictByName(String name) {
+		return districtRepository.findDistrictByName(name);
+	}
 }
