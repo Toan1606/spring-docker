@@ -196,6 +196,8 @@ public class PostingService {
 				Salary salary = p.getSalary();
 				SuitablePostingDTO suitablePosting = convertToSuitablePosting(user, province, salary, p);
 				postings.add(suitablePosting);
+				System.out.println("address: " +address.getId());
+				System.out.println("user: " +user.getId());
 			}
 		}
 		return postings;
