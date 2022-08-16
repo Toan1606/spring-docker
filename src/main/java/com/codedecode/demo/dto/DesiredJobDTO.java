@@ -4,11 +4,6 @@ import java.io.Serializable;
 import java.util.Collection;
 
 import com.codedecode.demo.entity.Address;
-import com.codedecode.demo.entity.Rank;
-import com.codedecode.demo.entity.Salary;
-import com.codedecode.demo.entity.WorkingForm;
-import com.codedecode.demo.entity.YearOfExperience;
-
 import lombok.Getter;
 import lombok.Setter;
 

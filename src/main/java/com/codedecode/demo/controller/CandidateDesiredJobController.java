@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.codedecode.demo.dto.DesireJobRequestDTO;
 import com.codedecode.demo.dto.DesiredJobDTO;
 import com.codedecode.demo.dto.UpdateDesireJobRequestDTO;
 import com.codedecode.demo.entity.Address;
@@ -33,7 +32,6 @@ import com.codedecode.demo.service.PostingCategoryService;
 import com.codedecode.demo.service.RankService;
 import com.codedecode.demo.service.SalaryService;
 import com.codedecode.demo.service.UserService;
-import com.codedecode.demo.service.WorkExperienceService;
 import com.codedecode.demo.service.WorkingFormService;
 import com.codedecode.demo.service.YearOfExperienceService;
 
@@ -117,7 +115,7 @@ public class CandidateDesiredJobController {
 //	}
 
 	@PostMapping("/update")
-	public ResponseEntity<DesiredJob> updateDesiredJob(@RequestBody UpdateDesireJobRequestDTO request) {
+	public ResponseEntity<String> updateDesiredJob(@RequestBody UpdateDesireJobRequestDTO request) {
 		System.out.println(request.toString() + " asdasdadasd");
 		// 1. get id
 		Long desiredJobId = request.getDesiredId();
@@ -146,7 +144,7 @@ public class CandidateDesiredJobController {
 	
 		// 3. update desired job
 		desiredJob = desiredJobService.update(desiredJob, request.getDesiredJobName(), rank, workingForm, yearOfExperience, salary, addresss, postingCategory);
-		return  new ResponseEntity<DesiredJob>(desiredJob, HttpStatus.OK);
+		return  new ResponseEntity<String>("Update Thanh Cong", HttpStatus.OK);
 	}
 	
 }
