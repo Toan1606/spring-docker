@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -50,8 +51,9 @@ public class Experience implements Serializable {
 	@Column(name = "end_time")
 	private Date endTime;
 
+	@Lob
 	@Column(name = "description")
-	private Date description;
+	private String description;
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_id")
