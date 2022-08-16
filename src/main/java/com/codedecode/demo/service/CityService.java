@@ -37,8 +37,11 @@ public class CityService {
 	public List<City> findAllCity() {
 		return cityRepository.findAll();
 	}
-
 	
+	public List<City> findAllCityByProvinceId(Long provinceId){
+		return cityRepository.findAllCityByProvinceId(provinceId);
+	}
+
 	public List<CityResponseDTO> findAllCityDto() {
 		return cityRepository.findAllCityDto();
 	}

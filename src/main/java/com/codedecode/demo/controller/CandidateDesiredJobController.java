@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.codedecode.demo.dto.AddressDesiredJobDTO;
 import com.codedecode.demo.dto.DesiredJobDTO;
 import com.codedecode.demo.dto.UpdateDesireJobRequestDTO;
 import com.codedecode.demo.entity.Address;
@@ -69,6 +70,7 @@ public class CandidateDesiredJobController {
 	@GetMapping("/{userId}")
 	public ResponseEntity<DesiredJobDTO> showDesiredJob(@PathVariable Long userId) {
 		System.out.println("user id : " + userId);
+		
 		User user = userService.findUserById(userId);
 		DesiredJob desiredJob = user.getDesiredJob();
 
@@ -79,7 +81,15 @@ public class CandidateDesiredJobController {
 		Rank rank = desiredJob.getRank();
 		Salary salary = desiredJob.getSalary();
 		Collection<Address> addresss = desiredJob.getAddresss();
-
+		List<AddressDesiredJobDTO> addressDesiredJobDTOs = new ArrayList<>();
+		addresss.stream().forEach(address -> {
+			AddressDesiredJobDTO addressDesiredJobDTO = AddressDesiredJobDTO.builder()
+					.id(address.getId())
+					.name(address.getName())
+					.build();
+			addressDesiredJobDTOs.add(addressDesiredJobDTO);
+		});
+		
 		dDTO.setId(desiredJob.getId());
 		dDTO.setJobName(jobName);
 		dDTO.setWorkingForm(workingForm.getName());
@@ -91,8 +101,9 @@ public class CandidateDesiredJobController {
 		dDTO.setSalary(salary.getName());
 		dDTO.setSalaryId(salary.getId());
 		dDTO.setUserId(userId);
-		dDTO.setAddress(addresss);
+		dDTO.setAddress(addressDesiredJobDTOs);
 
+		System.out.println("dDTO : " + dDTO.getId());
 
 		return new ResponseEntity<DesiredJobDTO>(dDTO, HttpStatus.OK);
 	}

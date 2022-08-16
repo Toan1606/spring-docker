@@ -19,4 +19,5 @@ public interface ProvinceRepository extends JpaRepository<Province, Long>{
 	
 	@Query(value= "select * from province where name = ?1", nativeQuery = true)
 	Province findProvinceByName(String name);
+	
 }
