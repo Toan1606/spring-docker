@@ -46,6 +46,16 @@ public class DesiredJobService {
 		
 		return desiredJob;
 	}
+	
+	public DesiredJob updateFormOnline(Long userId, WorkingForm workingForm, YearOfExperience yearOfExperience, Salary salary) {
+		DesiredJob desiredJob = desiredJobRepository.findDesiredJobByUserId(userId);
+		desiredJob.setWorkingForm(workingForm);
+		desiredJob.setYearOfExperience(yearOfExperience);
+		desiredJob.setSalary(salary);
+		desiredJobRepository.save(desiredJob);
+		
+		return desiredJob;
+	}
 
 	public DesiredJob findById(Long desiredJobId) {
 		return desiredJobRepository.findById(desiredJobId).orElseThrow(() -> new DesiredJobNotFound("Desired Job Not Found"));

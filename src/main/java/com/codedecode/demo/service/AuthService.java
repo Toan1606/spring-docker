@@ -22,7 +22,10 @@ import com.codedecode.demo.entity.CV;
 import com.codedecode.demo.entity.CandidateProfileSaved;
 import com.codedecode.demo.entity.DesiredJob;
 import com.codedecode.demo.entity.Role;
+import com.codedecode.demo.entity.Salary;
 import com.codedecode.demo.entity.User;
+import com.codedecode.demo.entity.WorkingForm;
+import com.codedecode.demo.entity.YearOfExperience;
 import com.codedecode.demo.exception.UserNotFoundException;
 import com.codedecode.demo.repository.UserRepository;
 import com.codedecode.demo.utils.ExceptionMessage;
@@ -76,6 +79,7 @@ public class AuthService {
 		roles.add(role);
 		CV cv = new CV();
 		CandidateProfileSaved candidateProfileSaved = new CandidateProfileSaved();
+		DesiredJob desiredJob = new DesiredJob();
 		
 		User user = new User();
 		user.setRoles(roles);
@@ -85,7 +89,9 @@ public class AuthService {
 		user.setPassword(encodePassword);
 		user.setPhone(phoneNumber);
 		user.setCv(cv);
-		user.setDesiredJob(new DesiredJob());
+		
+		desiredJob.setUser(user);	
+		user.setDesiredJob(desiredJob);
 		
 		User rs = userRepository.save(user);
 		candidateProfileSaved.setUser(rs);
