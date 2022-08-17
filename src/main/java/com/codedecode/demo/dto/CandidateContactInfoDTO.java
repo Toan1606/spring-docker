@@ -1,5 +1,7 @@
 package com.codedecode.demo.dto;
 
+import java.util.Date;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,7 +14,7 @@ public class CandidateContactInfoDTO {
 	private String fullname;
 	private String email;
 	private String phoneNumber;
-	private String dateOfBirth;
+	private Date dateOfBirth;
 	private String address;
 	private String gender;
 	private String married;

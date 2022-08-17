@@ -107,27 +107,9 @@ public class CandidateDesiredJobController {
 
 		return new ResponseEntity<DesiredJobDTO>(dDTO, HttpStatus.OK);
 	}
-	
-//	@GetMapping("/edit/{userId}")
-//	public ResponseEntity<?> getDesiredJob(@PathVariable Long userId){
-//		User user = userService.findUserById(userId);
-//		DesiredJob desiredJob = user.getDesiredJob();
-//		
-//		DesireJobRequestDTO dDTO = new DesireJobRequestDTO();
-//		dDTO.setId(desiredJob.getId());
-//		dDTO.setJobName(desiredJob.getName());
-//		dDTO.setSalary(desiredJob.getSalary());
-//		dDTO.setRank(desiredJob.getRank());
-//		dDTO.setYearOfExperience(desiredJob.getYearOfExperience());
-//		dDTO.setWorkingForm(desiredJob.getWorkingForm());
-//		dDTO.setAddress(desiredJob.getAddresss());
-//		
-//		return new ResponseEntity<DesireJobRequestDTO>(dDTO, HttpStatus.OK);
-//	}
 
 	@PostMapping("/update")
 	public ResponseEntity<String> updateDesiredJob(@RequestBody UpdateDesireJobRequestDTO request) {
-		System.out.println(request.toString() + " asdasdadasd");
 		// 1. get id
 		Long desiredJobId = request.getDesiredId();
 		Long rankId = request.getRankId();
@@ -155,7 +137,7 @@ public class CandidateDesiredJobController {
 	
 		// 3. update desired job
 		desiredJob = desiredJobService.update(desiredJob, request.getDesiredJobName(), rank, workingForm, yearOfExperience, salary, addresss, postingCategory);
-		return  new ResponseEntity<String>("Update Thanh Cong", HttpStatus.OK);
+		return  new ResponseEntity<String>("Update thành công", HttpStatus.OK);
 	}
 	
 }
