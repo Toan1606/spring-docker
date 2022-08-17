@@ -71,23 +71,6 @@ public class CandidateLanguageCertificateController {
 	 * @author: Nguyễn Văn Tuấn
 	 * 
 	 */
-//	@PostMapping("/isDuplicate")
-//	public ResponseEntity<?> isDuplicateLanguage(@RequestBody LanguageDTO languageDTO){
-//		Language language = new Language();
-//		User user = userService.findUserById(languageDTO.getUserId());
-//		language.setCertificateName(languageDTO.getCertificate_name());
-//		language.setName(languageDTO.getName());
-//		language.setGrade(languageDTO.getMark());
-//		language.setUser(user);
-//		boolean isDuplicate = languageService.findLanguage(language);
-//		return new ResponseEntity<Boolean>(isDuplicate, HttpStatus.OK);
-//	}
-
-	/*
-	 * 
-	 * @author: Nguyễn Văn Tuấn
-	 * 
-	 */
 	@PostMapping("/add")
 	public ResponseEntity<?> addLanguageCertificate(@RequestBody LanguageDTO languageDTO) {
 //		Language language = languageService.findLanguage(languageDTO);
@@ -135,15 +118,8 @@ public class CandidateLanguageCertificateController {
 		l.setGrade(languageDTO.getMark());
 		l.setUser(user);
 		l.setId(languageDTO.getId());
-		List<Language> list = languageService.findAllLanguageCertificatesByUserId(languageDTO.getUserId());
-		for (Language language : list) {
-			if (language.getId() != l.getId() && l.getCertificateName().equalsIgnoreCase(language.getCertificateName())
-					&& l.getName().equalsIgnoreCase(language.getName()) && l.getGrade() == language.getGrade()
-					&& l.getUser().equals(language.getUser()))
-				languageService.updateLanguageCertificate(l);
-			return new ResponseEntity<HttpStatus>(HttpStatus.OK);
-		}
-		return new ResponseEntity<HttpStatus>(HttpStatus.BAD_REQUEST);
+		languageService.updateLanguageCertificate(l);
+		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 
 	}
 }

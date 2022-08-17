@@ -50,7 +50,7 @@ public class CandidateSavedJobController {
 	public ResponseEntity<?> showSavedJobsPage(@PathVariable Long userId) {
 		List<SavedJob> listSavedJob = savedJobService.getAllSavedJobs(userId);
 		if (listSavedJob.size() == 0) {
-			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
+			return new ResponseEntity<HttpStatus>(HttpStatus.NOT_FOUND);
 		} else {
 			List<SavedJobDTO> listSavedJobRequestDTOs = new ArrayList<>();
 			for (SavedJob s : listSavedJob) {

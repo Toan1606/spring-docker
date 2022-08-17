@@ -14,11 +14,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codedecode.demo.dto.CandidateOnlineFormDTO;
+import com.codedecode.demo.entity.DesiredJob;
+import com.codedecode.demo.entity.Salary;
 import com.codedecode.demo.entity.User;
 import com.codedecode.demo.entity.WorkingForm;
 import com.codedecode.demo.entity.YearOfExperience;
 import com.codedecode.demo.repository.UserRepository;
 import com.codedecode.demo.service.CandidateRegisterService;
+import com.codedecode.demo.service.DesiredJobService;
 import com.codedecode.demo.service.UserService;
 
 @CrossOrigin(origins = "http://localhost:8080")
@@ -34,6 +37,9 @@ public class CandidateOnlineCVFormController {
 	
 	@Autowired
 	UserRepository repository;
+	
+	@Autowired
+	DesiredJobService desiredJobService;
 	
 	@GetMapping("/")
 	public ResponseEntity<CandidateOnlineFormDTO> getAllCombobox(){
@@ -58,8 +64,21 @@ public class CandidateOnlineCVFormController {
 			rs.setUniversity(user.getUniversity());
 			rs.setRating(user.getRating());
 			service.updateCandidateOnlineCVForm();
+			
+			DesiredJob desiredJob = new DesiredJob();
+			Salary salary = new Salary();
+			WorkingForm form = new WorkingForm();
+			YearOfExperience experience = new YearOfExperience();
+			salary.setId(7L);
+			form.setId(3L);
+			experience.setId(2L);
+			desiredJob.setSalary(salary);
+			desiredJob.setWorkingForm(form);
+			desiredJob.setYearOfExperience(experience);
+			desiredJobService.updateFormOnline(rs.getId(), form, experience, salary);
+
 			return new ResponseEntity<>(HttpStatus.OK);
-		}
+		}	
 		
 		return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
 	}

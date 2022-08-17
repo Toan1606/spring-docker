@@ -51,7 +51,7 @@ public class CandidateAppliedJobController {
 	public ResponseEntity<?> showAppliedJobsPage(@PathVariable Long userId) {
 		List<AppliedJob> listAppliedJob = appliedJobService.getAllAppliedJobs(userId);
 		if (listAppliedJob.size() == 0) {
-			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
+			return new ResponseEntity<HttpStatus>(HttpStatus.NOT_FOUND);
 		} else {
 			List<AppliedJobDTO> listAppliedJobDTOs = new ArrayList<>();
 			for (AppliedJob appliedJob : listAppliedJob) {

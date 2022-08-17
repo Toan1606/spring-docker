@@ -44,4 +44,34 @@ public class ActivityRepositoryTest {
 		Integer effectColumns = activityRepository.updateActivity(id, name, position, description);
 		assertThat(effectColumns).isGreaterThan(-1);
 	}
+	@Test
+	public void testUpdateActivity4() {
+		Long id = 100l;
+		String name = "Mùa Hè Summer 2022";
+		String position = "Lập Trình Viên";
+		String description = "Làm Đồ Án Ra Trường";
+		
+		Integer effectColumns = activityRepository.updateActivity(id, name, position, description);
+		assertThat(effectColumns).isGreaterThan(1);
+	}
+	@Test
+	public void testUpdateActivity5() {
+		Long id = 100l;
+		String name = "Mùa Hè Summer 2022";
+		String position = "Lập Trình Viên";
+		String description = "Làm Đồ Án Ra Trường";
+		
+		Integer effectColumns = activityRepository.updateActivity(id, name, position, description);
+		assertThat(effectColumns).isGreaterThan(0);
+	}
+	@Test
+	public void testUpdateActivity6() {
+		Long id = 100l;
+		String name = "Mùa Hè Summer 2022";
+		String position = "Lập Trình Viên";
+		String description = "Làm Đồ Án Ra Trường";
+		
+		Integer effectColumns = activityRepository.updateActivity(id, name, position, description);
+		assertThat(effectColumns).isGreaterThan(-1);
+	}
 }
