@@ -272,6 +272,7 @@ public class PostingController {
 				addresss.add(iteratorAddress.next());
 			}
 		}
+		
 		postings = postingService.findPostingByAddress(addresss);
 
 		int numberOfAppliedJob = appliedJobService.countNumberOfAppliedJob();
@@ -279,7 +280,10 @@ public class PostingController {
 		generalManagementDTO.setSuitableJob(postings);
 		generalManagementDTO.setNumberOfAppliedJob(numberOfAppliedJob);
 		generalManagementDTO.setNumberOfSuitableJob(numberOfSuitableJob);
+		
+		System.out.println("email: " +request.getEmail());
 
+		
 		return new ResponseEntity<GeneralManagementDTO>(generalManagementDTO, HttpStatus.OK);
 	}
 
