@@ -14,7 +14,7 @@ import com.codedecode.demo.entity.Degree;
 public interface DegreeRepository extends JpaRepository<Degree, Long>{
 	
 	@Query(value="select * from degree as d join cv_degree as cd on d.id = cd.degree_id join cvs as c on cd.cv_id = c.id join users as u on u.cv_id = c.id where u.id = ?1", nativeQuery= true)
-	List<Degree>getAllDegreeByUserId(Long userId);
+	List<Degree> getAllDegreeByUserId(Long userId);
 	
 	@Query(value="delete from degree where id = ?1", nativeQuery=true)
 	@Modifying
