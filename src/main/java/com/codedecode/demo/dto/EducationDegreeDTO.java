@@ -7,7 +7,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-
 public class EducationDegreeDTO {
 	private Long id;
 	private String certificateName;
