@@ -27,4 +27,7 @@ public interface CityRepository extends JpaRepository<City, Long>{
 
 	@Query(value = "select new com.codedecode.demo.dto.CityResponseDTO(c.id, c.name) from City c")
 	List<CityResponseDTO> findAllCityDto();
+	
+	@Query(value = "select * from city where province_id = ?1", nativeQuery = true)
+	List<City> findAllCityByProvinceId(Long provinceId);
 }

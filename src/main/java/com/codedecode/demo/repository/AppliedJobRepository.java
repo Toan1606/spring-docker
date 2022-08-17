@@ -34,5 +34,10 @@ public interface AppliedJobRepository extends JpaRepository<AppliedJob, AppliedJ
 	@Modifying
 	void deleteAppliedJobByPostingId(Long id);
 	
+	@Query(value="select * from applied_jobs where candidate_id = ?1 and posting_id = ?2 and recruiter_id = ?3", nativeQuery=true)
+	AppliedJob getAppliedJobByAllId(Long candidateId, Long postingId, Long recruiterId);
+	
+	@Query(value="update applied_jobs set comment_from_employer = ?1 where candidate_id = ?2 and posting_id = ?3 and recruiter_id = ?4", nativeQuery=true)
+	AppliedJob updateStatus(String status, Long candidateId, Long postingId, Long recruiterId);
 //	void deleteByIdIn(List<Long> ids);
 }

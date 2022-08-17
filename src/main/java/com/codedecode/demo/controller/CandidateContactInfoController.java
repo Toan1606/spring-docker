@@ -43,8 +43,7 @@ public class CandidateContactInfoController {
 //		Address address = addressService.findAddressByProvinceAndCity(addressOfUser.getProvince().getId(), addressOfUser.getCity().getId());
 		CandidateContactInfoDTO contactinfo = new CandidateContactInfoDTO();
 		contactinfo.setUserId(userId);
-		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");  
-		contactinfo.setDateOfBirth(dateFormat.format(user.getBirthDate()));
+		contactinfo.setDateOfBirth(user.getBirthDate());
 		contactinfo.setFullname(user.getName());
 		contactinfo.setEmail(user.getEmail());
 		contactinfo.setGender(user.getGender());
@@ -65,13 +64,13 @@ public class CandidateContactInfoController {
 		user.setName(contactinfoDTO.getFullname());
 		user.setEmail(contactinfoDTO.getEmail());
 		user.setPhone(contactinfoDTO.getPhoneNumber());
-		user.setBirthDate(formatDate(contactinfoDTO.getDateOfBirth()));
+		user.setBirthDate(contactinfoDTO.getDateOfBirth());
 		user.setGender(contactinfoDTO.getGender());
 		user.setMariaStatus(contactinfoDTO.getMarried());
 		user.setImages(contactinfoDTO.getImageBase64());
-		Province province = provinceDistrictService.findProvinceByName(contactinfoDTO.getProvince());
+		Province province = provinceDistrictService.findProvinceById(contactinfoDTO.getProvinceId());
 		City city = new City();
-		city = provinceDistrictService.findDistrictByName(contactinfoDTO.getDistrict());
+		city = provinceDistrictService.findDistrictById(contactinfoDTO.getDistrictId());
 		if(city == null) {
 			City c = new City();
 			c.setName(contactinfoDTO.getDistrict());
@@ -85,16 +84,5 @@ public class CandidateContactInfoController {
 		user.setAddress(address);
 		userService.updateUser(user);
 		return new ResponseEntity<>(HttpStatus.OK);
-	}
-	
-	public Date formatDate(String date) {
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		Date dateFormat = new Date();
-		try {
-			dateFormat = format.parse(date);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		return dateFormat;
 	}
 }

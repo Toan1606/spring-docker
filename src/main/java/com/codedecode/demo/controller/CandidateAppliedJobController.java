@@ -14,10 +14,12 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.codedecode.demo.dto.AppliedCandidateRequestDTO;
 import com.codedecode.demo.dto.AppliedJobDTO;
 import com.codedecode.demo.dto.AppliedJobDTOResponse;
 import com.codedecode.demo.dto.AppliedJobKeyDTO;
@@ -123,5 +125,11 @@ public class CandidateAppliedJobController {
 				.commentFromEmployer(result.getCommentFromEmployer()).build();
 
 		return new ResponseEntity<AppliedJobDTOResponse>(response, HttpStatus.OK);
+	}
+	
+	@PutMapping("/updateStatus")
+	public ResponseEntity<?> updateStatus(@RequestBody AppliedCandidateRequestDTO appliedCandidateRequestDTO){
+		appliedJobService.updateStatus(appliedCandidateRequestDTO);
+		return new ResponseEntity<AppliedCandidateRequestDTO>(HttpStatus.OK);
 	}
 }
