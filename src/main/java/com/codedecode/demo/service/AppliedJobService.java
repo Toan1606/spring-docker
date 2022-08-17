@@ -19,6 +19,7 @@ public class AppliedJobService {
 	public List<AppliedJob> getAllAppliedJobs(Long userId) {
 		return appliedJobRepository.getAllAppliedJobs(userId);
 	}
+	
 	public AppliedJob getAppliedJobById(AppliedJobKey key) {
 		return appliedJobRepository.findByAppliedJobKey(key);
 	}

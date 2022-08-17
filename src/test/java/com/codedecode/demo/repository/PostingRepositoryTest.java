@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -21,6 +22,7 @@ import com.codedecode.demo.dto.PostingSearchCity;
 import com.codedecode.demo.dto.PostingSearchProvince;
 import com.codedecode.demo.entity.Posting;
 
+import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 public class PostingRepositoryTest {
