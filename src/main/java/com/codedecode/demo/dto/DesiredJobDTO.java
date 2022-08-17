@@ -1,11 +1,7 @@
 package com.codedecode.demo.dto;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.List;
-
-import com.codedecode.demo.entity.Address;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
