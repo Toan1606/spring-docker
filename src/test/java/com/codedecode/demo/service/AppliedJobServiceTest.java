@@ -30,7 +30,7 @@ public class AppliedJobServiceTest {
 	
 	@Test
 	public void testGetAllAppliedJobs() {
-		Long userId = 1L;
+		Long userId = 2L;
 		List<AppliedJob> expect = new ArrayList<AppliedJob>();
 		
 		when(appliedJobRepository.getAllAppliedJobs(userId)).thenReturn(expect);
