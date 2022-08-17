@@ -248,6 +248,7 @@ public class PostingController {
 
 	@PostMapping(path = "/suitable")
 	public ResponseEntity<GeneralManagementDTO> findTop6SuitablePosting(@RequestBody SuitableJobDTO request) {
+		System.out.println("email : " + request.getEmail());
 		GeneralManagementDTO generalManagementDTO = new GeneralManagementDTO();
 		String email = request.getEmail();
 		// suitable job by address
