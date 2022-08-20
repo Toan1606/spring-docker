@@ -141,6 +141,7 @@ public class UserController {
 	
 	@PostMapping(value = "/id")
 	public ResponseEntity<CandidateByIdResponseDTO> findCandidateById(@RequestBody CandidateFindByIdDTO request) {
+		System.out.println("Candidate id : " + request.getCanddiateId());
 		CandidateByIdResponseDTO candidate = userService.findCandidateById(request.getCanddiateId());
 		return new ResponseEntity<CandidateByIdResponseDTO>(candidate, HttpStatus.OK);
 	}

@@ -18,4 +18,12 @@ public class NotificationService {
 	public Notification save(Notification notification) {
 		return notificationRepository.save(notification);
 	}
+	
+	public void deleteAllNotification() {
+		 notificationRepository.deleteAll();
+	}
+	
+	public void deleteNotification(Long nofiticationId) {
+		notificationRepository.deleteById(nofiticationId);
+	}
 }

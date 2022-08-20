@@ -54,6 +54,7 @@ import com.codedecode.demo.entity.User;
 import com.codedecode.demo.entity.WorkingForm;
 import com.codedecode.demo.service.AppliedJobService;
 import com.codedecode.demo.service.CityService;
+import com.codedecode.demo.service.NotificationService;
 import com.codedecode.demo.service.PostingService;
 import com.codedecode.demo.service.UserService;
 
@@ -74,6 +75,8 @@ public class PostingController {
 	@Autowired
 	private CityService cityService;
 
+	@Autowired
+	private NotificationService notificationService;
 	/*
 	 * @author : ToanNT16
 	 */
@@ -190,7 +193,6 @@ public class PostingController {
 			@RequestBody PostingSearchCategoryRequest request) {
 		Integer pageOffSet = request.getPageOffSet();
 		Long postingCategoryId = request.getPostingCategoryId();
-		System.out.println("pageOffSet : " + pageOffSet);
 		if (pageOffSet == null) {
 			pageOffSet = 1;
 		}
@@ -200,8 +202,8 @@ public class PostingController {
 		List<PostingSearchCategory> postingsSearch = postingService.convertSearchByCategoryResult(postings);
 
 		int numberOfRecords = postingService.countNumberOfRecordsByCategory(postingCategoryId);
-
-		PostingSearchCategoryResponse response = PostingSearchCategoryResponse.builder().response(postingsSearch)
+		
+		PostingSearchCategoryResponse response = PostingSearchCategoryResponse.builder().postings(postingsSearch)
 				.numberOfRecords(numberOfRecords).postingCategoryId(postingCategoryId).build();
 
 		return new ResponseEntity<PostingSearchCategoryResponse>(response, HttpStatus.OK);
@@ -213,7 +215,6 @@ public class PostingController {
 		Integer pageOffSet = request.getPageOffSet();
 		Long provinceId = request.getProvinceId();
 
-		System.out.println("pageOffSet : " + pageOffSet);
 		if (pageOffSet == null) {
 			pageOffSet = 1;
 		}
