@@ -35,7 +35,7 @@ public class CandidateSelfSkillController {
 	}
 //	
 	@PostMapping("/update")
-	public ResponseEntity<?> updateCareerGoal(@RequestBody SelfSkillDTO selfSkillDTO) {
+	public ResponseEntity<?> updateSelfSkill(@RequestBody SelfSkillDTO selfSkillDTO) {
 		User user = userService.findUserById(selfSkillDTO.getUserId());
 		user.setDescription(selfSkillDTO.getSelfSkill());
 		userService.addNewUser(user);

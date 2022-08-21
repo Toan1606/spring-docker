@@ -14,8 +14,9 @@ public class ActivityRepositoryTest {
 	
 	@Test
 	public void testUpdateActivity() {
-		Long id = 1l;
+		Long id = 0l;
 		String name = "Mùa Hè Summer 2022";
+//		String name = "";
 		String position = "Lập Trình Viên";
 		String description = "Làm Đồ Án Ra Trường";
 		
