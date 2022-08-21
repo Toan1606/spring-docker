@@ -70,8 +70,11 @@ public class CandidateOnlineCVFormController {
 			WorkingForm form = new WorkingForm();
 			YearOfExperience experience = new YearOfExperience();
 			salary.setId(7L);
+			salary.setName("15 - 20 triệu");
 			form.setId(3L);
+			form.setName("Bán thời gian ");
 			experience.setId(2L);
+			experience.setName("0 - 1 năm");
 			desiredJob.setSalary(salary);
 			desiredJob.setWorkingForm(form);
 			desiredJob.setYearOfExperience(experience);

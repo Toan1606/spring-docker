@@ -2,6 +2,7 @@ package com.codedecode.demo.dto;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,6 +28,6 @@ public class DesiredJobDTO implements Serializable {
 	private String salary;
 	private Long salaryId;
 	private Long userId;
-	private List<ProvinceDesiredJobDTO> address;
+	private Set<ProvinceDesiredJobDTO> address;
 	
 }

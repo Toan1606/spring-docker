@@ -38,8 +38,8 @@ public class AddressService {
 	public Set<Address> findAddressByProvince(List<Long> provinceId){
 		Set<Address> addressess = new HashSet<>();
 		for (int i = 0; i < provinceId.size(); i++) {
-			Set<Address> addresses = addressRepository.findByProvince_Id(provinceId.get(i));
-			addressess.addAll(addresses);
+			Address address = addressRepository.findByProvince_Id(provinceId.get(i)).iterator().next();
+			addressess.add(address);
 		}
 		return addressess;
 	}
