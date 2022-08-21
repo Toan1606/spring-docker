@@ -73,9 +73,9 @@ public class AppliedJobServiceTest {
 	public void testCountNumberOfAppliedJob() {
 		int expect = 1;
 		
-		when(appliedJobRepository.countNumberOfAppliedJob()).thenReturn(expect);
+		when(appliedJobRepository.countNumberOfAppliedJob(1L)).thenReturn(expect);
 		
-		Integer reality = appliedJobService.countNumberOfAppliedJob();
+		Integer reality = appliedJobService.countNumberOfAppliedJob(1L);
 		assertNotNull(reality);
 	}
 	

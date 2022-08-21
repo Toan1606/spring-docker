@@ -1,8 +1,10 @@
 package com.codedecode.demo.service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +23,16 @@ import com.codedecode.demo.dto.PostingSearchProvince;
 import com.codedecode.demo.dto.SuitablePostingDTO;
 import com.codedecode.demo.entity.Address;
 import com.codedecode.demo.entity.AppliedJob;
+import com.codedecode.demo.entity.DesiredJob;
 import com.codedecode.demo.entity.Posting;
 import com.codedecode.demo.entity.Province;
+import com.codedecode.demo.entity.Rank;
 import com.codedecode.demo.entity.Salary;
 import com.codedecode.demo.entity.PostingCategory;
 import com.codedecode.demo.entity.PostingType;
 import com.codedecode.demo.entity.User;
+import com.codedecode.demo.entity.WorkingForm;
+import com.codedecode.demo.entity.YearOfExperience;
 import com.codedecode.demo.exception.PostingNotFound;
 import com.codedecode.demo.exception.PostingNotFoundException;
 import com.codedecode.demo.repository.AppliedJobRepository;
@@ -49,6 +55,18 @@ public class PostingService {
 	
 	@Autowired
 	private AppliedJobRepository appliedJobRepository;
+	
+	@Autowired
+	PostingCategoryService categoryService;
+	
+	@Autowired
+	RankService rankService;
+	
+	@Autowired
+	SalaryService salaryService;
+	
+	@Autowired
+	WorkingFormService formService;
 
 	public Iterable<Posting> getAttractiveJob() {
 		System.out.println("findPosting function");
@@ -205,6 +223,8 @@ public class PostingService {
 
 	public Posting addPostingRecruiter(AddPostingRequestDTO addPostingRequestDTO) {
 		String email = addPostingRequestDTO.getEmail();
+		String jobName = addPostingRequestDTO.getJobName();
+		String jobRequirement = addPostingRequestDTO.getJobRequirement();
 		String position = addPostingRequestDTO.getPosition();
 		int quantity = addPostingRequestDTO.getQuantity();
 		String description = addPostingRequestDTO.getDescription();
@@ -213,10 +233,26 @@ public class PostingService {
 		String benefits = addPostingRequestDTO.getBenefits();
 		String files = addPostingRequestDTO.getFiles();
 		String deadlineForSubmission = addPostingRequestDTO.getDeadlineForSubmission();
+		Long rankId = addPostingRequestDTO.getRank();
+		Long formId = addPostingRequestDTO.getWorkingForm();
+		Long salaryId = addPostingRequestDTO.getSalary();
 		User user = userService.getUserByEmail(email);
-		PostingCategory postingCategory = new PostingCategory();
+		
+		Random rand = new Random(); 
+	      Long upperbound = 70L;
+	      Long postingCategoryId = 1 + rand.nextLong(upperbound);
+		
+		PostingCategory postingCategory = categoryService.findById(postingCategoryId);
 		PostingType postingType = new PostingType(); 
 		long view = 1;
+		
+		List<Address> address = new ArrayList<Address>();
+		address.add(user.getAddress());
+		
+		Rank rank = rankService.findById(1L);
+		Salary salary = salaryService.findSalaryById(salaryId);
+		WorkingForm form = formService.findById(formId);
+		
 		
 		Posting posting = new Posting();
 		posting.setUser(user);
@@ -237,6 +273,14 @@ public class PostingService {
 		posting.setPostingType(postingType);
 		posting.setView(view);
 		posting.setImages(user.getImages());
+		posting.setProfileIncluded(files);
+		posting.setQuantityNeeded(quantity + "");
+		posting.setJobName(jobName);
+		posting.setJobRequirement(jobRequirement);
+		posting.setSalary(salary);
+		posting.setWorkingForm(form);
+		posting.setRank(rank);
+		posting.setAddresss(address);
 		return postingRepository.save(posting);
 	}
 	

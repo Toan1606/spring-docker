@@ -90,31 +90,31 @@ public class AppliedJobRepositoryTest {
 
 	@Test
 	public void testCountNumberOfAppliedJob() {
-		Integer numberOfAppliedJob = appliedJobRepository.countNumberOfAppliedJob();
+		Integer numberOfAppliedJob = appliedJobRepository.countNumberOfAppliedJob(1L);
 		assertThat(numberOfAppliedJob).isGreaterThan(0);
 	}
 
 	@Test
 	public void testCountNumberOfAppliedJob2() {
-		Integer numberOfAppliedJob = appliedJobRepository.countNumberOfAppliedJob();
+		Integer numberOfAppliedJob = appliedJobRepository.countNumberOfAppliedJob(1L);
 		assertThat(numberOfAppliedJob).isEqualTo(0);
 	}
 
 	@Test
 	public void testCountNumberOfAppliedJob3() {
-		Integer numberOfAppliedJob = appliedJobRepository.countNumberOfAppliedJob();
+		Integer numberOfAppliedJob = appliedJobRepository.countNumberOfAppliedJob(1L);
 		assertThat(numberOfAppliedJob).isLessThan(0);
 	}
 
 	@Test
 	public void testCountNumberOfAppliedJob4() {
-		Integer numberOfAppliedJob = appliedJobRepository.countNumberOfAppliedJob();
+		Integer numberOfAppliedJob = appliedJobRepository.countNumberOfAppliedJob(1L);
 		assertNull(numberOfAppliedJob);
 	}
 
 	@Test
 	public void testCountNumberOfAppliedJob5() {
-		Integer numberOfAppliedJob = appliedJobRepository.countNumberOfAppliedJob();
+		Integer numberOfAppliedJob = appliedJobRepository.countNumberOfAppliedJob(1L);
 		assertNotNull(numberOfAppliedJob);
 	}
 

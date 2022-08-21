@@ -1,6 +1,7 @@
 package com.codedecode.demo.service;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,7 +30,7 @@ public class DesiredJobService {
 		return desiredJobRepository.save(desiredJob);
 	}
 
-	public DesiredJob update(DesiredJob desiredJob, String jobName, Rank rank, WorkingForm workingForm, YearOfExperience yearOfExperience, Salary salary, List<Address> addresss,
+	public DesiredJob update(DesiredJob desiredJob, String jobName, Rank rank, WorkingForm workingForm, YearOfExperience yearOfExperience, Salary salary, Set<Address> addresss,
 			PostingCategory postingCategory) {
 		desiredJob.setRank(rank);
 		desiredJob.setName(jobName);

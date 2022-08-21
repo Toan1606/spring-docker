@@ -1,5 +1,7 @@
 package com.codedecode.demo.service;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.transaction.Transactional;
@@ -21,8 +23,8 @@ public class AddressService {
 	
 	public Address findAddressByProvinceAndCity(Long provinceId, Long cityId) {
 		System.out.println("findAddressByProvinceAndCity service");
-		Address address = addressRepository.findAddressByProvinceAndCity(provinceId, cityId).orElseThrow(() -> new AddressNotFound(ExceptionMessage.ADDRESS_NOT_FOUND.getErrorMessage()));
-		return address;
+		List<Address> address = addressRepository.findAddressByProvinceAndCity(provinceId, cityId);
+		return address.get(0);
 	}
 	
 	public Address findAddressById(Long addressId) {
@@ -31,5 +33,14 @@ public class AddressService {
 	
 	public Set<Address> findAddressByPostingId(Long postingId) {
 		return addressRepository.findByPostingId(postingId);
+	}
+	
+	public Set<Address> findAddressByProvince(List<Long> provinceId){
+		Set<Address> addressess = new HashSet<>();
+		for (int i = 0; i < provinceId.size(); i++) {
+			Set<Address> addresses = addressRepository.findByProvince_Id(provinceId.get(i));
+			addressess.addAll(addresses);
+		}
+		return addressess;
 	}
 }

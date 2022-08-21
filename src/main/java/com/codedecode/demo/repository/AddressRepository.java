@@ -1,6 +1,6 @@
 package com.codedecode.demo.repository;
 
-import java.util.Optional;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,8 +17,10 @@ public interface AddressRepository extends JpaRepository<Address, Long> {
 //	Optional<Address> findByProvinceAndCity(@Param("provinceId") Long provinceId, @Param("cityId") Long cityId);
 	
 	@Query(value = "select * from address a where a.province_id = :provinceId and a.city_id = :cityId", nativeQuery = true)
-	Optional<Address> findAddressByProvinceAndCity(@Param("provinceId") Long provinceId, @Param("cityId") Long cityId);
+	List<Address> findAddressByProvinceAndCity(@Param("provinceId") Long provinceId, @Param("cityId") Long cityId);
 
 	@Query(value = "select * from posting p join posting_address pa on p.id = pa.posting_id join address a on a.id = pa.address_id where p.id = :postingId", nativeQuery = true)
 	Set<Address> findByPostingId(@Param("postingId") Long postingId);
+
+	Set<Address> findByProvince_Id(Long long1);
 }
