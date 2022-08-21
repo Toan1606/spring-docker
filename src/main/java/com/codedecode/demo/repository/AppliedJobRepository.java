@@ -19,8 +19,8 @@ public interface AppliedJobRepository extends JpaRepository<AppliedJob, AppliedJ
 	
 	void deleteByAppliedJobKey(AppliedJobKey key);
 	
-	@Query(value = "SELECT COUNT(*) AS NumberOfAppliedJob FROM applied_jobs", nativeQuery = true) 
-	int countNumberOfAppliedJob();
+	@Query(value = "SELECT COUNT(*) AS NumberOfAppliedJob FROM applied_jobs where candidate_id = ?1", nativeQuery = true) 
+	int countNumberOfAppliedJob(Long id);
 	
 	@Query(value = "SELECT COUNT(*) AS NumberOfAppliedJob FROM applied_jobs aj where aj.recruiter_id = :recruiter_id", nativeQuery = true) 
 	int countNumberOfAppliedJobByRecruiter(@Param("recruiter_id") Long recruiterId);

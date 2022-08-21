@@ -31,8 +31,8 @@ public class AppliedJobService {
 		appliedJobRepository.deleteById(key);
 	}
 	
-	public int countNumberOfAppliedJob() {
-		return appliedJobRepository.countNumberOfAppliedJob();
+	public int countNumberOfAppliedJob(Long id) {
+		return appliedJobRepository.countNumberOfAppliedJob(id);
 	}
 	
 	public int countNumberOfAppliedJobByRecruiter(Long recruiterId) {

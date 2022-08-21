@@ -27,6 +27,6 @@ public class DesiredJobDTO implements Serializable {
 	private String salary;
 	private Long salaryId;
 	private Long userId;
-	private List<AddressDesiredJobDTO> address;
+	private List<ProvinceDesiredJobDTO> address;
 	
 }

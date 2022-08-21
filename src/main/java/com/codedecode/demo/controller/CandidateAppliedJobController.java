@@ -3,6 +3,8 @@ package com.codedecode.demo.controller;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -67,6 +69,10 @@ public class CandidateAppliedJobController {
 				aDTO.setUserId(userId);
 				listAppliedJobDTOs.add(aDTO);
 			}
+			Comparator<AppliedJobDTO> reverseComparator = (c1, c2) -> { 
+		        return c2.getDateSubmission().compareTo(c1.getDateSubmission()); 
+			};
+			Collections.sort(listAppliedJobDTOs, reverseComparator);
 			return new ResponseEntity<List<AppliedJobDTO>>(listAppliedJobDTOs, HttpStatus.OK);
 		}
 	}

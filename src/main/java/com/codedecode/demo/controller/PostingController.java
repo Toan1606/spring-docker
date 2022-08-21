@@ -262,7 +262,8 @@ public class PostingController {
 
 		Set<SuitablePostingDTO> postings = null;
 		List<Address> addresss = new ArrayList<Address>();
-		if (desiredJob == null) {
+		Collection<Address> addresses = desiredJob.getAddresss();
+		if (addresses.size() == 0) {
 			addresss = new ArrayList<Address>();
 			addresss.add(user.getAddress());
 		} else {
@@ -275,15 +276,14 @@ public class PostingController {
 		
 		postings = postingService.findPostingByAddress(addresss);
 
-		int numberOfAppliedJob = appliedJobService.countNumberOfAppliedJob();
-		int numberOfSuitableJob = postings.size() * 3;
+		int numberOfAppliedJob = appliedJobService.countNumberOfAppliedJob(user.getId());
+		int numberOfSuitableJob = postings.size();
 		generalManagementDTO.setSuitableJob(postings);
 		generalManagementDTO.setNumberOfAppliedJob(numberOfAppliedJob);
 		generalManagementDTO.setNumberOfSuitableJob(numberOfSuitableJob);
 		
 		System.out.println("email: " +request.getEmail());
 
-		
 		return new ResponseEntity<GeneralManagementDTO>(generalManagementDTO, HttpStatus.OK);
 	}
 
