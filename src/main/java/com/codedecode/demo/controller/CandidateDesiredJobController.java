@@ -2,9 +2,11 @@ package com.codedecode.demo.controller;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.codedecode.demo.dto.AddressDesiredJobDTO;
 import com.codedecode.demo.dto.DesiredJobDTO;
 import com.codedecode.demo.dto.ProvinceDesiredJobDTO;
 import com.codedecode.demo.dto.UpdateDesireJobRequestDTO;
@@ -86,7 +87,7 @@ public class CandidateDesiredJobController {
 		Salary salary = desiredJob.getSalary();
 		Collection<Address> addresss = desiredJob.getAddresss();
 		
-		List<ProvinceDesiredJobDTO> provinces = new ArrayList<ProvinceDesiredJobDTO>(); 
+		Set<ProvinceDesiredJobDTO> provinces = new HashSet<ProvinceDesiredJobDTO>(); 
 		Iterator<Address> iterator = addresss.iterator();
 		Address address = null;
 		Province province = null;
@@ -109,8 +110,6 @@ public class CandidateDesiredJobController {
 		dDTO.setUserId(userId);
 		dDTO.setAddress(provinces);
 
-		System.out.println("dDTO : " + dDTO.getId());
-
 		return new ResponseEntity<DesiredJobDTO>(dDTO, HttpStatus.OK);
 	}
 
@@ -125,6 +124,8 @@ public class CandidateDesiredJobController {
 		List<Long> addresssId = request.getAddresssId();
 		Long postingCategoryId = request.getPostingCategoryId();
 		
+		System.out.println("address ID : " + addresssId);
+		
 		// 2. get object by id
 		DesiredJob desiredJob = desiredJobService.findById(desiredJobId);
 		Rank rank = rankService.findById(rankId);
@@ -133,18 +134,9 @@ public class CandidateDesiredJobController {
 		Salary salary = salaryService.findSalaryById(salaryId);
 		
 		Set<Address> addresses = addressService.findAddressByProvince(addresssId);
-//		List<Address> addresss = new ArrayList<Address>();
-//		Address address = null;
-//		for (Long addressId : addresssId) {
-//			address = addressService.findAddressById(addressId);
-//			addresss.add(address);
-//		}
 		
 		PostingCategory postingCategory = postingCategoryService.findById(postingCategoryId);
-	
-		
-		
-		
+
 		// 3. update desired job
 		desiredJob = desiredJobService.update(desiredJob, request.getDesiredJobName(), rank, workingForm, yearOfExperience, salary, addresses, postingCategory);
 		System.out.println(addresssId + "hello");
