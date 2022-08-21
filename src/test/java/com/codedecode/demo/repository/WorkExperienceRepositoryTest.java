@@ -19,19 +19,19 @@ public class WorkExperienceRepositoryTest {
 	
 	@Test
 	public void testGetAllWorkExpByUserId1() {
-		Long userId = 1L;
+		Long userId = 0L;
 		List<WorkExperiences> reality = workExperienceRepository.getAllWorkExpByUserId(userId);
 		assertThat(reality.size()).isGreaterThan(0);
 	}
 	@Test
 	public void testGetAllWorkExpByUserId2() {
-		Long userId = 1L;
+		Long userId = 0L;
 		List<WorkExperiences> reality = workExperienceRepository.getAllWorkExpByUserId(userId);
 		assertThat(reality.size()).isLessThan(0);
 	}
 	@Test
 	public void testGetAllWorkExpByUserId3() {
-		Long userId = 1L;
+		Long userId = null;
 		List<WorkExperiences> reality = workExperienceRepository.getAllWorkExpByUserId(userId);
 		assertThat(reality.size()).isEqualTo(0);
 	}
