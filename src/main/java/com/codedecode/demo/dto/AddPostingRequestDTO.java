@@ -12,6 +12,15 @@ public class AddPostingRequestDTO {
 	
 	@JsonProperty("email")
 	private String email;
+	
+	@JsonProperty("jobName")
+	private String jobName;
+	
+	@JsonProperty("rank")
+	private long rank;
+	
+	@JsonProperty("jobRequirement")
+	private String jobRequirement;
 
 	@JsonProperty("position")
 	private String position;

@@ -3,6 +3,8 @@ package com.codedecode.demo.controller;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -25,10 +27,12 @@ import com.codedecode.demo.dto.AppliedJobDTOResponse;
 import com.codedecode.demo.dto.AppliedJobKeyDTO;
 import com.codedecode.demo.dto.AppliedNewJobDTO;
 import com.codedecode.demo.entity.AppliedJob;
+import com.codedecode.demo.entity.Notification;
 import com.codedecode.demo.entity.Posting;
 import com.codedecode.demo.entity.User;
 import com.codedecode.demo.entity.key.AppliedJobKey;
 import com.codedecode.demo.service.AppliedJobService;
+import com.codedecode.demo.service.NotificationService;
 import com.codedecode.demo.service.PostingService;
 import com.codedecode.demo.service.UserService;
 
@@ -46,6 +50,9 @@ public class CandidateAppliedJobController {
 
 	@Autowired
 	private PostingService postingService;
+	
+	@Autowired
+	private NotificationService notificationService;	
 
 	@GetMapping("/{userId}")
 	public ResponseEntity<?> showAppliedJobsPage(@PathVariable Long userId) {
@@ -67,6 +74,10 @@ public class CandidateAppliedJobController {
 				aDTO.setUserId(userId);
 				listAppliedJobDTOs.add(aDTO);
 			}
+			Comparator<AppliedJobDTO> reverseComparator = (c1, c2) -> { 
+		        return c2.getDateSubmission().compareTo(c1.getDateSubmission()); 
+			};
+			Collections.sort(listAppliedJobDTOs, reverseComparator);
 			return new ResponseEntity<List<AppliedJobDTO>>(listAppliedJobDTOs, HttpStatus.OK);
 		}
 	}
@@ -116,6 +127,14 @@ public class CandidateAppliedJobController {
 		appliedJob.setDateSubmission(date);
 		
 		// 4. save to db
+		
+		// 5. add notification
+		Notification notification = new Notification();
+		notification.setDate(new Date());
+		notification.setContent(new StringBuilder().append(recruiter.getName()).append(" vừa nộp hồ sơ").toString());
+		notification.setUser(recruiter);
+		System.out.println("Recruiter : " + recruiter.getId() + ", " + recruiter.getName());
+		notificationService.save(notification);
 		
 		AppliedJob result = appliedJobService.addAppliedJob(appliedJob);
 		// 5. set dto to return

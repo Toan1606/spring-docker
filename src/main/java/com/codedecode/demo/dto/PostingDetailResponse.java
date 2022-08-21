@@ -5,6 +5,8 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
+import com.codedecode.demo.entity.Notification;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -87,4 +89,6 @@ public class PostingDetailResponse implements Serializable {
 	private List<CityResponseDTO> citiesDto;
 	
 	private List<PostingRelatedDTO> relatedPosting;
+	
+	private List<Notification> notifications;
 }

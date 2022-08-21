@@ -2,9 +2,12 @@ package com.codedecode.demo.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -34,7 +37,7 @@ public class AddressServiceTest {
 		Long provinceId = 1L;
 		Long cityId = 1L;
 		Address address = new Address();
-		Optional<Address> expect = Optional.of(address);
+		List<Address> expect = new ArrayList<Address>();
 		when(addressRepository.findAddressByProvinceAndCity(provinceId, cityId)).thenReturn(expect);
 		
 		Address reality = addressService.findAddressByProvinceAndCity(provinceId, cityId);
@@ -49,7 +52,7 @@ public class AddressServiceTest {
 		
 		Address address = new Address();
 		
-		Optional<Address> expect = Optional.of(address);
+		List<Address> expect = new ArrayList<Address>();
 		
 		when(addressRepository.findAddressByProvinceAndCity(provinceId, cityId)).thenReturn(expect);
 		
@@ -64,7 +67,7 @@ public class AddressServiceTest {
 		
 		Address address = new Address();
 		
-		Optional<Address> expect = Optional.of(address);
+		List<Address> expect = new ArrayList<Address>();
 		
 		when(addressRepository.findAddressByProvinceAndCity(provinceId, cityId)).thenReturn(expect);
 		

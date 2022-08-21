@@ -2,7 +2,9 @@ package com.codedecode.demo.controller;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,10 +20,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codedecode.demo.dto.AddressDesiredJobDTO;
 import com.codedecode.demo.dto.DesiredJobDTO;
+import com.codedecode.demo.dto.ProvinceDesiredJobDTO;
 import com.codedecode.demo.dto.UpdateDesireJobRequestDTO;
 import com.codedecode.demo.entity.Address;
 import com.codedecode.demo.entity.DesiredJob;
 import com.codedecode.demo.entity.PostingCategory;
+import com.codedecode.demo.entity.Province;
 import com.codedecode.demo.entity.Rank;
 import com.codedecode.demo.entity.Salary;
 import com.codedecode.demo.entity.User;
@@ -81,14 +85,16 @@ public class CandidateDesiredJobController {
 		Rank rank = desiredJob.getRank();
 		Salary salary = desiredJob.getSalary();
 		Collection<Address> addresss = desiredJob.getAddresss();
-		List<AddressDesiredJobDTO> addressDesiredJobDTOs = new ArrayList<>();
-		addresss.stream().forEach(address -> {
-			AddressDesiredJobDTO addressDesiredJobDTO = AddressDesiredJobDTO.builder()
-					.id(address.getId())
-					.name(address.getName())
-					.build();
-			addressDesiredJobDTOs.add(addressDesiredJobDTO);
-		});
+		
+		List<ProvinceDesiredJobDTO> provinces = new ArrayList<ProvinceDesiredJobDTO>(); 
+		Iterator<Address> iterator = addresss.iterator();
+		Address address = null;
+		Province province = null;
+		while(iterator.hasNext()) {
+			address = iterator.next();
+			province = address.getProvince();
+			provinces.add(ProvinceDesiredJobDTO.builder().name(province.getName()).build());
+		}
 		
 		dDTO.setId(desiredJob.getId());
 		dDTO.setJobName(jobName);
@@ -96,12 +102,12 @@ public class CandidateDesiredJobController {
 		dDTO.setWorkingFormId(workingForm.getId());
 		dDTO.setYearOfExp(yearOfExperience.getName());
 		dDTO.setYearOfExpId(yearOfExperience.getId());
-		dDTO.setRank(rank.getName());
-		dDTO.setRankId(rank.getId());
+		dDTO.setRank(rank == null ? "" : rank.getName());
+		dDTO.setRankId(rank == null ? null : rank.getId());
 		dDTO.setSalary(salary.getName());
 		dDTO.setSalaryId(salary.getId());
 		dDTO.setUserId(userId);
-		dDTO.setAddress(addressDesiredJobDTOs);
+		dDTO.setAddress(provinces);
 
 		System.out.println("dDTO : " + dDTO.getId());
 
@@ -126,17 +132,22 @@ public class CandidateDesiredJobController {
 		YearOfExperience yearOfExperience = yearOfExperienceService.findYearOfExperienceById(yearOfExperienceId);
 		Salary salary = salaryService.findSalaryById(salaryId);
 		
-		List<Address> addresss = new ArrayList<Address>();
-		Address address = null;
-		for (Long addressId : addresssId) {
-			address = addressService.findAddressById(addressId);
-			addresss.add(address);
-		}
+		Set<Address> addresses = addressService.findAddressByProvince(addresssId);
+//		List<Address> addresss = new ArrayList<Address>();
+//		Address address = null;
+//		for (Long addressId : addresssId) {
+//			address = addressService.findAddressById(addressId);
+//			addresss.add(address);
+//		}
 		
 		PostingCategory postingCategory = postingCategoryService.findById(postingCategoryId);
 	
+		
+		
+		
 		// 3. update desired job
-		desiredJob = desiredJobService.update(desiredJob, request.getDesiredJobName(), rank, workingForm, yearOfExperience, salary, addresss, postingCategory);
+		desiredJob = desiredJobService.update(desiredJob, request.getDesiredJobName(), rank, workingForm, yearOfExperience, salary, addresses, postingCategory);
+		System.out.println(addresssId + "hello");
 		return  new ResponseEntity<String>("Update thành công", HttpStatus.OK);
 	}
 	

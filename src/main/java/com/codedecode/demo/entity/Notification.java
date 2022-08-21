@@ -14,6 +14,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -42,6 +44,7 @@ public class Notification implements Serializable {
 	@Column(name = "content")
 	private String content;
 
+	@Temporal(TemporalType.DATE)
 	@Column(name = "date")
 	private Date date;
 

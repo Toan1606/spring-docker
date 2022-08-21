@@ -19,7 +19,7 @@ public class PostingSearchCategoryResponse implements Serializable {/**
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private List<PostingSearchCategory> response;
+	private List<PostingSearchCategory> postings;
 	
 	private int numberOfRecords;
 	

@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.codedecode.demo.entity.Address;
 import com.codedecode.demo.entity.User;
 import com.codedecode.demo.repository.UserRepository;
+import com.codedecode.demo.service.AddressService;
 import com.codedecode.demo.service.UserService;
 
 @CrossOrigin(origins = "http://localhost:8080")
@@ -26,15 +28,20 @@ public class RecruiterOnlineCVFormController {
 	@Autowired
 	UserRepository repository;
 	
+	@Autowired
+	AddressService addressService;
+	
 	@PutMapping(value="/{recruiterId}") 
 	public ResponseEntity<User> updateRecuiter(@PathVariable("recruiterId") Long id, @RequestBody User user){	
 		User rs = service.findUserById(id);
+		Address address = addressService.findAddressByProvinceAndCity(1L, 1L);
 		if(rs!=null) {
 			rs.setImages(user.getImages());
 			rs.setPhone(user.getPhone());
-//			rs.setAddressName(user.getAddressName());
 			rs.setTaxtNumber(user.getTaxtNumber());
-			rs.setDescription(user.getDescription()); 
+			rs.setDescription(user.getDescription());
+			rs.setRecruiterDescription(user.getDescription()); 
+			rs.setAddress(address);
 			service.updateCandidateOnlineCVForm();
 			return new ResponseEntity<>(HttpStatus.OK);
 		}
