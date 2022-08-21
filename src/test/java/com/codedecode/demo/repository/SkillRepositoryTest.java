@@ -22,9 +22,9 @@ public class SkillRepositoryTest {
 	@Test
 	public void testUpdateSkills2() {
 		Long id = 1L;
-		String skillName = "Communication";
+		String skillName = "";
 		Integer effectColumns = skillRepository.updateSkills(id, skillName);
-		assertThat(effectColumns).isGreaterThan(1);
+		assertThat(effectColumns).isGreaterThan(0);
 	}
 	@Test
 	public void testUpdateSkills3() {
