@@ -45,11 +45,15 @@ import com.codedecode.demo.utils.ExceptionMessage;
 @Transactional
 public class UserService {
 
-	@Autowired(required = true)
-	private UserRepository userRepository;
+	private final UserRepository userRepository;
 
-	@Autowired(required = true)
-	private SearchCandidateRepository searchCandidateRepository;
+	private final SearchCandidateRepository searchCandidateRepository;
+
+	@Autowired
+	public UserService(UserRepository userRepository, SearchCandidateRepository searchCandidateRepository) {
+		this.userRepository = userRepository;
+		this.searchCandidateRepository = searchCandidateRepository;
+	}
 
 	public User addNewUser(User user) {
 		return userRepository.save(user);

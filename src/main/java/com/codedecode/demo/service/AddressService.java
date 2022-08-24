@@ -18,9 +18,13 @@ import com.codedecode.demo.utils.ExceptionMessage;
 @Transactional
 public class AddressService {
 
+	private final AddressRepository addressRepository;
+
 	@Autowired
-	private AddressRepository addressRepository;
-	
+	public AddressService(AddressRepository addressRepository) {
+		this.addressRepository = addressRepository;
+	}
+
 	public Address findAddressByProvinceAndCity(Long provinceId, Long cityId) {
 		System.out.println("findAddressByProvinceAndCity service");
 		List<Address> address = addressRepository.findAddressByProvinceAndCity(provinceId, cityId);

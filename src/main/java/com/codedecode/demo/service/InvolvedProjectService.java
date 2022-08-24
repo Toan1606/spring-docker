@@ -14,10 +14,14 @@ import com.codedecode.demo.repository.InvolvedProjectRepository;
 @Service
 @Transactional
 public class InvolvedProjectService {
-	
+
+	private final InvolvedProjectRepository involvedProjectRepository;
+
 	@Autowired
-	private InvolvedProjectRepository involvedProjectRepository;
-	
+	public InvolvedProjectService(InvolvedProjectRepository involvedProjectRepository) {
+		this.involvedProjectRepository = involvedProjectRepository;
+	}
+
 	public Integer updateInvolvedProject(List<InvolvedUpdateRequestDTO> involvedProjects) {
 		if (involvedProjects == null)
 			return -1;

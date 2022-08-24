@@ -17,15 +17,16 @@ import com.codedecode.demo.service.UserService;
 
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
-@RequestMapping("/cvFromPCForm")
+@RequestMapping("api/v1/cv-from-pc-form")
 public class CandidateCVFromPCController {
-	
+
+	private final UserService service;
+
 	@Autowired
-	UserService service;
-	
-	@Autowired
-	UserRepository repository;
-	
+	public CandidateCVFromPCController(UserService service) {
+		this.service = service;
+	}
+
 	@PutMapping(value="/{candidateId}") 
 	public ResponseEntity<User> updateCandidate(@PathVariable("candidateId") Long id, @RequestBody User user){	
 		User rs = service.findUserById(id);

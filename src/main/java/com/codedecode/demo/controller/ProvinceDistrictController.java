@@ -32,34 +32,38 @@ import com.codedecode.demo.service.YearOfExperienceService;
 
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
-@RequestMapping("/provincedistrict")
-@Transactional
+@RequestMapping("api/v1/province-district")
 public class ProvinceDistrictController {
 
-	@Autowired
-	private ProvinceDistrictService provinceDistrictService;
-	
-	@Autowired
-	private RankService rankService;
-	
-	@Autowired
-	private WorkingFormService workingFormService;
-	
-	@Autowired
-	private WorkExperienceService workExperienceService;
+	private final ProvinceDistrictService provinceDistrictService;
+
+	private final RankService rankService;
+
+	private final WorkingFormService workingFormService;
+
+	private final WorkExperienceService workExperienceService;
+
+	private final SalaryService salaryService;
+
+	private final ProvinceService provinceService;
+
+	private final PostingCategoryService postingCategoryService;
+
+	private final YearOfExperienceService yearOfExperienceService;
 
 	@Autowired
-	private SalaryService salaryService;
-	
-	@Autowired
-	private ProvinceService provinceService;
-	
-	@Autowired
-	private PostingCategoryService postingCategoryService;
-	
-	@Autowired
-	private YearOfExperienceService yearOfExperienceService;
-	
+	public ProvinceDistrictController(ProvinceDistrictService provinceDistrictService, RankService rankService, WorkingFormService workingFormService,
+									  WorkExperienceService workExperienceService, SalaryService salaryService, ProvinceService provinceService,
+									  PostingCategoryService postingCategoryService, YearOfExperienceService yearOfExperienceService) {
+		this.provinceDistrictService = provinceDistrictService;
+		this.rankService = rankService;
+		this.workingFormService = workingFormService;
+		this.workExperienceService = workExperienceService;
+		this.salaryService = salaryService;
+		this.provinceService = provinceService;
+		this.postingCategoryService = postingCategoryService;
+		this.yearOfExperienceService = yearOfExperienceService;
+	}
 	
 	@GetMapping("/province")
 	public ResponseEntity<DesiredJobRequestDTO> getAllProvince() {

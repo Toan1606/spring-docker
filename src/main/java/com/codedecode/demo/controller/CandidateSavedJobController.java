@@ -33,8 +33,7 @@ import com.codedecode.demo.service.UserService;
 
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
-@RequestMapping("/savedjob")
-@Transactional
+@RequestMapping("api/v1/savedjob")
 public class CandidateSavedJobController {
 
 	@Autowired

@@ -14,9 +14,13 @@ import com.codedecode.demo.repository.ActivityRepository;
 @Service
 @Transactional
 public class ActivityService {
-	
+
+	private final ActivityRepository activityRepository;
+
 	@Autowired
-	private ActivityRepository activityRepository;
+	public ActivityService(ActivityRepository activityRepository) {
+		this.activityRepository = activityRepository;
+	}
 
 	public Integer updateActivity(List<ActivityUpdateRequestDTO> activities) {
 		if (activities == null)

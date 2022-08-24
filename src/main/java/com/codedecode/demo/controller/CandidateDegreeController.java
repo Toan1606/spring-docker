@@ -24,15 +24,18 @@ import com.codedecode.demo.service.DegreeService;
 
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
-@RequestMapping("/degree")
-@Transactional
+@RequestMapping("api/v1/degree")
 public class CandidateDegreeController {
 
-	@Autowired
-	private DegreeService degreeService;
+	private final DegreeService degreeService;
+
+	private final CVService cvService;
 
 	@Autowired
-	private CVService cvService;
+	public CandidateDegreeController(DegreeService degreeService, CVService cvService) {
+		this.degreeService = degreeService;
+		this.cvService = cvService;
+	}
 
 	@GetMapping("/{userId}")
 	public ResponseEntity<?> showDegreePage(@PathVariable Long userId) {

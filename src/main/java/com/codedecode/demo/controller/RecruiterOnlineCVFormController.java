@@ -19,21 +19,21 @@ import com.codedecode.demo.service.UserService;
 
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
-@RequestMapping("/recruiterOnlineCVForm")
+@RequestMapping("api/v1/recruiter-online-cv-form")
 public class RecruiterOnlineCVFormController {
-	
-	@Autowired
-	UserService service;
-	
-	@Autowired
-	UserRepository repository;
-	
-	@Autowired
-	AddressService addressService;
+
+	private final  UserService userService;
+
+	private final AddressService addressService;
+
+	public RecruiterOnlineCVFormController(UserService userService, AddressService addressService) {
+		this.userService = userService;
+		this.addressService = addressService;
+	}
 	
 	@PutMapping(value="/{recruiterId}") 
 	public ResponseEntity<User> updateRecuiter(@PathVariable("recruiterId") Long id, @RequestBody User user){	
-		User rs = service.findUserById(id);
+		User rs = userService.findUserById(id);
 		Address address = addressService.findAddressByProvinceAndCity(1L, 1L);
 		if(rs!=null) {
 			rs.setImages(user.getImages());
@@ -42,7 +42,7 @@ public class RecruiterOnlineCVFormController {
 			rs.setDescription(user.getDescription());
 			rs.setRecruiterDescription(user.getDescription()); 
 			rs.setAddress(address);
-			service.updateCandidateOnlineCVForm();
+			userService.updateCandidateOnlineCVForm();
 			return new ResponseEntity<>(HttpStatus.OK);
 		}
 		

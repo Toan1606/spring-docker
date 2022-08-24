@@ -26,21 +26,22 @@ import com.codedecode.demo.service.UserService;
 
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
-@RequestMapping("/candidateOnlineCVForm")
+@RequestMapping("api/v1/candidate-online-cv-form")
 public class CandidateOnlineCVFormController {
-	
+
+	private final CandidateRegisterService candidateRegisterService;
+
+	private final UserService userService;
+
+	private final DesiredJobService desiredJobService;
+
 	@Autowired
-	CandidateRegisterService candidateRegisterService;
-	
-	@Autowired
-	UserService service;
-	
-	@Autowired
-	UserRepository repository;
-	
-	@Autowired
-	DesiredJobService desiredJobService;
-	
+	public CandidateOnlineCVFormController(CandidateRegisterService candidateRegisterService, UserService userService, DesiredJobService desiredJobService) {
+	this.candidateRegisterService = candidateRegisterService;
+	this.userService = userService;
+	this.desiredJobService = desiredJobService;
+	}
+
 	@GetMapping("/")
 	public ResponseEntity<CandidateOnlineFormDTO> getAllCombobox(){
 		List<YearOfExperience> expList = candidateRegisterService.getAllYearOfExperience();
@@ -54,7 +55,7 @@ public class CandidateOnlineCVFormController {
 	
 	@PutMapping(value="/{candidateId}") 
 	public ResponseEntity<User> updateCandidate(@PathVariable("candidateId") Long id, @RequestBody User user){	
-		User rs = service.findUserById(id);
+		User rs = userService.findUserById(id);
 		if(rs!=null) {
 			rs.setBirthDate(user.getBirthDate());
 			rs.setGender(user.getGender());
@@ -63,7 +64,7 @@ public class CandidateOnlineCVFormController {
 			rs.setDescription(user.getDescription());
 			rs.setUniversity(user.getUniversity());
 			rs.setRating(user.getRating());
-			service.updateCandidateOnlineCVForm();
+			userService.updateCandidateOnlineCVForm();
 			
 			DesiredJob desiredJob = new DesiredJob();
 			Salary salary = new Salary();

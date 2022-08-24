@@ -19,19 +19,24 @@ import com.codedecode.demo.repository.YearOfExperienceRepository;
 @Service
 @Transactional
 public class CandidateRegisterService {
-	
-	@Autowired
+
 	UserRepository userRepository;
-	
-	@Autowired
+
 	YearOfExperienceRepository experienceRepository;
-	
-	@Autowired
+
 	WorkingFormRepository formRepository;
-	
-	@Autowired
+
 	SalaryRepository salaryRepository;
-	
+
+	@Autowired
+	public CandidateRegisterService(UserRepository userRepository, YearOfExperienceRepository experienceRepository, WorkingFormRepository formRepository,
+									SalaryRepository salaryRepository) {
+		this.userRepository = userRepository;
+		this.experienceRepository = experienceRepository;
+		this.formRepository = formRepository;
+		this.salaryRepository = salaryRepository;
+	}
+
 	public User addCandidate(User user) {
 		return userRepository.save(user);
 	}

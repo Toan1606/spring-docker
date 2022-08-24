@@ -8,10 +8,13 @@ import com.codedecode.demo.repository.ReferencePersonRepository;
 
 @Service
 public class ReferencePersonService {
+	private ReferencePersonRepository referencePersonRepository;
 
 	@Autowired
-	private ReferencePersonRepository referencePersonRepository;
-	
+	public ReferencePersonService(ReferencePersonRepository referencePersonRepository) {
+		this.referencePersonRepository = referencePersonRepository;
+	}
+
 	public User findReferencePersonById(Long id) {
 		return referencePersonRepository.getReferencePersonById(id);
 	}

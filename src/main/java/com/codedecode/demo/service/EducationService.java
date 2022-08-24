@@ -15,10 +15,13 @@ import com.codedecode.demo.repository.EducationRepository;
 @Transactional
 public class EducationService {
 
+	private final EducationRepository educationRepository;
+
 	@Autowired
-	private EducationRepository educationRepository;
-	
-	
+	public EducationService(EducationRepository educationRepository) {
+		this.educationRepository = educationRepository;
+	}
+
 	public Integer updateEducation(List<EducationUpdateRequestDTO> educations) {
 		if (educations == null)
 			return -1;

@@ -23,8 +23,12 @@ import com.codedecode.demo.service.PostingService;
 @RequestMapping("/home")
 public class HomePageController {
 
+	private final PostingService postingService;
+
 	@Autowired
-	private PostingService postingService;
+	public HomePageController(PostingService postingService) {
+		this.postingService = postingService;
+	}
 
 	@GetMapping("/")
 	public ResponseEntity<PostingHomePage> homePage() {

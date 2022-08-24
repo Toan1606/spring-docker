@@ -21,8 +21,12 @@ import com.codedecode.demo.utils.ExceptionMessage;
 @Transactional
 public class ProvinceService {
 
-	@Autowired
 	private ProvinceRepository provinceRepository;
+
+	@Autowired
+	public ProvinceService(ProvinceRepository provinceRepository) {
+		this.provinceRepository = provinceRepository;
+	}
 
 	public Province findProvinceById(Long id) {
 		return provinceRepository.findById(id).orElseThrow(() -> new ProvinceNotFound(ExceptionMessage.PROVINCE_NOT_FOUND.getErrorMessage()));

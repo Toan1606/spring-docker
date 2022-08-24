@@ -1,5 +1,6 @@
 package com.codedecode.demo.controller;
 
+import com.codedecode.demo.service.email.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,18 +9,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codedecode.demo.dto.EmailRequest;
-import com.codedecode.demo.service.email.EmailServiceImpl;
 
 @RestController
-@RequestMapping(path = "/email")
+@RequestMapping(path = "api/v1/email")
 public class EmailController {
-	
+
+	private final EmailService emailService;
+
 	@Autowired
-	private EmailServiceImpl emailServiceImpl;
-	
+	public EmailController(EmailService emailService) {
+		this.emailService = emailService;
+	}
+
 	@GetMapping
 	public ResponseEntity<String> forgotPassword(@RequestBody EmailRequest email) {
-		emailServiceImpl.sendSimpleEmail(email.getEmail());
+		emailService.sendSimpleEmail(email.getEmail());
 		return ResponseEntity.ok().body("Reset Password");
 	}
 }

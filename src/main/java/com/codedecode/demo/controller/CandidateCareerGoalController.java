@@ -18,12 +18,16 @@ import com.codedecode.demo.service.CVService;
 
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
-@RequestMapping("/careergoal")
-@Transactional
+@RequestMapping("api/v1/career-goal")
 public class CandidateCareerGoalController {
 
+	private final CVService cvService;
+
 	@Autowired
-	private CVService cvService;
+	public CandidateCareerGoalController(CVService cvService) {
+		this.cvService = cvService;
+	}
+
 
 	@GetMapping("/{userId}")
 	public ResponseEntity<?> showCareerGoal(@PathVariable Long userId) {

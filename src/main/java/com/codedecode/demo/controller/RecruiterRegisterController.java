@@ -16,15 +16,19 @@ import com.codedecode.demo.service.RecruiterRegisterService;
 
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
-@RequestMapping("/recruiterRegister")
+@RequestMapping("api/v1/recruiter-register")
 public class RecruiterRegisterController {
-	
+
+	private final  AuthService authService;
+
+	private final RecruiterRegisterService recruiterRegisterService;
+
 	@Autowired
-	private AuthService authService;
-	
-	@Autowired
-	RecruiterRegisterService recruiterRegisterService;
-	
+	public RecruiterRegisterController(AuthService authService, RecruiterRegisterService recruiterRegisterService) {
+		this.authService = authService;
+		this.recruiterRegisterService = recruiterRegisterService;
+	}
+
 	@PostMapping("/")
 	public ResponseEntity<User> addRecruiter(@RequestBody User user){
 		User rs = recruiterRegisterService.addRecruiter(user);

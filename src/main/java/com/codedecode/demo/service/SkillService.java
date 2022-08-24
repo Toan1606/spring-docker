@@ -15,8 +15,12 @@ import com.codedecode.demo.repository.SkillRepository;
 @Transactional
 public class SkillService {
 
+	private final SkillRepository skillRepository;
+
 	@Autowired
-	private SkillRepository skillRepository;
+	public SkillService(SkillRepository skillRepository) {
+		this.skillRepository = skillRepository;
+	}
 
 	public Integer updateSkills(List<SkillRequestDTO> skills) {
 		if (skills == null)

@@ -36,13 +36,7 @@ public class BeanConfig {
 	
 	@Value("${spring.mail.properties.mail.smtp.starttls.enable}")
 	private String mailSmtpStarttlsEnable;
-	
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
 
-	
 	@Bean
 	public JavaMailSender getJavaMailSender() {
 	    JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
@@ -67,5 +61,14 @@ public class BeanConfig {
 	    message.setText(
 	      "This is the test email template for your email:\n%s\n");
 	    return message;
+	}
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
+
+	@Bean
+	public BCryptPasswordEncoder bCryptPasswordEncoder() {
+		return new BCryptPasswordEncoder();
 	}
 }

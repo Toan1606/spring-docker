@@ -13,11 +13,15 @@ import com.codedecode.demo.repository.ProvinceRepository;
 @Service
 public class ProvinceDistrictService {
 
+	private final ProvinceRepository provinceRepository;
+
+	private final DistrictRepository districtRepository;
+
 	@Autowired
-	private ProvinceRepository provinceRepository;
-	
-	@Autowired
-	private DistrictRepository districtRepository;
+	public ProvinceDistrictService(ProvinceRepository provinceRepository, DistrictRepository districtRepository) {
+		this.provinceRepository = provinceRepository;
+		this.districtRepository = districtRepository;
+	}
 
 	public List<Province> getAllProvince() {
 		return provinceRepository.findAll();

@@ -24,15 +24,19 @@ import com.codedecode.demo.service.UserService;
 
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
-@RequestMapping("/language")
-@Transactional
+@RequestMapping("api/v1/language")
 public class CandidateLanguageCertificateController {
 
-	@Autowired
-	private LanguageCertificateService languageService;
+	private final LanguageCertificateService languageService;
+
+
+	private final UserService userService;
 
 	@Autowired
-	private UserService userService;
+	public CandidateLanguageCertificateController(LanguageCertificateService languageService, UserService userService) {
+		this.languageService = languageService;
+		this.userService = userService;
+	}
 
 	/*
 	 * 

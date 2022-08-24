@@ -12,9 +12,14 @@ import com.codedecode.demo.repository.NotificationRepository;
 @Transactional
 public class NotificationService {
 
+
+	private final NotificationRepository notificationRepository;
+
 	@Autowired
-	private NotificationRepository notificationRepository;
-	
+	public NotificationService(NotificationRepository notificationRepository) {
+		this.notificationRepository = notificationRepository;
+	}
+
 	public Notification save(Notification notification) {
 		return notificationRepository.save(notification);
 	}

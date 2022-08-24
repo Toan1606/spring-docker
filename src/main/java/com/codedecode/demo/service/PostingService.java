@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,31 +43,38 @@ import com.codedecode.demo.utils.ExceptionMessage;
 
 @Service
 @Transactional
+
 public class PostingService {
-	
-	@Autowired
-	private UserService userService;
+
+	private final UserService userService;
+
+	private final PostingRepository postingRepository;
+
+	private final HomeAddressRepository addressRepository;
+
+	private final AppliedJobRepository appliedJobRepository;
+
+	private final PostingCategoryService categoryService;
+
+	private final RankService rankService;
+
+	private final SalaryService salaryService;
+
+	private final WorkingFormService formService;
+
 
 	@Autowired
-	private PostingRepository postingRepository;
-
-	@Autowired
-	private HomeAddressRepository addressRepository;
-	
-	@Autowired
-	private AppliedJobRepository appliedJobRepository;
-	
-	@Autowired
-	PostingCategoryService categoryService;
-	
-	@Autowired
-	RankService rankService;
-	
-	@Autowired
-	SalaryService salaryService;
-	
-	@Autowired
-	WorkingFormService formService;
+	public PostingService(UserService userService, PostingRepository postingRepository, HomeAddressRepository addressRepository, AppliedJobRepository appliedJobRepository, PostingCategoryService categoryService
+	, RankService rankService, SalaryService salaryService, WorkingFormService formService) {
+		this.userService = userService;
+		this.postingRepository = postingRepository;
+		this.addressRepository = addressRepository;
+		this.appliedJobRepository = appliedJobRepository;
+		this.categoryService = categoryService;
+		this.rankService = rankService;
+		this.salaryService = salaryService;
+		this.formService = formService;
+	}
 
 	public Iterable<Posting> getAttractiveJob() {
 		System.out.println("findPosting function");
@@ -238,9 +246,8 @@ public class PostingService {
 		Long salaryId = addPostingRequestDTO.getSalary();
 		User user = userService.getUserByEmail(email);
 		
-		Random rand = new Random(); 
-	      Long upperbound = 70L;
-	      Long postingCategoryId = 1 + rand.nextLong(upperbound);
+		Random rand = new Random();
+	      Long postingCategoryId = 70L;
 		
 		PostingCategory postingCategory = categoryService.findById(postingCategoryId);
 		PostingType postingType = new PostingType(); 

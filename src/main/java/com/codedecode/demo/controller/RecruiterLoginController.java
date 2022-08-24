@@ -42,21 +42,25 @@ import com.codedecode.demo.service.UserService;
 import com.codedecode.demo.utils.ResponseMessage;
 
 @RestController
-@RequestMapping("/recruiter")
+@RequestMapping("api/v1/recruiter")
 @CrossOrigin(value = "http://localhost:8080", allowCredentials = "true")
 public class RecruiterLoginController {
 
-	@Autowired
-	private AuthService authService;
+	private final AuthService authService;
+
+	private final UserService userService;
+
+	private final AppliedJobService appliedJobService;
+
+	private final PostingService postingService;
 
 	@Autowired
-	private UserService userService;
-
-	@Autowired
-	private AppliedJobService appliedJobService;
-
-	@Autowired
-	private PostingService postingService;
+	public RecruiterLoginController(AuthService authService, UserService userService, AppliedJobService appliedJobService, PostingService postingService) {
+		this.authService = authService;
+		this.userService = userService;
+		this.appliedJobService = appliedJobService;
+		this.postingService = postingService;
+	}
 
 	@PostMapping
 	public ResponseEntity<UserResponseIdDTO> findUserById(@RequestBody UserRequestIdDTO request) {

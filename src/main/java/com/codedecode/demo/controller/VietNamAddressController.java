@@ -17,8 +17,8 @@ import com.codedecode.demo.service.CityService;
 import com.codedecode.demo.service.ProvinceService;
 
 @RestController
-@RequestMapping("/vietnam")
 @CrossOrigin(value = "http://localhost:8080", allowCredentials = "true")
+@RequestMapping("api/v1/vietnam")
 public class VietNamAddressController {
 	
 	@Autowired

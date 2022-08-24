@@ -14,8 +14,13 @@ import com.codedecode.demo.repository.WorkExperienceRepository;
 
 @Service
 public class WorkExperienceService {
+
+	private final WorkExperienceRepository workExperienceRepository;
+
 	@Autowired
-	private WorkExperienceRepository workExperienceRepository;
+	public WorkExperienceService(WorkExperienceRepository workExperienceRepository) {
+		this.workExperienceRepository = workExperienceRepository;
+	}
 
 	public List<WorkExperiences> getAllWorkExp(Long userId) {
 		return workExperienceRepository.getAllWorkExpByUserId(userId);

@@ -13,8 +13,14 @@ import com.codedecode.demo.repository.LanguageCertificateRepository;
 @Service
 @Transactional
 public class LanguageCertificateService{
+
+	private final LanguageCertificateRepository languageCertificateRepository;
+
 	@Autowired
-	private LanguageCertificateRepository languageCertificateRepository;
+	public LanguageCertificateService(LanguageCertificateRepository languageCertificateRepository) {
+		this.languageCertificateRepository = languageCertificateRepository;
+	}
+
 	/*
 	 * 
 	 *	@author: Nguyễn Văn Tuấn 

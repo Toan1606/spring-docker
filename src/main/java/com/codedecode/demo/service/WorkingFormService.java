@@ -17,10 +17,13 @@ import com.codedecode.demo.utils.ExceptionMessage;
 @Transactional
 public class WorkingFormService {
 
-	
+	private final WorkingFormRepository workingFormRepository;
+
 	@Autowired
-	private WorkingFormRepository workingFormRepository;
-	
+	public WorkingFormService(WorkingFormRepository workingFormRepository) {
+		this.workingFormRepository = workingFormRepository;
+	}
+
 	public WorkingForm findWorkingFormById(Long workingFormId) {
 		return workingFormRepository.findById(workingFormId).orElseThrow(() -> new WorkingFormException(ExceptionMessage.WORKING_FORM_EXCEPTION.getErrorMessage()));
 	}

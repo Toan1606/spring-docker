@@ -14,10 +14,14 @@ import com.codedecode.demo.repository.SavedJobRepository;
 @Service
 @Transactional
 public class SavedJobService {
-	
+
+	private final SavedJobRepository savedJobRepository;
+
 	@Autowired
-	private SavedJobRepository savedJobRepository;
-	
+	public SavedJobService(SavedJobRepository savedJobRepository) {
+		this.savedJobRepository = savedJobRepository;
+	}
+
 	public List<SavedJob> getAllSavedJobs(Long userId){
 		return savedJobRepository.getAllSavedJobs(userId);
 	}

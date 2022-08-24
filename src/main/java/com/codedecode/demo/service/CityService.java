@@ -25,6 +25,10 @@ public class CityService {
 	@Autowired
 	private CityRepository cityRepository;
 
+	public CityService( CityRepository cityRepository) {
+		this.cityRepository = cityRepository;
+	}
+
 	public City findCityById(Long id) {
 		return cityRepository.findById(id).orElseThrow(() -> new CityNotFound(ExceptionMessage.CITY_NOT_FOUND.getErrorMessage()));
 	}

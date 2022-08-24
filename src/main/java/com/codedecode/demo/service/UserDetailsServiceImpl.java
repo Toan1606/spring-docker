@@ -19,11 +19,18 @@ import com.codedecode.demo.repository.UserRepository;
 @Service
 @Transactional
 class UserDetailsServiceImpl implements UserDetailsService {
-    @Autowired
-    BCryptPasswordEncoder passwordEncoder;
-    
-    @Autowired
+
+
+    private BCryptPasswordEncoder passwordEncoder;
+
     private UserRepository userRepository;
+
+
+    @Autowired
+    public UserDetailsServiceImpl(BCryptPasswordEncoder passwordEncoder, UserRepository userRepository) {
+        this.passwordEncoder = passwordEncoder;
+        this.userRepository = userRepository;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {

@@ -31,3 +31,12 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Indexer ###
+Posting/
+PostingCategory/
+PostingType/
+User/
+
+## application.properties
+application.properties

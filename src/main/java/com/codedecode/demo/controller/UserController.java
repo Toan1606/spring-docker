@@ -37,21 +37,25 @@ import com.codedecode.demo.utils.SecretKey;
 import com.codedecode.demo.utils.TokenUtils;
 
 @RestController
-@RequestMapping("/candidate")
+@RequestMapping("api/v1/candidate")
 @CrossOrigin(value = "http://localhost:8080", allowCredentials = "true")
 public class UserController {
-	
+
+	private final AuthService authService;
+
+    private final AuthenticationManager authenticationManager;
+
+	private final AddressService addressService;
+
+	private final UserService userService;
+
 	@Autowired
-	private AuthService authService;
-	
-	@Autowired
-    private AuthenticationManager authenticationManager;
-	
-	@Autowired
-	private AddressService addressService;
-	
-	@Autowired
-	private UserService userService;
+	public UserController(AuthService authService, AuthenticationManager authenticationManager, AddressService addressService,UserService userService ) {
+		this.authService = authService;
+		this.authenticationManager = authenticationManager;
+		this.addressService = addressService;
+		this.userService = userService;
+	}
 
 	@GetMapping
 	public ResponseEntity<Address> getAddressByProvinceAndCity(@RequestBody AddressRequestDTO addressRequestDTO) {

@@ -19,10 +19,14 @@ import com.codedecode.demo.utils.ExceptionMessage;
 @Service
 @Transactional
 public class StreetService {
-	
+
+	private final StreetRepository streetRepository;
+
 	@Autowired
-	private StreetRepository streetRepository;
-	
+	public StreetService(StreetRepository streetRepository) {
+		this.streetRepository = streetRepository;
+	}
+
 	public Street findStreetById(Long id) {
 		return streetRepository.findById(id).orElseThrow(() -> new StreetNotFound(ExceptionMessage.STREET_NOT_FOUND.getErrorMessage()));
 	}

@@ -15,9 +15,14 @@ import com.codedecode.demo.repository.PostingCategoryRepository;
 @Transactional
 public class PostingCategoryService {
 
+
+	private final PostingCategoryRepository postingCategoryRepository;
+
 	@Autowired
-	private PostingCategoryRepository postingCategoryRepository;
-	
+	public PostingCategoryService(PostingCategoryRepository postingCategoryRepository) {
+		this.postingCategoryRepository = postingCategoryRepository;
+	}
+
 	public List<PostingCategory> findAll() {
 		return postingCategoryRepository.findAll();
 	}

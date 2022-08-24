@@ -15,10 +15,14 @@ import com.codedecode.demo.utils.ExceptionMessage;
 @Service
 @Transactional
 public class SalaryService {
-	
+
+	private final SalaryRepository salaryRepository;
+
 	@Autowired
-	private SalaryRepository salaryRepository;
-	
+	public SalaryService(SalaryRepository salaryRepository) {
+		this.salaryRepository = salaryRepository;
+	}
+
 	public Salary findSalaryById(Long salaryId) {
 		return salaryRepository.findById(salaryId).orElseThrow(() -> new SalaryException(ExceptionMessage.SALARY_EXCEPTION.getErrorMessage()));
 	}

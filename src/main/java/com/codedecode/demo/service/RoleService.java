@@ -12,8 +12,12 @@ import com.codedecode.demo.repository.RoleRepository;
 @Transactional
 public class RoleService {
 
+	private final RoleRepository roleRepository;
+
 	@Autowired
-	private RoleRepository roleRepository;
+	public RoleService(RoleRepository roleRepository) {
+		this.roleRepository = roleRepository;
+	}
 
 	public Role findRoleByName(String name) {
 		return roleRepository.findByRoleName(name);

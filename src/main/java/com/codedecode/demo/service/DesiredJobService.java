@@ -22,10 +22,13 @@ import com.codedecode.demo.repository.DesiredJobRepository;
 @Transactional
 public class DesiredJobService {
 
-	
+	private final DesiredJobRepository desiredJobRepository ;
+
 	@Autowired
-	private DesiredJobRepository desiredJobRepository ;
-	
+	public DesiredJobService(DesiredJobRepository desiredJobRepository) {
+		this.desiredJobRepository = desiredJobRepository;
+	}
+
 	public DesiredJob saveDesiredJob(DesiredJob desiredJob) {
 		return desiredJobRepository.save(desiredJob);
 	}

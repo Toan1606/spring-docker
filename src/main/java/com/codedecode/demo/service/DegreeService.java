@@ -18,8 +18,13 @@ import com.codedecode.demo.repository.DegreeRepository;
 @Service
 @Transactional
 public class DegreeService {
+
+	private final DegreeRepository degreeRepository;
+
 	@Autowired
-	private DegreeRepository degreeRepository;
+	public DegreeService(DegreeRepository degreeRepository) {
+		this.degreeRepository = degreeRepository;
+	}
 
 	public List<Degree> getAllDegreeByUserId(Long userId) {
 		return degreeRepository.findAll();

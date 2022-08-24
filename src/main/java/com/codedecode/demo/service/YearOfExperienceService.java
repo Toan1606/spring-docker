@@ -16,9 +16,13 @@ import com.codedecode.demo.utils.ExceptionMessage;
 @Transactional
 public class YearOfExperienceService {
 
+	private final YearOfExperienceRepository yearOfExperienceRepository;
+
 	@Autowired
-	private YearOfExperienceRepository yearOfExperienceRepository;
-	
+	public YearOfExperienceService(YearOfExperienceRepository yearOfExperienceRepository) {
+		this.yearOfExperienceRepository = yearOfExperienceRepository;
+	}
+
 	public YearOfExperience findYearOfExperienceById(Long yearOfExperiencesId) {
 		return yearOfExperienceRepository.findById(yearOfExperiencesId).orElseThrow(() -> new YearOfExperienceException(ExceptionMessage.SALARY_EXCEPTION.getErrorMessage()));
 	}

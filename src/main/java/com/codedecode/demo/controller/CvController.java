@@ -48,35 +48,42 @@ import com.codedecode.demo.service.WorkExperienceService;
 
 @CrossOrigin(origins = "http://localhost:8080", allowCredentials = "true")
 @RestController
-@RequestMapping("/cv")
+@RequestMapping("api/v1/cv")
 public class CvController {
 
-	@Autowired
-	private UserService userService;
+	private final UserService userService;
+
+	private final CVService cvService;
+
+	private final ProvinceService provinceService;
+
+	private final SkillService skillService;
+
+	private final DegreeService degreeService;
+
+	private final EducationService educationService;
+
+	private final WorkExperienceService workExperienceService;
+
+	private final ActivityService activityService;
+	
+
+	private final InvolvedProjectService involvedProjectService;
 
 	@Autowired
-	private CVService cvService;
-
-	@Autowired
-	private ProvinceService provinceService;
-
-	@Autowired
-	private SkillService skillService;
-	
-	@Autowired
-	private DegreeService degreeService;
-	
-	@Autowired
-	private EducationService educationService;
-	
-	@Autowired
-	private WorkExperienceService workExperienceService;
-	
-	@Autowired
-	private ActivityService activityService;
-	
-	@Autowired
-	private InvolvedProjectService involvedProjectService;
+	public CvController(UserService userService, CVService cvService, ProvinceService provinceService, SkillService skillService,
+						DegreeService degreeService, EducationService educationService, WorkExperienceService workExperienceService,
+						ActivityService activityService, InvolvedProjectService involvedProjectService) {
+		this.userService = userService;
+		this.cvService = cvService;
+		this.provinceService = provinceService;
+		this.skillService = skillService;
+		this.degreeService = degreeService;
+		this.educationService = educationService;
+		this.workExperienceService = workExperienceService;
+		this.activityService = activityService;
+		this.involvedProjectService = involvedProjectService;
+	}
 
 	@GetMapping
 	public ResponseEntity<List<Province>> findAllProvince() {

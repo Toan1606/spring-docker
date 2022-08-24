@@ -12,8 +12,13 @@ import com.codedecode.demo.repository.CVRepository;
 @Service
 @Transactional
 public class CVService {
-	@Autowired
+
 	private CVRepository cvRepository;
+
+	@Autowired
+	public CVService(CVRepository cvRepository) {
+		this.cvRepository = cvRepository;
+	}
 
 	/*
 	 * 

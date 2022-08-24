@@ -24,8 +24,7 @@ import com.codedecode.demo.service.WorkExperienceService;
 
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
-@RequestMapping("/workexp")
-@Transactional
+@RequestMapping("api/v1/work-experiences")
 public class CandidateWorkExperienceController {
 
 	@Autowired

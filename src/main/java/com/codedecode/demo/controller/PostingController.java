@@ -59,24 +59,30 @@ import com.codedecode.demo.service.PostingService;
 import com.codedecode.demo.service.UserService;
 
 @RestController
-@RequestMapping("/posting")
+@RequestMapping("api/v1/posting")
 @CrossOrigin(origins = "http://localhost:8080")
 public class PostingController {
 
-	@Autowired
-	private PostingService postingService;
+	private final PostingService postingService;
 
-	@Autowired
-	private UserService userService;
+	private final UserService userService;
 
-	@Autowired
-	private AppliedJobService appliedJobService;
+	private final AppliedJobService appliedJobService;
 
-	@Autowired
-	private CityService cityService;
+	private final CityService cityService;
 
-	@Autowired
 	private NotificationService notificationService;
+
+	@Autowired
+	public PostingController(PostingService postingService, UserService userService, AppliedJobService appliedJobService,
+							 CityService cityService, NotificationService notificationService) {
+		this.postingService = postingService;
+		this.userService = userService;
+		this.appliedJobService = appliedJobService;
+		this.cityService = cityService;
+		this.notificationService = notificationService;
+	}
+
 	/*
 	 * @author : ToanNT16
 	 */

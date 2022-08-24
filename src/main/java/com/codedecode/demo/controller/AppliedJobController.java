@@ -1,31 +1,6 @@
 package com.codedecode.demo.controller;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.codedecode.demo.dto.AppliedCandidateRequestDTO;
-import com.codedecode.demo.dto.AppliedJobDTO;
-import com.codedecode.demo.dto.AppliedJobDTOResponse;
-import com.codedecode.demo.dto.AppliedJobKeyDTO;
-import com.codedecode.demo.dto.AppliedNewJobDTO;
+import com.codedecode.demo.dto.*;
 import com.codedecode.demo.entity.AppliedJob;
 import com.codedecode.demo.entity.Notification;
 import com.codedecode.demo.entity.Posting;
@@ -35,24 +10,34 @@ import com.codedecode.demo.service.AppliedJobService;
 import com.codedecode.demo.service.NotificationService;
 import com.codedecode.demo.service.PostingService;
 import com.codedecode.demo.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
-@RequestMapping("/appliedjob")
-@Transactional
-public class CandidateAppliedJobController {
+@RequestMapping("api/v1/applied-job")
+public class AppliedJobController {
 
-	@Autowired
-	private AppliedJobService appliedJobService;
+	private final AppliedJobService appliedJobService;
 
-	@Autowired
-	private UserService userService;
+	private final UserService userService;
 
+	private final PostingService postingService;
+
+	private final NotificationService notificationService;
 	@Autowired
-	private PostingService postingService;
-	
-	@Autowired
-	private NotificationService notificationService;	
+	public AppliedJobController(AppliedJobService appliedJobService, UserService userService, PostingService postingService, NotificationService notificationService) {
+		this.appliedJobService = appliedJobService;
+		this.userService = userService;
+		this.postingService = postingService;
+		this.notificationService = notificationService;
+	}
 
 	@GetMapping("/{userId}")
 	public ResponseEntity<?> showAppliedJobsPage(@PathVariable Long userId) {
@@ -133,7 +118,6 @@ public class CandidateAppliedJobController {
 		notification.setDate(new Date());
 		notification.setContent(new StringBuilder().append(recruiter.getName()).append(" vừa nộp hồ sơ").toString());
 		notification.setUser(recruiter);
-		System.out.println("Recruiter : " + recruiter.getId() + ", " + recruiter.getName());
 		notificationService.save(notification);
 		
 		AppliedJob result = appliedJobService.addAppliedJob(appliedJob);

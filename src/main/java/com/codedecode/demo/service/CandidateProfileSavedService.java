@@ -10,10 +10,13 @@ import com.codedecode.demo.repository.CandidateProfileSavedRepository;
 @Service
 @Transactional
 public class CandidateProfileSavedService {
-	
+	private final CandidateProfileSavedRepository candidateProfileSavedRepository ;
+
 	@Autowired
-	private CandidateProfileSavedRepository candidateProfileSavedRepository ;
-	
+	public CandidateProfileSavedService(CandidateProfileSavedRepository candidateProfileSavedRepository) {
+		this.candidateProfileSavedRepository = candidateProfileSavedRepository;
+	}
+
 	public CandidateProfileSaved saveCandidateProfileSaved(CandidateProfileSaved candidateProfileSaved) {
 		return candidateProfileSavedRepository.save(candidateProfileSaved);
 	}

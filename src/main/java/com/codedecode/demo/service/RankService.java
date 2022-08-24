@@ -13,9 +13,13 @@ import com.codedecode.demo.repository.RankRepository;
 @Service
 @Transactional
 public class RankService {
-	
+
+	private final RankRepository rankRepository;
+
 	@Autowired
-	private RankRepository rankRepository;
+	public  RankService(RankRepository rankRepository) {
+		this.rankRepository = rankRepository;
+	}
 
 	public List<Rank> findAll() {
 		return rankRepository.findAll();

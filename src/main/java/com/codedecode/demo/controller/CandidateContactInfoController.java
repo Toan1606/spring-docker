@@ -22,14 +22,18 @@ import com.codedecode.demo.service.UserService;
 
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
-@RequestMapping("/contactinfo")
-@Transactional
+@RequestMapping("api/v1/contact-info")
 public class CandidateContactInfoController {
+
+	private final UserService userService;
+
+	private final ProvinceDistrictService provinceDistrictService;
+
 	@Autowired
-	private UserService userService;
-	
-	@Autowired
-	private ProvinceDistrictService provinceDistrictService;
+	public CandidateContactInfoController( UserService userService, ProvinceDistrictService provinceDistrictService) {
+		this.userService = userService;
+		this.provinceDistrictService = provinceDistrictService;
+	}
 	
 	@GetMapping("/{userId}")
 	public ResponseEntity<?> showContactInfoPage(@PathVariable Long userId){

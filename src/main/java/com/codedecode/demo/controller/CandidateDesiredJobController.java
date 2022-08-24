@@ -43,34 +43,37 @@ import com.codedecode.demo.service.YearOfExperienceService;
 
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
-@RequestMapping("/desiredjob")
-@Transactional
+@RequestMapping("api/v1/desired-job")
 public class CandidateDesiredJobController {
 
-	@Autowired
-	private UserService userService;
-	
+	private final UserService userService;
+
+	private final DesiredJobService desiredJobService;
+
+	private final AddressService addressService;
+
+	private final  RankService rankService;
+
+	private final WorkingFormService workingFormService;
+
+	private final YearOfExperienceService yearOfExperienceService;
+
+	private final PostingCategoryService postingCategoryService;
+
+	private final SalaryService salaryService;
 
 	@Autowired
-	private DesiredJobService desiredJobService;
-	
-	@Autowired
-	private AddressService addressService;
-	
-	@Autowired
-	private RankService rankService;
-	
-	@Autowired
-	private WorkingFormService workingFormService;
-	
-	@Autowired
-	private YearOfExperienceService yearOfExperienceService;
-	
-	@Autowired
-	private PostingCategoryService postingCategoryService;
-
-	@Autowired
-	private SalaryService salaryService;
+	public CandidateDesiredJobController(UserService userService, DesiredJobService desiredJobService, AddressService addressService, RankService rankService
+	, WorkingFormService workingFormService, YearOfExperienceService yearOfExperienceService, PostingCategoryService postingCategoryService, SalaryService salaryService) {
+		this.userService = userService;
+		this.desiredJobService = desiredJobService;
+		this.addressService = addressService;
+		this.rankService = rankService;
+		this.workingFormService = workingFormService;
+		this.yearOfExperienceService = yearOfExperienceService;
+		this.postingCategoryService = postingCategoryService;
+		this.salaryService = salaryService;
+	}
 
 	@GetMapping("/{userId}")
 	public ResponseEntity<DesiredJobDTO> showDesiredJob(@PathVariable Long userId) {

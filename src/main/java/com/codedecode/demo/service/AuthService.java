@@ -41,22 +41,24 @@ public class AuthService {
 
 	private final String refreshTokenSecret;
 
+	private final AddressService addressService;
+
+	private final RoleService roleService;
+
+	private final CandidateProfileSavedService candidateProfileSavedService;
+
 	@Autowired
-	private AddressService addressService;
-	
-	@Autowired
-	private RoleService roleService;
-	
-	@Autowired
-	private CandidateProfileSavedService candidateProfileSavedService;
-	
 	public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder, 
 			@Value("${application.security.access-token-secret}") String accessTokenSecret,
-			@Value("${application.security.refresh-token-secret}") String refreshTokenSecret) {
+			@Value("${application.security.refresh-token-secret}") String refreshTokenSecret
+	, AddressService addressService, RoleService roleService, CandidateProfileSavedService candidateProfileSavedService) {
 		this.userRepository = userRepository;
 		this.passwordEncoder = passwordEncoder;
 		this.accessTokenSecret = accessTokenSecret;
 		this.refreshTokenSecret = refreshTokenSecret;
+		this.addressService = addressService;
+		this.roleService = roleService;
+		this.candidateProfileSavedService = candidateProfileSavedService;
 	}
 	
 	public User register(RegisterRequestDTO registerRequestDTO) {

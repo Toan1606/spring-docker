@@ -12,10 +12,14 @@ import com.codedecode.demo.repository.AppliedJobRepository;
 
 @Service
 public class AppliedJobService {
-	
+
+	private final AppliedJobRepository appliedJobRepository;
+
 	@Autowired
-	private AppliedJobRepository appliedJobRepository;
-	
+	public AppliedJobService( AppliedJobRepository appliedJobRepository) {
+		this.appliedJobRepository = appliedJobRepository;
+	}
+
 	public List<AppliedJob> getAllAppliedJobs(Long userId) {
 		return appliedJobRepository.getAllAppliedJobs(userId);
 	}

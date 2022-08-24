@@ -11,10 +11,14 @@ import com.codedecode.demo.repository.UserRepository;
 @Service
 @Transactional
 public class RecruiterRegisterService {
-	
+
+	private final UserRepository repository;
+
 	@Autowired
-	UserRepository repository;
-	
+	public RecruiterRegisterService(UserRepository repository) {
+		this.repository = repository;
+	}
+
 	public User addRecruiter(User user) {
 		return repository.save(user);
 	}
